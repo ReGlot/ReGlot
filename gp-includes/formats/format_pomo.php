@@ -2,6 +2,8 @@
 
 class GP_Format_PO {
 	
+	var $name = 'Portable Object Message Catalog (.po)';
+
 	var $extension = 'po';
 	var $class = 'PO';
 	
@@ -44,6 +46,7 @@ class GP_Format_PO {
 }
 
 class GP_Format_MO extends GP_Format_PO {
+	var $name = 'Machine Object Message Catalog (.mo)';
 	var $extension = 'mo';
 	var $class = 'MO';
 }

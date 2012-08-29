@@ -1,7 +1,9 @@
 <?php
 
 class GP_Format_Strings {
-	
+
+	var $name = 'Mac OS X / iOS (.strings)';
+
 	var $extension = 'strings';
 	
 	var $exported = '';

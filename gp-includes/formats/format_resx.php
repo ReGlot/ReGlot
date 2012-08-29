@@ -1,7 +1,9 @@
 <?php
 
 class GP_Format_ResX {
-	
+
+	var $name = '.NET ResX';
+
 	var $extension = 'resx.xml';
 	
 	var $exported = '';

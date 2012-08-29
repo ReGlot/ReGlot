@@ -2,6 +2,8 @@
 
 class GP_Format_Android {
 	
+	var $name = 'Android';
+	
 	var $extension = 'xml';
 	
 	var $exported = '';
