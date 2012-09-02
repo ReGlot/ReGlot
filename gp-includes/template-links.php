@@ -47,6 +47,9 @@ function gp_link_project_delete_get( $project, $text = false, $attrs = array() )
 		return '';
 	}
 	$text = $text? $text : __( 'Delete' );
+	if ( !$attrs['data-message'] ) {
+		$attrs['data-message'] = sprintf(__('Are you sure you want to delete the project "%s" and all of its subprojects?'), $project->name);
+	}
 	return gp_link_get( gp_url_project( $project, '-delete' ), $text, gp_attrs_add_class( $attrs, 'action delete' ) );
 }
 

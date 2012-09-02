@@ -2,7 +2,7 @@
 
 class GP_Format_RRC {
 
-	var $name = 'Blackberry (.rrc)';
+	var $name = 'Blackberry Resource (.rrc)';
 
 	var $extension = 'rrc';
 	

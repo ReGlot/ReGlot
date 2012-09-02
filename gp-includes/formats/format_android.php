@@ -2,7 +2,7 @@
 
 class GP_Format_Android {
 	
-	var $name = 'Android';
+	var $name = 'Android XML (.xml)';
 	
 	var $extension = 'xml';
 	

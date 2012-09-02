@@ -2,7 +2,7 @@
 
 class GP_Format_ResX {
 
-	var $name = '.NET ResX';
+	var $name = '.NET Resource (.resx)';
 
 	var $extension = 'resx.xml';
 	

@@ -41,8 +41,8 @@ h2 {
 	background-color: #ddd;
 	padding: 0.5em;
 }
-h2 a.edit {
-	font-size: 0.75em;
+h2 a.edit, h2 a.delete {
+	font-size: 0.65em;
 	text-decoration: none;
 }
 h3 {
@@ -321,7 +321,7 @@ h1 span.active {
 ul a.edit, dt a.edit {
     background-color: #777;    
 }
-ul a.delete {
+ul a.delete, dt a.delete {
     background-color: #FF4F50;
 }
 .paging {

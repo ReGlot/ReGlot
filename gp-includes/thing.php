@@ -217,7 +217,7 @@ class GP_Thing {
 		if ( $conditions_sql ) $query .= " WHERE $conditions_sql";
 		return $this->query( $query, $this->id );
 	}
-	
+
 	// Fields handling
 	
 	function set_fields( $db_object ) {

@@ -39,6 +39,4 @@ if ( defined( 'GP_CONFIG_FILE' ) && GP_CONFIG_FILE ) {
 	header( 'Location: ' . $install_uri );
 	die();
 
-} else {
-	die("gp-config.php doesn't exist! Please create one on top of gp-config-sample.php");
 }

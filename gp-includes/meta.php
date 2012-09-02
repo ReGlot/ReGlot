@@ -241,7 +241,13 @@ function gp_get_option( $option ) {
 		case 'url':
 			$option = 'uri';
 		default:
-			$r = gp_get_option_from_db( $option );
+			if ( !defined('GP_INSTALLING') || !GP_INSTALLING ) {
+				$r = gp_get_option_from_db( $option );
+			} elseif ( $option == 'uri' ) {
+				return preg_replace( '|/[^/]+?$|', '/', $_SERVER['PHP_SELF'] );
+			} else {
+				return '';
+			}
 			break;
 	}
 

@@ -20,13 +20,13 @@ wp_enqueue_script( 'jquery' );
 			<?php echo gp_breadcrumb(); ?>
 			<span id="hello">
 			<?php 
-			if (GP::$user->logged_in()):
+			if ( GP::$user && GP::$user->logged_in() ):
 				$user = GP::$user->current();
 				
 				printf( __('Hi, %s.'), $user->user_login );
 				?>
 				<a href="<?php echo gp_url('/logout')?>"><?php _e('Log out'); ?></a>
-			<?php else: ?>
+			<?php elseif ( GP::$user ): ?>
 				<strong><a href="<?php echo gp_url_login(); ?>"><?php _e('Log in'); ?></a></strong>
 			<?php endif; ?>
 			<?php do_action( 'after_hello' ); ?>

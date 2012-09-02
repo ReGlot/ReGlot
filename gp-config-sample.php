@@ -1,23 +1,24 @@
 <?php
-// ** MySQL settings - You can get this info from your web host ** //
+/* MySQL settings - You can get this info from your web host */
+/* Do not insert one line (//) comments into this file - they may be replaced by the installer */
 
 /** The name of the database for bbPress */
-define('GPDB_NAME', 'glotpress');
+define('GPDB_NAME', '<<GPDB_NAME>>');
 
 /** MySQL database username */
-define('GPDB_USER', 'username');
+define('GPDB_USER', '<<GPDB_USER>>');
 
 /** MySQL database password */
-define('GPDB_PASSWORD', 'password');
+define('GPDB_PASSWORD', '<<GPDB_PASSWORD>>');
 
 /** MySQL hostname */
-define('GPDB_HOST', 'localhost');
+define('GPDB_HOST', '<<GPDB_HOST>>');
 
 /** Database Charset to use in creating database tables. */
-define('GPDB_CHARSET', 'utf8');
+define('GPDB_CHARSET', '<<GPDB_CHARSET>>');
 
 /** The Database Collate type. Don't change this if in doubt. */
-define('GPDB_COLLATE', '');
+define('GPDB_COLLATE', '<<GPDB_COLLATE>>');
 
 /**#@+
  * Authentication Unique Keys.
@@ -27,10 +28,10 @@ define('GPDB_COLLATE', '');
  *
  * @since 0.1
  */
-define('GP_AUTH_KEY', 'put your unique phrase here');
-define('GP_SECURE_AUTH_KEY', 'put your unique phrase here');
-define('GP_LOGGED_IN_KEY', 'put your unique phrase here');
-define('GP_NONCE_KEY', 'put your unique phrase here');
+define('GP_AUTH_KEY', '<<GP_AUTH_KEY>>');
+define('GP_SECURE_AUTH_KEY', '<<GP_SECURE_AUTH_KEY>>');
+define('GP_LOGGED_IN_KEY', '<<GP_LOGGED_IN_KEY>>');
+define('GP_NONCE_KEY', '<<GP_NONCE_KEY>>');
 /**#@-*/
 
 /**
@@ -41,7 +42,7 @@ define('GP_NONCE_KEY', 'put your unique phrase here');
  * fr_FR.mo to languages/ and set GP_LANG to 'fr_FR' to enable French
  * language support.
  */
-define('GP_LANG', '');
+define('GP_LANG', '<<GP_LANG>>');
 
 /**
  * Custom users and usermate tables for integration with WordPress user system
@@ -51,8 +52,8 @@ define('GP_LANG', '');
  * 
  * If you start with fresh permissions, you can add admins via `php scripts/add-admin.php`
  */
-// define('CUSTOM_USER_TABLE', 'wp_users');
-// define('CUSTOM_USER_META_TABLE', 'wp_usermeta');
+//define('CUSTOM_USER_TABLE', '<<CUSTOM_USER_TABLE>>');
+//define('CUSTOM_USER_META_TABLE', '<<CUSTOM_USER_META_TABLE>>');
 
 /**
  * GlotPress Database Table prefix.
@@ -60,4 +61,4 @@ define('GP_LANG', '');
  * You can have multiple installations in one database if you give each a unique
  * prefix. Only numbers, letters, and underscores please!
  */
-$gp_table_prefix = 'gp_';
+$gp_table_prefix = '<<gp_table_prefix>>';

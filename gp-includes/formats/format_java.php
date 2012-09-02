@@ -1,9 +1,14 @@
 <?php
 
-class GP_Format_Elgg {
+class GP_Format_Java {
 	
-	var $name = 'PHP Array for Elgg (.php)';	
+	var $name = 'Java Properties (.props|.properties)';
 
+	/**
+	 *
+	 * TODO all of this class needs to be written still
+	 * 
+	 */
 	var $allowedCharsInKey = '[a-zA-Z0-9_:\\.]';
 
 	var $extension = 'php';
@@ -116,4 +121,4 @@ class GP_Format_Elgg {
 	}
 }
 
-GP::$formats['elgg'] = new GP_Format_Elgg();
+GP::$formats['java'] = new GP_Format_Java();
