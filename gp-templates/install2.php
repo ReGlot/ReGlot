@@ -1,4 +1,5 @@
 <?php
+// TODO installation is complete - show success message and link to log-in
 gp_title( __('Install &lt; GlotPress') );
 gp_breadcrumb( array(
 	'install' == $action? __('Install') : __('Upgrade'),

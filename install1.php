@@ -13,19 +13,32 @@ require_once(GP_PATH . GP_INC . 'schema.php');
 
 if ( ($config = gp_post('config')) ) {
 	$first = true;
-	$required_other_config = array('gp_admin_username','gp_admin_password','gp_admin_password2','gp_admin_email');
-	foreach ( $required_other_config as $key ) {
-		if ( empty($config[$key]) ) {
-			if ( $first ) {
-				$first = false;
-			} else {
-				GP::$redirect_notices['error'] .= '<br/>';
+	if ( defined('CUSTOM_USER_TABLE') ) {
+		if ( empty($config['gp_wp_admin_user']) ) {
+			GP::$redirect_notices['error'] = __('You must select a WordPress user as an administrator');
+			$first = false;
+		}
+	} else {
+		$required_other_config = array('gp_admin_username','gp_admin_password','gp_admin_password2','gp_admin_email');
+		foreach ( $required_other_config as $key ) {
+			if ( empty($config[$key]) ) {
+				if ( $first ) {
+					$first = false;
+				} else {
+					GP::$redirect_notices['error'] .= '<br/>';
+				}
+				GP::$redirect_notices['error'] .= sprintf(__('The configuration option "%s" cannot be empty'), $key);
 			}
-			GP::$redirect_notices['error'] .= sprintf(__('The configuration option "%s" cannot be empty'), $key);
 		}
 	}
 	if ( $first ) {
-		gp_create_initial_contents($config);
+		if ( gp_create_initial_contents($config) ) {
+			$install_uri = preg_replace('|/[^/]+?$|', '/', $_SERVER['PHP_SELF']) . 'install2.php';
+			header('Location: ' . $install_uri);
+			die();
+		} else {
+			GP::$redirect_notices['error'] .= __('Could not create the admin user or assign admin privileges');
+		}
 	}
 } else {
 	$config = array();

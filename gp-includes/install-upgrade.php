@@ -59,8 +59,13 @@ function gp_create_initial_contents($options) {
 	if ( !defined('CUSTOM_USER_TABLE') ) {
 		$admin = GP::$user->create(array('user_login' => $options['gp_admin_username'], 'user_pass' => $options['gp_admin_password'], 'user_email' => $options['gp_admin_email']));
 		GP::$permission->create(array('user_id' => $admin->id, 'action' => 'admin'));
+		return true;
 	} else {
-		// TODO: ask the user for an admin user if using WordPress
-		//GP::$permission->create(array('user_id' => $admin->id, 'action' => 'admin'));
+		if ( ($admin = GP::$user->by_login($options['gp_wp_admin_user'])) ) {
+			GP::$permission->create(array('user_id' => $admin->id, 'action' => 'admin'));
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

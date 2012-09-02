@@ -41,7 +41,7 @@ if ( ($config = gp_post('config')) ) {
 	}
 
 	if ( $config['gp_enable_wordpress_users'] == 'on' ) {
-		$required_wpusers_config = array('CUSTOM_USER_TABLE','CUSTOM_USER_META_TABLE','gp_wp_admin_user');
+		$required_wpusers_config = array('CUSTOM_USER_TABLE','CUSTOM_USER_META_TABLE');
 		foreach ( $required_wpusers_config as $key ) {
 			if ( empty($config[$key]) ) {
 				if ( $first ) {

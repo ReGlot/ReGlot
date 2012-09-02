@@ -3,14 +3,30 @@ gp_title(__('Install &lt; GlotPress'));
 gp_breadcrumb(array(__('Install')));
 wp_enqueue_script('install');
 
+// include, do not require, as it's ok if file is not there
+include_once 'gp-config.php';
+
+// these value are there, whether from previous config or defaults
 $config_defaults = array(
-	'GPDB_HOST' => 'localhost',
-	'GPDB_CHARSET' => 'utf8',
-	'GPDB_COLLATE' => 'utf8_unicode_ci',
-	'gp_table_prefix' => 'gp_',
-	'CUSTOM_USER_TABLE' => 'wp_users',
-	'CUSTOM_USER_META_TABLE' => 'wp_usermeta'
+	'GPDB_HOST' => defined('GPDB_HOST') ? GPDB_HOST : 'localhost',
+	'GPDB_CHARSET' => defined('GPDB_CHARSET') ? GPDB_HOST : 'utf8',
+	'GPDB_COLLATE' => defined('GPDB_COLLATE') ? GPDB_HOST : 'utf8_unicode_ci',
+	'gp_table_prefix' => isset($gp_table_prefix) ? $gp_table_prefix : 'gp_',
+	'CUSTOM_USER_TABLE' => defined('CUSTOM_USER_TABLE') ? CUSTOM_USER_TABLE : 'wp_users',
+	'CUSTOM_USER_META_TABLE' => defined('CUSTOM_USER_META_TABLE') ? CUSTOM_USER_META_TABLE : 'wp_usermeta'
 );
+
+// these values are only added if previous config was present
+if ( defined('GPDB_NAME') ) $config_defaults['GPDB_NAME'] = GPDB_NAME;
+if ( defined('GPDB_USER') ) $config_defaults['GPDB_USER'] = GPDB_USER;
+if ( defined('GPDB_PASSWORD') ) $config_defaults['GPDB_PASSWORD'] = GPDB_PASSWORD;
+if ( defined('GP_AUTH_KEY') ) $config_defaults['GP_AUTH_KEY'] = GP_AUTH_KEY;
+if ( defined('GP_SECURE_AUTH_KEY') ) $config_defaults['GP_SECURE_AUTH_KEY'] = GP_SECURE_AUTH_KEY;
+if ( defined('GP_LOGGED_IN_KEY') ) $config_defaults['GP_LOGGED_IN_KEY'] = GP_LOGGED_IN_KEY;
+if ( defined('GP_NONCE_KEY') ) $config_defaults['GP_NONCE_KEY'] = GP_NONCE_KEY;
+if ( defined('CUSTOM_USER_TABLE') ) $config_defaults['gp_enable_wordpress_users'] = 'on';
+if ( defined('GP_NONCE_KEY') ) $config_defaults['GP_NONCE_KEY'] = GP_NONCE_KEY;
+if ( defined('GP_NONCE_KEY') ) $config_defaults['GP_NONCE_KEY'] = GP_NONCE_KEY;
 
 $config = array_merge($config_defaults, $config);
 
@@ -62,8 +78,6 @@ gp_tmpl_header();
 		<input type="text" name="config[CUSTOM_USER_TABLE]" value="<?php echo $config['CUSTOM_USER_TABLE']; ?>" id="config[CUSTOM_USER_TABLE]"><br/>
 		<label for="config[CUSTOM_USER_META_TABLE]">User Meta Table Name</label>
 		<input type="text" name="config[CUSTOM_USER_META_TABLE]" value="<?php echo $config['CUSTOM_USER_META_TABLE']; ?>" id="config[CUSTOM_USER_META_TABLE]"><br/>
-		<label for="config[gp_wp_admin_user]">Administrator's Username</label>
-		<input type="text" name="config[gp_wp_admin_user]" value="<?php echo $config['gp_wp_admin_user']; ?>" id="config[gp_wp_admin_user]"><br/>
 	</dd>
 <br/>
 	<dt><h3><?php echo __('Other Options'); ?></h3></dt>
