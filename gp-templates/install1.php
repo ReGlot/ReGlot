@@ -15,24 +15,17 @@ $config = array_merge($config_defaults, $config);
 gp_tmpl_header();
 ?>
 
-<?php if ($errors): ?>
-	<?php _e('There were some errors:'); ?>
-	<pre>
-		<?php echo implode("\n", $errors); ?>
-	</pre>
-<?php 
-	else:
-?>
-<?
-		echo $success_message;
-?>
-<h2><?php echo wptexturize(__('Last Installation Options')); ?></h2>
+<h2><?php echo wptexturize(sprintf(__('Installation Process (phase %d of %d)'), 2, GP_TOT_INSTALL_PAGES)); ?></h2>
 <form action="" method="post">
 
 <dl>
 	<dt><h3><?php echo __('Configure Administrator Options'); ?></h3></dt>
 	<dd>
-
+<?php if ( defined('CUSTOM_USER_TABLE') ) { ?>
+		<label for="config[gp_wp_admin_user]">Administrator's Username</label>
+		<input type="text" name="config[gp_wp_admin_user]" value="<?php echo $config['gp_wp_admin_user']; ?>" id="config[gp_wp_admin_user]"><br/>
+		<small><?php _e('Select the WordPress user that will have administrator\'s rights in GlotPress'); ?></small>
+<?php } else { ?>
 		<label for="config[gp_admin_username]"><?php echo __('Admin Username'); ?></label>
 		<input type="text" name="config[gp_admin_username]" value="<?php echo $config['gp_admin_username']; ?>" id="config[gp_admin_username]"><br/>
 		<label for="config[gp_admin_password]"><?php echo __('Admin Password'); ?></label>
@@ -40,13 +33,9 @@ gp_tmpl_header();
 		<label for="config[gp_admin_password2]"><?php echo __('Confirm Password'); ?></label>
 		<input type="password" name="config[gp_admin_password2]" value="<?php echo $config['gp_admin_password2']; ?>" id="config[gp_admin_password2]"><br/>
 		<label for="config[gp_admin_email]"><?php echo __('Email Address'); ?></label>
-		<input type="password" name="config[gp_admin_email]" value="<?php echo $config['gp_admin_email']; ?>" id="config[gp_admin_email]"><br/>
+		<input type="text" name="config[gp_admin_email]" value="<?php echo $config['gp_admin_email']; ?>" id="config[gp_admin_email]"><br/>
 		<small><?php _e('The default username is "admin", with a password of "a".'); ?></small><br/>
-
-		<label for="config[gp_wp_admin_user]">Administrator's Username</label>
-		<input type="text" name="config[gp_wp_admin_user]" value="<?php echo $config['gp_wp_admin_user']; ?>" id="config[gp_wp_admin_user]"><br/>
-		<small><?php _e('Select the WordPress user that will have administrator\'s rights in GlotPress'); ?></small>
-
+<?php } ?>
 	</dd>
 </dl>
 
@@ -56,8 +45,5 @@ gp_tmpl_header();
 		<input type="submit" name="submit" value="<?php echo esc_attr(__('Finish')); ?>" id="submit" />
 	</p>
 </form>
-<?
-	endif;
-?>
 	
 <?php gp_tmpl_footer(); ?>

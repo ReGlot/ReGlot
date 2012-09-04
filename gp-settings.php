@@ -352,3 +352,5 @@ do_action( 'init' );
 if ( GP_ROUTING ) {
 	GP::$router->route();
 }
+
+define('GP_TOT_INSTALL_PAGES', 3);

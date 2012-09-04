@@ -9,8 +9,8 @@ include_once 'gp-config.php';
 // these value are there, whether from previous config or defaults
 $config_defaults = array(
 	'GPDB_HOST' => defined('GPDB_HOST') ? GPDB_HOST : 'localhost',
-	'GPDB_CHARSET' => defined('GPDB_CHARSET') ? GPDB_HOST : 'utf8',
-	'GPDB_COLLATE' => defined('GPDB_COLLATE') ? GPDB_HOST : 'utf8_unicode_ci',
+	'GPDB_CHARSET' => defined('GPDB_CHARSET') ? GPDB_CHARSET : 'utf8',
+	'GPDB_COLLATE' => defined('GPDB_COLLATE') ? GPDB_COLLATE : 'utf8_unicode_ci',
 	'gp_table_prefix' => isset($gp_table_prefix) ? $gp_table_prefix : 'gp_',
 	'CUSTOM_USER_TABLE' => defined('CUSTOM_USER_TABLE') ? CUSTOM_USER_TABLE : 'wp_users',
 	'CUSTOM_USER_META_TABLE' => defined('CUSTOM_USER_META_TABLE') ? CUSTOM_USER_META_TABLE : 'wp_usermeta'
@@ -25,8 +25,6 @@ if ( defined('GP_SECURE_AUTH_KEY') ) $config_defaults['GP_SECURE_AUTH_KEY'] = GP
 if ( defined('GP_LOGGED_IN_KEY') ) $config_defaults['GP_LOGGED_IN_KEY'] = GP_LOGGED_IN_KEY;
 if ( defined('GP_NONCE_KEY') ) $config_defaults['GP_NONCE_KEY'] = GP_NONCE_KEY;
 if ( defined('CUSTOM_USER_TABLE') ) $config_defaults['gp_enable_wordpress_users'] = 'on';
-if ( defined('GP_NONCE_KEY') ) $config_defaults['GP_NONCE_KEY'] = GP_NONCE_KEY;
-if ( defined('GP_NONCE_KEY') ) $config_defaults['GP_NONCE_KEY'] = GP_NONCE_KEY;
 
 $config = array_merge($config_defaults, $config);
 
@@ -34,7 +32,7 @@ $wordpress_enabled = ($config['gp_enable_wordpress_users'] == 'on');
 
 gp_tmpl_header();
 ?>
-<h2><?php echo wptexturize(__('Edit your installation options')); ?></h2>
+<h2><?php echo wptexturize(sprintf(__('Installation Process (phase %d of %d)'), 1, GP_TOT_INSTALL_PAGES)); ?></h2>
 <form action="" method="post">
 
 <dl>

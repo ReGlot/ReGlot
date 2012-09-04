@@ -56,7 +56,7 @@ if ( ($config = gp_post('config')) ) {
 	}
 	
 	if ( $first ) {
-		$config_file = file_get_contents('gp-config-sample.php');
+		$config_file = file_get_contents(GP_PATH . 'gp-config-sample.php');
 		foreach ( $required_db_config as $key ) {
 			$config_file = preg_replace("/<<$key>>/", $config[$key], $config_file);
 		}
@@ -70,7 +70,7 @@ if ( ($config = gp_post('config')) ) {
 			}
 		}
 		$config_file = preg_replace('/<<GP_LANG>>/', $config['GP_LANG'], $config_file);
-		if ( file_put_contents('gp-config.php', $config_file) === false ) {
+		if ( file_put_contents(GP_PATH . 'gp-config.php', $config_file) === false ) {
 			GP::$redirect_notices['error'] .= sprintf(__('Cannot save the config file. Please change the permissions on the folder or create the <i>gp-config.php</i> file with this content<br/>' . $config_file), $key);
 		} else {
 			$install_uri = preg_replace('|/[^/]+?$|', '/', $_SERVER['PHP_SELF']) . 'install1.php';
