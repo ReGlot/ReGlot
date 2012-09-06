@@ -9,19 +9,25 @@ class GP_Route_Admin extends GP_Route {
 	}
 
 	function register() {
-		if ( gp_get_option('user_registration') != 'on' ) {
+		if ( gp_get_option('user_registration') != 'on' || (GP::$user && GP::$user->logged_in()) ) {
 			$this->redirect(gp_url());
 		} else {
-			$this->_edit($user_id);
+			if ( $this->_manage_user() ) {
+				$register = true;
+				gp_tmpl_load('users_edit', get_defined_vars());
+			} else {
+				if ( GP::$redirect_notices['error'] ) {
+					gp_notice_set(GP::$redirect_notices['error']);
+				} else if ( GP::$redirect_notices['notice'] ) {
+					gp_notice_set(GP::$redirect_notices['notice']);
+				}
+				$this->redirect(gp_url('/login'));
+			}
 		}
 	}
 
 	function edit($user_id) {
 		if ( !$this->_admin_gatekeeper() ) return;
-		$this->_edit($user_id);
-	}
-
-	function _edit($user_id) {
 		if ( $this->_manage_user($user_id) ) {
 			$user = GP::$user->get($user_id);
 			gp_tmpl_load('users_edit', get_defined_vars());
@@ -135,6 +141,10 @@ class GP_Route_Admin extends GP_Route {
 				GP::$redirect_notices['notice'] = __('User profile successfully updated');
 				return true;
 			} else {
+				if ( $settings['user_pass'] != $settings['user_pass2'] ) {
+					GP::$redirect_notices['error'] = __('Password confirmation does not match');
+					return true;
+				}
 				$user = GP::$user->create(array(
 					'user_login' => $settings['user_login'],
 					'user_pass' => $settings['user_pass'],

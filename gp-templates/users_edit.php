@@ -34,8 +34,10 @@ gp_tmpl_header();
 
 	<p>
 		<input type="submit" name="submit" value="<?php echo esc_attr(__('Save')); ?>" id="submit" />
+<?php if ( !$register ) { ?>
 		or <strong><a href="<?php echo gp_url('/admin/users'); ?>"><?php _e('go back'); ?></a></strong> to the user list
+<?php } ?>
 	</p>
 </form>
-	
+
 <?php gp_tmpl_footer(); ?>
