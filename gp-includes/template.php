@@ -117,6 +117,17 @@ function gp_select( $name_and_id, $options, $selected_key, $attrs = array() ) {
 	return $res;
 }
 
+function gp_select_format($name_and_id, $attrs = array(), $selected_key = null) {
+	if ( is_null($selected_key) ) {
+		$selected_key = gp_get_option('default_format');
+	}
+	$format_options = array();
+	foreach ( GP::$formats as $slug => $format ) {
+		$format_options[$slug] = $format->name;
+	}
+	return gp_select($name_and_id, $format_options, $selected_key, $attrs);
+}
+
 function gp_radio_buttons( $name, $radio_buttons, $checked_key ) {
 	$res = '';
 	foreach( $radio_buttons as $value => $label ) {

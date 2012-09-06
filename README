@@ -4,17 +4,18 @@ http://glotpress.org/
 
 INSTALLATION
 
-* Checkout the source from subversion: http://svn.glotpress.org/trunk/
-* Copy gp-config-sample.php to gp-config.php and edit the information inside
-* Visit the URL where you put the files and GlotPress be installed in a second.
-Don't forget to create the .htaccess file, mentioned by the installer script.
+* Checkout the source from github: https://github.com/fmestrone/GlotPress
+* Make sure your web server can write into the installation folder
+* Visit the URL where you put the files and GlotPress will guide you through the installation
+    - Make sure you have your database access information to hand
 
 UPGRADING
 
-* Run svn up in your local checkout directory
-* Visit <glotpress-root>/install.php?action=upgrade -- this will upgrade the database structure
+* Run a git pull in your installation folder
+* Visit <glotpress-root>/install.php?action=upgrade, which will upgrade the database structure
 
 QUESTIONS
 
 * Mailing list: http://lists.automattic.com/mailman/listinfo/glotpress
 * IRC channel: #glotpress at FreeNode
+* Contact me via my github account

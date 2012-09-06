@@ -12,7 +12,7 @@ class GP_Route_Admin extends GP_Route {
 			gp_update_option('default_format', $settings['default_format']);
 			GP::$redirect_notices['notice'] = __('Your settings have been saved');
 		}
-		$settings['gp_default_format'] = gp_get_option('default_format');
+		$settings['default_format'] = gp_get_option('default_format');
 		gp_tmpl_load('settings', get_defined_vars());
 	}
 

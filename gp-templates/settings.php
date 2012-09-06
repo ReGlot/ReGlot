@@ -1,12 +1,6 @@
 <?php
 gp_title(__('Site Settings'));
 gp_tmpl_header();
-
-$format_options = array();
-foreach ( GP::$formats as $slug => $format ) {
-	$format_options[$slug] = $format->name;
-}
-$format_dropdown = gp_select('settings[default_format]', $format_options, $settings['gp_default_format']);
 ?>
 <h2><?php _e('Site Settings'); ?></h2>
 <form action="" method="post" class="secondary">
@@ -14,7 +8,7 @@ $format_dropdown = gp_select('settings[default_format]', $format_options, $setti
 	<dt><h3><?php echo __('Import/Export'); ?></h3></dt>
 	<dd>
 		<label for="settings[default_format]"><?php _e('Default Format'); ?></label>
-		<?php echo $format_dropdown; ?>
+		<?php echo gp_select_format('settings[default_format]', array(), $settings['default_format']); ?>
 	</dd>
 </dl>
 <p>

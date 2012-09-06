@@ -10,15 +10,8 @@ gp_tmpl_header();
 	<dl>
 	<dt><label for="import-file"><?php _e('Import File:'); ?></label></dt>
 	<dd><input type="file" name="import-file" id="import-file" /></dd>
-<?php
-	$format_options = array();
-	foreach ( GP::$formats as $slug => $format ) {
-		$format_options[$slug] = $format->name;
-	}
-	$format_dropdown = gp_select( 'format', $format_options, gp_get_option('default_format') );
-?>
-	<dt><label	for="format"><?php _e('Format:'); ?></label></dt>
-	<dd><?php echo $format_dropdown; ?></dd>
+	<dt><label for="format"><?php _e('Format:'); ?></label></dt>
+	<dd><?php echo gp_select_format('format'); ?></dd>
 	<dt><input type="submit" value="<?php echo esc_attr( __('Import') ); ?>"></dt>
 </form>
 <?php gp_tmpl_footer(); ?>

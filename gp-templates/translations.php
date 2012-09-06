@@ -162,12 +162,8 @@ $i = 0;
 		}
 		$export_url = gp_url_project( $project, array( $locale->slug, $translation_set->slug, 'export-translations' ) );
 		$export_link = gp_link_get( $export_url , __('Export'), array('id' => 'export', 'filters' => add_query_arg( array( 'filters' => $filters ), $export_url ) ) );
-		$format_options = array();
-		foreach ( GP::$formats as $slug => $format ) {
-			$format_options[$slug] = $format->name;
-		}
 		$what_dropdown = gp_select( 'what-to-export', array('all' => _x('all current', 'export choice'), 'filtered' => _x('only matching the filter', 'export choice')), 'all' );
-		$format_dropdown = gp_select( 'export-format', $format_options, gp_get_option('default_format') );
+		$format_dropdown = gp_select_format('export-format');
 		/* translators: 1: export 2: what to export dropdown (all/filtered) 3: export format */
 		$footer_links[] = sprintf( __('%1$s %2$s as %3$s'), $export_link, $what_dropdown, $format_dropdown );
 		
