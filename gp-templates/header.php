@@ -19,24 +19,27 @@ wp_enqueue_script( 'jquery' );
 			</a>
 			<?php echo gp_breadcrumb(); ?>
 			<span id="hello">
-			<?php 
+			<?php
 			if ( GP::$user && GP::$user->logged_in() ):
 				$user = GP::$user->current();
 				
-				printf( __('Hi, %s!'), $user->user_login );
+				printf( __('Welcome %s!'), $user->display_name );
 				?>
 				 &nbsp; &nbsp;
 				<a href="<?php echo gp_url('/projects')?>"><?php _e('Projects'); ?></a> &bull;
-				<a href="<?php echo gp_url('/admin/settings')?>"><?php _e('Settings'); ?></a> &bull;
 				<?php
 				if ( GP::$user->admin() ):
 				?>
+					<a href="<?php echo gp_url('/admin/settings')?>"><?php _e('Settings'); ?></a> &bull;
 					<a href="<?php echo gp_url('/admin/users')?>"><?php _e('Users'); ?></a> &bull;
 				<?
 				endif;
 				?>
 				<a href="<?php echo gp_url('/logout')?>"><?php _e('Log out'); ?></a>
 			<?php elseif ( GP::$user ): ?>
+				<?php if ( gp_get_option('user_registration') == 'on' ) { ?>
+				<strong><a href="<?php echo gp_url('/admin/users/register'); ?>"><?php _e('Register'); ?></a></strong> &bull;
+				<?php } ?>
 				<strong><a href="<?php echo gp_url_login(); ?>"><?php _e('Log in'); ?></a></strong>
 			<?php endif; ?>
 			<?php do_action( 'after_hello' ); ?>

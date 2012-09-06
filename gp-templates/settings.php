@@ -4,6 +4,7 @@ gp_tmpl_header();
 ?>
 <h2><?php _e('Site Settings'); ?></h2>
 <form action="" method="post" class="secondary">
+<input type="hidden" name="settings[gp_handle_settings]" value="on">
 <dl>
 	<dt><h3><?php echo __('Import/Export'); ?></h3></dt>
 	<dd>

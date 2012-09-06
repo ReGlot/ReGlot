@@ -9,9 +9,14 @@ gp_tmpl_header();
 ?>
 <h3><?php _e('Options'); ?></h3>
 <form action="" method="post" class="secondary">
+	<input type="hidden" name="settings[gp_handle_settings]" value="on">
 	<p>
-	<input type="checkbox" name="options[gp_enable_user_reg]" value="on"<?php if ( $gp_enable_user_reg ) echo ' checked'; ?>>
-	<label for="config[gp_enable_user_reg]"><?php echo __('Enable User Self-Registration'); ?></label>
+	<input type="checkbox" name="settings[public_home]" value="on"<?php if ( $settings['public_home'] == 'on' ) echo ' checked'; ?>>
+	<label for="settings[public_home]"><?php echo __('Make home page visible to everyone'); ?></label>
+	</p>
+	<p>
+	<input type="checkbox" name="settings[user_registration]" value="on"<?php if ( $settings['user_registration'] == 'on' ) echo ' checked'; ?>>
+	<label for="settings[user_registration]"><?php echo __('Enable User Self-Registration'); ?></label>
 	</p>
 	<p>
 	<input type="submit" name="submit" value="<?php _e('Save'); ?>" id="submit" />
@@ -22,7 +27,7 @@ gp_tmpl_header();
 ?>
 <h3><?php _e('User List'); ?></h3>
 <p>
-	<a href="<?php echo gp_url('/admin/users/new/'); ?>"><?php _e('Create New User'); ?></a>
+	<a href="<?php echo gp_url('/admin/users/new'); ?>"><?php _e('Create a New User'); ?></a>
 </p>
 
 <table id="translations" class="translations clear">

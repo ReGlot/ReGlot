@@ -2,6 +2,9 @@
 class GP {
 	// models
 	static $project;
+	/**
+	* @var GP_User $user
+	*/
 	static $user;
 	static $translation_set;
 	static $permission;

@@ -28,6 +28,9 @@ gp_tmpl_header();
 <?php } else { ?>
 		<label for="config[gp_admin_username]"><?php echo __('Admin Username'); ?></label>
 		<input type="text" name="config[gp_admin_username]" value="<?php echo $config['gp_admin_username']; ?>" id="config[gp_admin_username]"><br/>
+		<label for="config[gp_admin_name]"><?php echo __('Display Name'); ?></label>
+		<input type="text" name="config[gp_admin_name]" value="<?php echo $config['gp_admin_name']; ?>" id="config[gp_admin_name]"><br/>
+		<small><?php _e('The name that will be used for display on the website') ?></small><br/>
 		<label for="config[gp_admin_password]"><?php echo __('Admin Password'); ?></label>
 		<input type="password" name="config[gp_admin_password]" value="<?php echo $config['gp_admin_password']; ?>" id="config[gp_admin_password]"><br/>
 		<label for="config[gp_admin_password2]"><?php echo __('Confirm Password'); ?></label>

@@ -15,5 +15,10 @@ class GP_Permission extends GP_Thing {
 		}
 		return $args;
 	}
+	
+	function count_admins() {
+		global $gpdb, $gp_table_prefix;
+		return $gpdb->get_var("SELECT count(*) FROM $gp_table_prefix$this->table_basename WHERE action = 'admin';");
+	}
 }
 GP::$permission = new GP_Permission();

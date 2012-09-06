@@ -31,6 +31,13 @@ class GP_Router {
 	}
 	
 	function default_routes() {
+		if ( (gp_get_option('public_home') != 'on') && (!GP::$user || !GP::$user->logged_in()) ) {
+			return apply_filters('routes', array(
+				'/' => array('GP_Route_Index', 'login_only'),
+				'get:/login' => array('GP_Route_Login', 'login_get'),
+				'post:/login' => array('GP_Route_Login', 'login_post'),
+			));
+		}
 		$dir = '([^_/][^/]*)';
 		$path = '(.+?)';
 		$projects = 'projects';
@@ -88,8 +95,13 @@ class GP_Router {
 			"post:/sets/$id/-edit" => array('GP_Route_Translation_Set', 'edit_post'),
 			
 			"post:/originals/$id/set_priority" => array('GP_Route_Original', 'set_priority'),
-			'get:/admin/users' => array('GP_Route_Admin', 'users'),
 			'/admin/settings' => array('GP_Route_Admin', 'settings'),
+			'/admin/users' => array('GP_Route_Admin', 'users'),
+			'/admin/users/admin/(\d*)' => array('GP_Route_Admin', 'admin'),
+			'/admin/users/edit/(\d*)' => array('GP_Route_Admin', 'edit'),
+			'/admin/users/delete/(\d*)' => array('GP_Route_Admin', 'delete'),
+			'/admin/users/new' => array('GP_Route_Admin', 'edit'),
+			'/admin/users/register' => array('GP_Route_Admin', 'register'),
 		) );
 	}
 
