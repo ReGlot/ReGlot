@@ -23,7 +23,17 @@ wp_enqueue_script( 'jquery' );
 			if ( GP::$user && GP::$user->logged_in() ):
 				$user = GP::$user->current();
 				
-				printf( __('Hi, %s.'), $user->user_login );
+				printf( __('Hi, %s!'), $user->user_login );
+				?>
+				 &nbsp; &nbsp;
+				<a href="<?php echo gp_url('/projects')?>"><?php _e('Projects'); ?></a> &bull;
+				<a href="<?php echo gp_url('/admin/settings')?>"><?php _e('Settings'); ?></a> &bull;
+				<?php
+				if ( GP::$user->admin() ):
+				?>
+					<a href="<?php echo gp_url('/admin/users')?>"><?php _e('Users'); ?></a> &bull;
+				<?
+				endif;
 				?>
 				<a href="<?php echo gp_url('/logout')?>"><?php _e('Log out'); ?></a>
 			<?php elseif ( GP::$user ): ?>

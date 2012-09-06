@@ -318,10 +318,10 @@ h1 span.active {
 	margin-top: 17px;
 	margin-left: .5em;
 }
-ul a.edit, dt a.edit {
+ul a.edit, dt a.edit, td a.edit {
     background-color: #777;    
 }
-ul a.delete, dt a.delete {
+ul a.delete, dt a.delete, td a.delete {
     background-color: #FF4F50;
 }
 .paging {
@@ -588,4 +588,24 @@ a.project-actions {
 }
 span.or-cancel {
 	font-size: 0.85em;
+}
+td.user_short {
+	width: 60px;
+	text-align: center;
+	vertical-align: middle;
+}
+td.user_long {
+	width: 160px;	
+	text-align: left;
+	vertical-align: middle;
+}
+td.user_name {
+	min-width: 160px;
+	text-align: left;
+	vertical-align: middle;
+}
+td.user_actions {
+	width: 160px;
+	text-align: center;
+	vertical-align: middle;
 }

@@ -15,7 +15,7 @@ gp_tmpl_header();
 	foreach ( GP::$formats as $slug => $format ) {
 		$format_options[$slug] = $format->name;
 	}
-	$format_dropdown = gp_select( 'format', $format_options, 'po' );
+	$format_dropdown = gp_select( 'format', $format_options, gp_get_option('default_format') );
 ?>
 	<dt><label	for="format"><?php _e('Format:'); ?></label></dt>
 	<dd><?php echo $format_dropdown; ?></dd>

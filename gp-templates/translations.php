@@ -167,7 +167,7 @@ $i = 0;
 			$format_options[$slug] = $format->name;
 		}
 		$what_dropdown = gp_select( 'what-to-export', array('all' => _x('all current', 'export choice'), 'filtered' => _x('only matching the filter', 'export choice')), 'all' );
-		$format_dropdown = gp_select( 'export-format', $format_options, 'po' );
+		$format_dropdown = gp_select( 'export-format', $format_options, gp_get_option('default_format') );
 		/* translators: 1: export 2: what to export dropdown (all/filtered) 3: export format */
 		$footer_links[] = sprintf( __('%1$s %2$s as %3$s'), $export_link, $what_dropdown, $format_dropdown );
 		

@@ -88,6 +88,8 @@ class GP_Router {
 			"post:/sets/$id/-edit" => array('GP_Route_Translation_Set', 'edit_post'),
 			
 			"post:/originals/$id/set_priority" => array('GP_Route_Original', 'set_priority'),
+			'get:/admin/users' => array('GP_Route_Admin', 'users'),
+			'/admin/settings' => array('GP_Route_Admin', 'settings'),
 		) );
 	}
 

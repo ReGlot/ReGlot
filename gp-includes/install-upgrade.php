@@ -68,4 +68,5 @@ function gp_create_initial_contents($options) {
 			return false;
 		}
 	}
+	gp_update_option('default_format', '');
 }

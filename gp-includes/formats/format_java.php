@@ -1,4 +1,7 @@
 <?php
+/*
+ * Check this document out http://www.innerweaver.com/articles/php-java-properties for java to php properties accessibility
+*/
 
 class GP_Format_Java {
 	

@@ -71,7 +71,8 @@ if ( ($config = gp_post('config')) ) {
 		}
 		$config_file = preg_replace('/<<GP_LANG>>/', $config['GP_LANG'], $config_file);
 		if ( file_put_contents(GP_PATH . 'gp-config.php', $config_file) === false ) {
-			GP::$redirect_notices['error'] .= sprintf(__('Cannot save the config file. Please change the permissions on the folder or create the <i>gp-config.php</i> file with this content<br/>' . $config_file), $key);
+			GP::$redirect_notices['error'] .= __('Cannot save the config file. Please change the permissions on the folder or create the <i>gp-config.php</i> file with this content');
+			GP::$redirect_notices['error'] .= '<br/>' . $config_file;
 		} else {
 			$install_uri = preg_replace('|/[^/]+?$|', '/', $_SERVER['PHP_SELF']) . 'install1.php';
 			header('Location: ' . $install_uri);
