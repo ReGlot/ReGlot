@@ -9,6 +9,18 @@ class GP_Project extends GP_Thing {
 	 * Deletes project and all subprojects
 	 */
 	function delete() {
+		// delete all originals
+		$originals = GP::$original->by_project_id($this->id);
+		foreach ( $originals as $original ) {
+			/** @ToDo need to check whether delete succeded */
+			$original->delete();
+		}
+		// delete all translation sets for this project
+		$translation_sets = GP::$translation_set->by_project_id($this->id);
+		foreach ( $translation_sets as $translation_set ) {
+			/** @ToDo need to check whether delete succeded */
+			$translation_set->delete();
+		}
 		$subprojects = $this->sub_projects();
 		foreach ( $subprojects as $child ) {
 			/** @ToDo need to check whether delete succeded */

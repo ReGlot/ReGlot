@@ -6,7 +6,7 @@ class GP_Route_Project extends GP_Route_Main {
 		$projects = GP::$project->top_level();
 		$this->tmpl( 'projects', get_defined_vars() );
 	}
-	
+
 	function single( $project_path ) {
 		$project = GP::$project->by_path( $project_path );
 		if ( !$project ) gp_tmpl_404();
@@ -45,8 +45,21 @@ class GP_Route_Project extends GP_Route_Main {
 		$project = GP::$project->by_path( $project_path );
 		if ( !$project ) gp_tmpl_404();
 		if ( $this->cannot_and_redirect( 'write', 'project', $project->id ) ) return;
+
+		// get originals
+		$page = gp_get( 'page', 1 );
+		$filters = gp_get( 'filters', array() );
+		$sort = gp_get( 'sort', array() );
+		if ( 'random' == gp_array_get( $sort, 'by') ) {
+			add_filter( 'gp_pagination', create_function( '$html', 'return "";' ) );
+		}
+		$originals = GP::$original->by_project_id($project->id, $page);
+		$total_originals_count = GP::$original->found_rows;
+		$per_page = GP::$original->per_page;
+		$url = gp_url_project( $project );
+
 		$kind = 'originals';
-		gp_tmpl_load( 'project-import', get_defined_vars() );
+		gp_tmpl_load( 'originals', get_defined_vars() );
 	}
 
 	function import_originals_post( $project_path ) {
@@ -75,7 +88,7 @@ class GP_Route_Project extends GP_Route_Main {
 		list( $originals_added, $originals_existing ) = GP::$original->import_for_project( $project, $translations );
 		$this->notices[] = sprintf(__("%s new strings were added, %s existing were updated."), $originals_added, $originals_existing );
 				
-		$this->redirect( gp_url_project( $project, 'import-originals' ) );
+		$this->redirect( gp_url_project( $project, 'originals' ) );
 	}
 
 	function edit_get( $project_path ) {

@@ -7,7 +7,7 @@ class GP_Route_Translation extends GP_Route_Main {
 		if ( !$project || !$locale || !$translation_set ) gp_tmpl_404();
 		if ( $this->cannot_and_redirect( 'approve', 'translation-set', $translation_set->id ) ) return;
 		$kind = 'translations';
-		$this->tmpl( 'project-import', get_defined_vars() );
+		$this->tmpl( 'translation-import', get_defined_vars() );
 	}
 
 	function import_translations_post( $project_path, $locale_slug, $translation_set_slug ) {

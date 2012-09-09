@@ -1,7 +1,8 @@
 <?php
-class GP_Route_Admin extends GP_Route {
+class GP_Route_Admin extends GP_Route_Main {
 
 	function users() {
+		// this method is also invoked by ::delete(), ::admin(), and ::edit()
 		if ( !$this->_admin_gatekeeper() ) return;
 		$settings = $this->_save_setting(array('user_registration', 'public_home'));
 		$users = GP::$user->all();
@@ -12,7 +13,7 @@ class GP_Route_Admin extends GP_Route {
 		if ( gp_get_option('user_registration') != 'on' || (GP::$user && GP::$user->logged_in()) ) {
 			$this->redirect(gp_url());
 		} else {
-			if ( $this->_manage_user() ) {
+			if ( $this->_manage_user(null) ) {
 				$register = true;
 				gp_tmpl_load('users_edit', get_defined_vars());
 			} else {
@@ -32,8 +33,7 @@ class GP_Route_Admin extends GP_Route {
 			$user = GP::$user->get($user_id);
 			gp_tmpl_load('users_edit', get_defined_vars());
 		} else {
-			$users = GP::$user->all();
-			gp_tmpl_load('users', get_defined_vars());
+			$this->users();
 		}
 	}
 
@@ -53,8 +53,7 @@ class GP_Route_Admin extends GP_Route {
 		} else {
 			GP::$redirect_notices['error'] = __('Cannot find the user specified');
 		}
-		$users = GP::$user->all();
-		gp_tmpl_load('users', get_defined_vars());
+		$this->users();
 	}
 
 	function admin($user_id) {
@@ -86,13 +85,12 @@ class GP_Route_Admin extends GP_Route {
 		} else {
 			GP::$redirect_notices['error'] = __('Cannot find the user specified');
 		}
-		$users = GP::$user->all();
-		gp_tmpl_load('users', get_defined_vars());
+		$this->users();
 	}
 
 	function settings() {
 		if ( !$this->_admin_gatekeeper() ) return;
-		$settings = $this->_save_setting('default_format');
+		$settings = $this->_save_setting(array('default_format','default_recursive_sets'));
 		gp_tmpl_load('settings', get_defined_vars());
 	}
 
@@ -106,8 +104,10 @@ class GP_Route_Admin extends GP_Route {
 			GP::$redirect_notices['notice'] = __('Your settings have been saved');
 		}
 		$settings = array();
-		foreach ( $options as $option ) {
-			$settings[$option] = gp_get_option($option);
+		if ( is_array($options) ) { // avoid PHP warning
+			foreach ( $options as $option ) {
+				$settings[$option] = gp_get_option($option);
+			}
 		}
 		return $settings;
 	}
@@ -160,11 +160,4 @@ class GP_Route_Admin extends GP_Route {
 		}
 	}
 
-	function _admin_gatekeeper() {
-		if ( !GP::$user->admin() ) {
-			$this->redirect(gp_url());
-			return false;
-		}
-		return true;
-	}
 }

@@ -1,15 +1,27 @@
 <?php
 class GP {
-	// models
+	/**
+	* @var GP_Project $project
+	*/
 	static $project;
 	/**
 	* @var GP_User $user
 	*/
 	static $user;
+	/**
+	* @var GP_Translation_Set $translation_set
+	*/
 	static $translation_set;
+	/**
+	* @var GP_Translation_Bundle $translation_bundle
+	*/
+	static $translation_bundle;
 	static $permission;
 	static $validator_permission;
 	static $translation;
+	/**
+	* @var GP_Original $original
+	*/
 	static $original;
 	// other singletons
 	static $router;

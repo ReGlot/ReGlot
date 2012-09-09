@@ -81,7 +81,7 @@ if ( !$users ):
 endif;
 ?>
 </table>
-<?php echo gp_pagination( $page, $per_page, $total_translations_count ); ?>
+<?php // echo gp_pagination( $page, $per_page, $total_translations_count ); ?>
 
 <?php
 gp_tmpl_footer();

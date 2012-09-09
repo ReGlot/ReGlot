@@ -1770,28 +1770,28 @@ class GP_Locales {
 		}
 	}
 
-	function &instance() {
+	static function &instance() {
 		if ( !isset( $GLOBALS['gp_locales'] ) )
 			$GLOBALS['gp_locales'] = new GP_Locales;
 		return $GLOBALS['gp_locales'];
 	}
 
-	function locales() {
+	static function locales() {
 		$instance = GP_Locales::instance();
 		return $instance->locales;
 	}
 
-	function exists( $slug ) {
+	static function exists( $slug ) {
 		$instance = GP_Locales::instance();
 		return isset( $instance->locales[$slug] );
 	}
 
-	function by_slug( $slug ) {
+	static function by_slug( $slug ) {
 		$instance = GP_Locales::instance();
 		return isset( $instance->locales[$slug] )? $instance->locales[$slug] : null;
 	}
 
-	function by_field( $field_name, $field_value ) {
+	static function by_field( $field_name, $field_value ) {
 		$instance = GP_Locales::instance();
 		$result = false;
 		foreach( $instance->locales() as $locale ) {

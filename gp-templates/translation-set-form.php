@@ -20,6 +20,7 @@
 	jQuery(function($){
 		$('#copy').click(function() {
 			$('#set\\[name\\]').val($('#set\\[locale\\] option:selected').html().replace(/^\S+\s+\S+\s+/, '').replace(/&mdash|—/, ''));
+			$('#set\\[slug\\]').val($('#set\\[locale\\] option:selected')[0].value);
 			return false;
 		});
 	});

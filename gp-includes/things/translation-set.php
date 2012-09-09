@@ -5,6 +5,16 @@ class GP_Translation_Set extends GP_Thing {
 	var $field_names = array( 'id', 'name', 'slug', 'project_id', 'locale' );
 	var $non_updatable_attributes = array( 'id' );
 
+	function delete() {
+		// delete all translations for this original
+		$translations = GP::$translation->find_many(array('translation_set_id' => $this->id));
+		foreach ( $translations as $translation ) {
+			/** @ToDo need to check whether delete succeded */
+			$translation->delete();
+		}
+		return parent::delete();
+	}
+
 	function restrict_fields( $set ) {
 		$set->name_should_not_be('empty');
 		$set->slug_should_not_be('empty');

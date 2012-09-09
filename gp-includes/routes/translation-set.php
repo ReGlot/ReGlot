@@ -12,17 +12,31 @@ class GP_Route_Translation_Set extends GP_Route_Main {
 		$new_set = new GP_Translation_Set( gp_post( 'set', array() ) );
 		if ( $this->cannot_edit_set_and_redirect( $new_set ) ) return;
 		if ( $this->invalid_and_redirect( $new_set ) ) return;
+		if ( gp_array_get($_POST['set'], 'recursive') ) {
+			foreach ( GP::$project->get($_POST['set']['project_id'])->sub_projects() as $subproject ) {
+				$new_set->project_id = $subproject->id;
+				$this->_create_set($new_set);
+			}
+		} else {
+			if ( $this->_create_set($new_set) ) {
+				$this->redirect( gp_url( '/sets/-new', array( 'project_id' => $new_set->project_id ) ) );
+				return;
+			}
+		}
+		$this->redirect( gp_url_project( GP::$project->get($_POST['set']['project_id'])));
+	}
+
+	function _create_set($new_set) {
 		$created_set = GP::$translation_set->create_and_select( $new_set );
-		if ( $created_set ) $project = GP::$project->get( $created_set->project_id );
 		if ( !$created_set ) {
 			$this->errors[] = __('Error in creating translation set!');
-			$this->redirect( gp_url( '/sets/-new', array( 'project_id' => $new_set->project_id ) ) );
+			return true;
 		} else {
 			$this->notices[] = __('The translation set was created!');
-			$this->redirect( gp_url_project_locale( GP::$project->get( $created_set->project_id ), $created_set->locale, $created_set->slug ) );
+			return false;
 		}
 	}
-	
+
 	function single( $set_id ) {
 		$items = $this->get_set_project_and_locale_from_set_id_or_404( $set_id );
 		if ( !$items) return;
@@ -30,6 +44,20 @@ class GP_Route_Translation_Set extends GP_Route_Main {
 		$this->redirect( gp_url_project( $project, array( $set->locale, $set->slug ) ) );
 	}
 	
+		function delete_get( $set_id ) {
+		// TODO: do not delete using a GET request but POST
+		// TODO: decide what to do with child projects and translation sets
+		// TODO: just deactivate, do not actually delete
+		$set = GP::$translation_set->get($set_id);
+		if ( !$set ) gp_tmpl_404();
+		if ( $this->cannot_and_redirect('write', 'project', $set->project_id) ) return;
+		if ( $set->delete() )
+			$this->notices[] = __('The set was deleted.');
+		else
+			$this->errors[] = __('Error in deleting the set!');
+		$this->redirect();
+	}
+
 	function edit_get( $set_id ) {
 		$items = $this->get_set_project_and_locale_from_set_id_or_404( $set_id );
 		if ( !$items ) return;

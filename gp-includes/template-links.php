@@ -88,3 +88,20 @@ function gp_link_set_edit() {
 	$args = func_get_args();
 	echo call_user_func_array('gp_link_set_edit_get', $args);
 }
+
+function gp_link_set_delete_get( $set, $project, $text = false, $attrs = array() ) {
+	if ( !GP::$user->current()->can( 'write', 'project', $project->id ) ) {
+		return '';
+	}
+	$text = $text? $text : __( 'Delete' );
+	if ( !$attrs['data-message'] ) {
+		$attrs['data-message'] = sprintf(__('Are you sure you want to delete the set "%s" in project "%s" and all of its translations?'), $set->name, $project->name);
+	}
+
+	return gp_link_get( gp_url( gp_url_join( '/sets', $set->id, '-delete' ) ), $text, gp_attrs_add_class( $attrs, 'action delete' ) );
+}
+
+function gp_link_set_delete() {
+	$args = func_get_args();
+	echo call_user_func_array('gp_link_set_delete_get', $args);
+}

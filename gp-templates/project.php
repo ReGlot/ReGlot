@@ -20,7 +20,7 @@ gp_tmpl_header();
 	<a href="#" class="project-actions" id="project-actions-toggle"><?php _e('Project actions &darr;'); ?></a>
 	<div class="project-actions hide-if-js">
 		<ul>
-			<li><?php gp_link( gp_url_project( $project, 'import-originals' ), __( 'Import originals' ) ); ?></li>
+			<li><?php gp_link( gp_url_project( $project, 'originals' ), __( 'View/Import Originals' ) ); ?></li>
 			<li><?php gp_link( gp_url_project( $project, array( '-permissions' ) ), __('Permissions') ); ?></li>
 			<li><?php gp_link( gp_url_project( '', '-new', array('parent_project_id' => $project->id) ), __('New Sub-Project') ); ?></li>
 			<li><?php gp_link( gp_url( '/sets/-new', array( 'project_id' => $project->id ) ), __('New Translation Set') ); ?></li>
@@ -52,7 +52,7 @@ gp_tmpl_header();
 
 
 <?php if ($sub_projects): ?>
-<div id="sub-projects">
+<div id="sub-projects"  style="width:<?php echo $translation_sets ? 20 : 100; ?>%;">
 <h3><?php _e('Sub-projects'); ?></h3>
 <dl>
 <?php foreach($sub_projects as $sub_project): ?>
@@ -63,7 +63,13 @@ gp_tmpl_header();
 		<?php if ( $sub_project->active ) echo "<span class='active bubble'>Active</span>"; ?>
 	</dt>
 	<dd>
-		<?php echo esc_html( gp_html_excerpt( $sub_project->description, 111 ) ); ?>
+		<?php 
+		if ( $translation_sets ) {
+			echo esc_html(gp_html_excerpt($sub_project->description, 120));
+		} else {
+			echo esc_html($sub_project->description);
+		}
+		?>
 	</dd>
 <?php endforeach; ?>
 </dl>
@@ -71,7 +77,7 @@ gp_tmpl_header();
 <?php endif; ?>
 
 <?php if ( $translation_sets ): ?>
-<div id="translation-sets">
+<div id="translation-sets" style="width:<?php echo $sub_projects ? 70 : 100; ?>%;">
 	<h3>Translations</h3>
 	<table class="translation-sets">
 		<thead>
@@ -81,7 +87,7 @@ gp_tmpl_header();
 				<th><?php _e( 'Translated' ); ?></th>
 				<th><?php _e( 'Untranslated' ); ?></th>
 				<th><?php _e( 'Waiting' ); ?></th>
-				<th><?php _e( 'Extra' ); ?></th>
+				<th><?php _e( 'Actions' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -100,7 +106,9 @@ gp_tmpl_header();
 							array('filters[status]' => 'untranslated' ) ), $set->untranslated_count ); ?></td>
 				<td class="stats waiting"><?php gp_link( gp_url_project( $project, gp_url_join( $set->locale, $set->slug ),
 							array('filters[translated]' => 'yes', 'filters[status]' => 'waiting') ), $set->waiting_count ); ?></td>
-				<td>
+				<td align="center">
+					<?php gp_link_set_edit($set, $project, null, array('class' => 'bubble')); ?>
+					<?php gp_link_set_delete($set, $project, null, array('class' => 'bubble')); ?>
 					<?php do_action( 'project_template_translation_set_extra', $set, $project ); ?>
 				</td>
 			</tr>

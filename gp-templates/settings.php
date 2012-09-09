@@ -9,7 +9,15 @@ gp_tmpl_header();
 	<dt><h3><?php echo __('Import/Export'); ?></h3></dt>
 	<dd>
 		<label for="settings[default_format]"><?php _e('Default Format'); ?></label>
-		<?php echo gp_select_format('settings[default_format]', array(), $settings['default_format']); ?>
+		<?php echo gp_select_format('settings[default_format]', array(), $settings['default_format']); ?><br/>
+	</dd>
+	<dt><h3><?php echo __('Project Management'); ?></h3></dt>
+	<dd>
+		<p>
+		<input type="checkbox" name="settings[default_recursive_sets]" value="on"<?php gp_checked($settings['default_recursive_sets'] == 'on'); ?>>
+		<label for="settings[default_recursive_sets]"><?php echo __('Recursively create translation sets in subprojects by default'); ?></label><br/>
+		<small><?php _e('You can still change this option before every individual translation set creation') ?></small>
+		</p>
 	</dd>
 </dl>
 <p>

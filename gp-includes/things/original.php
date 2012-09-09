@@ -8,6 +8,16 @@ class GP_Original extends GP_Thing {
     static $priorities = array( '-2' => 'hidden', '-1' => 'low', '0' => 'normal', '1' => 'high' );
 	static $count_cache_group = 'active_originals_count_by_project_id';
 
+	function delete() {
+		// delete all translations for this original
+		$translations = GP::$translation->find_many(array('original_id' => $this->id));
+		foreach ( $translations as $translation ) {
+			/** @ToDo need to check whether delete succeded */
+			$translation->delete();
+		}
+		return parent::delete();
+	}
+
 	function restrict_fields( $original ) {
 		$original->singular_should_not_be('empty');
 		$original->status_should_not_be('empty');
@@ -26,8 +36,11 @@ class GP_Original extends GP_Thing {
 		return $args;
 	}
 
-	function by_project_id( $project_id ) {
-		return $this->many( "SELECT * FROM $this->table WHERE project_id= %d AND status = '+active'", $project_id );
+	function by_project_id($project_id, $page = 'no-limit') {
+		$selectFrom = "FROM $this->table WHERE project_id= %d AND status = '+active'";
+		$this->found_rows = $this->value("SELECT COUNT(*) $selectFrom", $project_id);
+		$limit = $this->sql_limit_for_paging($page);
+		return $this->many("SELECT * $selectFrom $limit", $project_id);
 	}
 
 	function count_by_project_id( $project_id ) {

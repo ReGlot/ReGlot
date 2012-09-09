@@ -4,7 +4,7 @@ gp_breadcrumb(array(__('Projects')));
 wp_enqueue_script('confirm');
 gp_tmpl_header();
 ?>
-<h2>Projects</h2>
+<h2><?php _e('Projects') ?></h2>
 <ul>
 <?php foreach( $projects as $project ): ?>
 	<li><?php gp_link_project($project, esc_html( $project->name)); ?> <?php gp_link_project_edit($project, null, array('class' => 'bubble')); ?> <?php gp_link_project_delete($project, null, array('class' => 'bubble')); ?> <?php if ( $project->active ) echo '<span class="active bubble">Active</span>'; ?></li>

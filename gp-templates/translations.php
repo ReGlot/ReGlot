@@ -5,6 +5,7 @@ gp_breadcrumb( array(
 	gp_link_get( $url, $locale->english_name . 'default' != $translation_set->slug? $translation_set->name : '' ),
 ) );
 wp_enqueue_script( 'editor' );
+wp_enqueue_script('confirm');
 wp_enqueue_script( 'translations-page' );
 // localizer adds var in front of the variable name, so we can't use $gp.editor.options
 $editor_options = compact('can_approve', 'can_write', 'url', 'discard_warning_url', 'set_priority_url', 'set_status_url');
@@ -19,6 +20,7 @@ $i = 0;
 <h2>
 	Translation of <?php echo esc_html( $project->name ); ?>: <?php echo esc_html( $translation_set->name ); ?>
 	<?php gp_link_set_edit( $translation_set, $project, '(edit)' ); ?>
+	<?php gp_link_set_delete( $translation_set, $project, '(del)' ); ?>
 </h2>
 <?php if ( $can_approve ): ?>
 <form id="bulk-actions-toolbar" class="filters-toolbar bulk-actions" action="<?php echo $bulk_action; ?>" method="post">

@@ -47,7 +47,7 @@ $priority_char = array(
 	?>
 	</td>
 	<td class="actions">
-		<a href="#" row="<?php echo $t->row_id; ?>" class="action edit"><?php _e('Details'); ?></a>
+		<a href="#" row="<?php echo $t->row_id; ?>" class="action edit bubble"><?php _e('Details'); ?></a>
 	</td>
 </tr>
 <tr class="editor <?php echo $warning_class; ?>" id="editor-<?php echo $t->row_id; ?>" row="<?php echo $t->row_id; ?>">
