@@ -13,12 +13,13 @@ class GP_Route_Project extends GP_Route_Main {
 		$sub_projects = $project->sub_projects();
 		$translation_sets = GP::$translation_set->by_project_id( $project->id );
 		foreach( $translation_sets as $set ) {
-			$set->name_with_locale = $set->name_with_locale();
+			$set->path = $project_path;
+			$set->display_name = $set->name_with_locale();
 			$set->current_count = $set->current_count();
 			$set->untranslated_count = $set->untranslated_count();
 			$set->waiting_count = $set->waiting_count();
 			$set->percent_translated = $set->percent_translated();
-			$set->all_count = $set->all_count();
+//			$set->all_count = $set->all_count();
 		}
 		usort( $translation_sets, lambda('$a, $b', '$a->current_count < $b->current_count' ) );
 		$title = sprintf( __('%s project '), esc_html( $project->name ) );

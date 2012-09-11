@@ -28,19 +28,30 @@ class GP_Translation_Set extends GP_Thing {
 		if ( 'default' != $this->slug ) $parts[] = $this->name;
 		return implode( '&nbsp;'.$separator.'&nbsp;', $parts );
 	}
-	
+
 	function by_project_id_slug_and_locale( $project_id, $slug, $locale_slug ) {
-		return $this->one( "
-		    SELECT * FROM $this->table
-		    WHERE slug = '%s' AND project_id= %d AND locale = %s", $slug, $project_id, $locale_slug );
+		$sql = "SELECT * FROM $this->table WHERE project_id = %d";
+		if ( $slug != '~' ) {
+			$sql .= " AND slug = '%s'";
+			$value1 = $slug;
+		}
+		if ( $locale_slug != '~' ) {
+			$sql .= " AND locale = '%s'";
+			if ( $slug != '~' ) {
+				$value2 = $locale_slug;
+			} else {
+				$value1 = $locale_slug;
+			}
+		}
+		return $this->one($sql, $project_id, $value1, $value2);
 	}
-	
+
 	function by_project_id( $project_id ) {
 		return $this->many( "
 		    SELECT * FROM $this->table
 		    WHERE project_id = %d ORDER BY name ASC", $project_id );
 	}
-	
+
 	function import( $translations ) {
 		@ini_set('memory_limit', '256M');
 		if ( !isset( $this->project ) || !$this->project ) $this->project = GP::$project->get( $this->project_id );

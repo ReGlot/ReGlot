@@ -38,19 +38,19 @@ switch ( $kind ) {
 <?php
 switch ( $kind ) {
 	case 'slugs':
-		gp_link_project($bundle, esc_html($bundle->name));
+		gp_link("/by-translation/slug/$bundle->slug", esc_html($bundle->name));
 		echo " ($bundle->slug)";
 		break;
 	case 'locales':
 		$locale = GP_Locales::by_slug($bundle->locale);
-		gp_link_project($bundle, esc_html($locale->native_name . ' / ' . $locale->english_name));
+		gp_link("/by-translation/locale/$bundle->locale", esc_html($locale->native_name . ' / ' . $locale->english_name));
 		echo " ($locale->slug)";
 		break;
 	case 'both':
 		gp_link_project($bundle, esc_html($bundle->name));
 		echo " ($bundle->slug) &rarr; ";
 		$locale = GP_Locales::by_slug($bundle->slug);
-		gp_link_project($bundle, esc_html($locale->native_name . ' / ' . $locale->english_name));
+		gp_link("/by-translation/both/$bundle->locale/$bundle->slug", esc_html($locale->native_name . ' / ' . $locale->english_name));
 		echo " ($locale->slug)";
 		break;
 }

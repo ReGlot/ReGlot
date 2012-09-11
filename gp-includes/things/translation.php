@@ -143,13 +143,29 @@ class GP_Translation extends GP_Thing {
 		if ( $join_where ) {
 			$join_where = 'AND '.$join_where;
 		}
+		
+		if ( is_array($translation_set) ) {
+			$tswhere = 'IN (';
+			$first = true;
+			foreach ( $translation_set as $ts ) {
+				if ( $first ) {
+					$first = false;
+				} else {
+					$tswhere .= ', ';
+				}
+				$tswhere .= $gpdb->escape($translation_set->id);
+			}
+			$tswhere .= ')';
+		} else {
+			$tswhere = '= ' . $gpdb->escape($translation_set->id);
+		}
 
 		$sql_sort = sprintf( $sort_by, $sort_how );
 		$limit = $this->sql_limit_for_paging( $page );
 		$sql_for_translations = "
 			SELECT SQL_CALC_FOUND_ROWS t.*, o.*, t.id as id, o.id as original_id, t.status as translation_status, o.status as original_status, t.date_added as translation_added, o.date_added as original_added
 		    FROM $gpdb->originals as o
-		    $join_type JOIN $gpdb->translations AS t ON o.id = t.original_id AND t.translation_set_id = ".$gpdb->escape($translation_set->id)." $join_where
+		    $join_type JOIN $gpdb->translations AS t ON o.id = t.original_id AND t.translation_set_id $tswhere $join_where
 		    WHERE o.project_id = ".$gpdb->escape( $project->id )." AND o.status LIKE '+%' $where ORDER BY $sql_sort $limit";
 		$rows = $this->many_no_map( $sql_for_translations );
 		$this->found_rows = $this->found_rows();

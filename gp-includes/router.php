@@ -38,12 +38,12 @@ class GP_Router {
 				'post:/login' => array('GP_Route_Login', 'login_post'),
 			));
 		}
-		$dir = '([^_/][^/]*)';
+		$dir = '(~|[^_/][^/]*)';
 		$path = '(.+?)';
 		$projects = 'projects';
 		$project = $projects.'/'.$path;
 		$id = '(\d+)';
-		$locale = '('.implode('|', array_map( create_function( '$x', 'return $x->slug;' ), GP_Locales::locales() ) ).')';
+		$locale = '(~|'.implode('|', array_map( create_function( '$x', 'return $x->slug;' ), GP_Locales::locales() ) ).')';
 		$set = "$project/$locale/$dir";
 		// overall structure
 		return apply_filters( 'routes', array(
@@ -53,9 +53,12 @@ class GP_Router {
 			'get:/logout' => array('GP_Route_Login', 'logout'),
 
 			'get:/by-translation/(slugs|locales|both)' => array('GP_Route_ByTranslation', 'index'),
+			"get:/by-translation/(locale)/$locale" => array('GP_Route_ByTranslation', 'get_by_translation'),
+			"get:/by-translation/(slug)/$path" => array('GP_Route_ByTranslation', 'get_by_translation'),
+			"get:/by-translation/(both)/$locale/$path" => array('GP_Route_ByTranslation', 'get_by_translation'),
 
-			"get:/$project/originals" => array('GP_Route_Project', 'import_originals_get'),
-			"post:/$project/originals" => array('GP_Route_Project', 'import_originals_post'),
+			"get:/$project/-originals" => array('GP_Route_Project', 'import_originals_get'),
+			"post:/$project/-originals" => array('GP_Route_Project', 'import_originals_post'),
 
 			"get:/$project/-edit" => array('GP_Route_Project', 'edit_get'),
 			"post:/$project/-edit" => array('GP_Route_Project', 'edit_post'),
@@ -101,9 +104,9 @@ class GP_Router {
 
 			'/admin/settings' => array('GP_Route_Admin', 'settings'),
 			'get:/admin/users' => array('GP_Route_Admin', 'users'),
-			'get:/admin/users/admin/(\d*)' => array('GP_Route_Admin', 'admin'),
-			'/admin/users/edit/(\d*)' => array('GP_Route_Admin', 'edit'),
-			'get:/admin/users/delete/(\d*)' => array('GP_Route_Admin', 'delete'),
+			"get:/admin/users/admin/$id" => array('GP_Route_Admin', 'admin'),
+			"/admin/users/edit/$id" => array('GP_Route_Admin', 'edit'),
+			"get:/admin/users/delete/$id" => array('GP_Route_Admin', 'delete'),
 			'/admin/users/new' => array('GP_Route_Admin', 'edit'),
 			'/admin/users/register' => array('GP_Route_Admin', 'register'),
 

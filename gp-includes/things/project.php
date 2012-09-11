@@ -183,6 +183,118 @@ class GP_Project extends GP_Thing {
 			}
 		}
 		return compact( 'added', 'removed' );
-	}	
+	}
+	
+	function sets_by_locale($locale) {
+		$sets_table = GP::$translation_set->table;
+		return $this->many("SELECT DISTINCT p.id, p.path, p.name, %1\$s AS `locale` FROM $this->table p LEFT JOIN $sets_table s ON p.id = s.project_id WHERE s.locale = %1\$s;", $locale);
+	}
+
+	function sets_by_slug($slug) {
+		$sets_table = GP::$translation_set->table;
+		return $this->many("SELECT DISTINCT p.id, p.path, p.name, %1\$s AS `slug` FROM $this->table p LEFT JOIN $sets_table s ON p.id = s.project_id WHERE s.slug = %1\$s;", $slug);
+	}
+
+	function sets_by_both($locale, $slug) {
+		$sets_table = GP::$translation_set->table;
+		return $this->many("SELECT DISTINCT p.id, p.path, p.name, %1\$s AS `locale`, %2\$s AS `slug` FROM $this->table p LEFT JOIN $sets_table s ON p.id = s.project_id WHERE s.locale = %1\$s AND s.slug = %2\$s;", $locale, $slug);
+	}
+	
+	/* counter functionality from GP_Translation_Set */
+	function waiting_count($locale, $slug) {
+		if ( !$locale && !$slug ) return;
+		if ( !isset( $this->waiting_count[$locale . $slug] ) ) $this->update_status_breakdown($locale, $slug);
+		return $this->waiting_count[$locale . $slug];
+	}
+	
+	function untranslated_count($locale, $slug) {
+		if ( !$locale && !$slug ) return;
+		if ( !isset( $this->untranslated_count[$locale . $slug] ) ) $this->update_status_breakdown($locale, $slug);
+		return $this->untranslated_count[$locale . $slug];
+	}
+	
+	function current_count($locale, $slug) {
+		if ( !$locale && !$slug ) return;
+		if ( !isset( $this->current_count[$locale . $slug] ) ) $this->update_status_breakdown($locale, $slug);
+		return $this->current_count[$locale . $slug];
+	}
+
+	function warnings_count($locale, $slug) {
+		if ( !$locale && !$slug ) return;
+		if ( !isset( $this->warnings_count[$locale . $slug] ) ) $this->update_status_breakdown($locale, $slug);
+		return $this->warnings_count[$locale . $slug];
+	}
+
+	function all_count() {
+		return GP::$original->count_by_project_id( $this->id );
+		// This does not work - it shifts the number by one digit at every iteration (?!?!)
+//		if ( !isset( $this->all_count ) ) $this->all_count = GP::$original->count_by_project_id( $this->id );
+//		return $this->all_count;
+	}
+
+	function percent_translated($locale, $slug) {
+		$original_count = $this->all_count();
+		// This does not work - it shifts the number by one digit at every call (?!?!)
+//		return sprintf( _x( '%d%%', 'language translation percent' ), $original_count ? $this->current_count($locale, $slug) / $original_count * 100 : 0 );
+		return sprintf( _x( '%d%%', 'language translation percent' ), $original_count ? $this->current_count / $original_count * 100 : 0 );
+	}
+
+	function update_status_breakdown($locale, $slug) {
+		$counts = wp_cache_get($this->id . $locale . $slug, 'translation_bundle_status_breakdown');
+		if ( !is_array( $counts ) ) {
+			/*
+			 * TODO:
+			 *  - calculate weighted coefficient by priority to know how much of the strings are translated
+			 * 	- calculate untranslated
+			 */
+			$t = GP::$translation->table;
+			$s = GP::$translation_set->table;
+			$o = GP::$original->table;
+
+			$counts_sql1 = "
+				SELECT t.status as translation_status, COUNT(*) as n
+				FROM $t AS t INNER JOIN $o AS o ON t.original_id = o.id LEFT JOIN $s s ON t.translation_set_id = s.id
+				WHERE s.project_id = %d AND ";
+			$counts_sql2 = " AND o.status LIKE '+%%' GROUP BY t.status";
+			$warning_count_sql1 = "
+				SELECT COUNT(*)
+				FROM $t AS t INNER JOIN $o AS o ON t.original_id = o.id LEFT JOIN $s s ON t.translation_set_id = s.id
+				WHERE s.project_id = %d AND ";
+			$warning_count_sql2 = " AND o.status LIKE '+%%' AND (t.status = 'current' OR t.status = 'waiting') AND warnings IS NOT NULL";
+			if ( $locale && $slug ) {
+				$counts_sql = "$counts_sql1 s.locale = %s AND s.slug = %s $counts_sql2";
+				$warning_count_sql = "$warning_count_sql1 s.locale = %s AND s.slug = %s $warning_count_sql2";
+				$counts = GP::$translation->many_no_map($counts_sql, $this->id, $locale, $slug);
+				$warnings_count = GP::$translation->value_no_map($warning_count_sql, $this->id, $locale, $slug);
+			} else if ( $locale ) {
+				$counts_sql = "$counts_sql1 s.locale = %s $counts_sql2";
+				$warning_count_sql = "$warning_count_sql1 s.locale = %s $warning_count_sql2";
+				$counts = GP::$translation->many_no_map($counts_sql, $this->id, $locale);
+				$warnings_count = GP::$translation->value_no_map($warning_count_sql, $this->id, $locale);
+			} else if ( $slug ) {
+				$counts_sql = "$counts_sql1 s.slug = %s $counts_sql2";
+				$warning_count_sql = "$warning_count_sql1 s.slug = %s $warning_count_sql2";
+				$counts = GP::$translation->many_no_map($counts_sql, $this->id, $slug);
+				$warnings_count = GP::$translation->value_no_map($warning_count_sql, $this->id, $slug);
+			}
+			$counts[] = (object)array( 'translation_status' => 'warnings', 'n' => $warnings_count );
+			$counts[] = (object)array( 'translation_status' => 'all', 'n' => $this->all_count() );
+			wp_cache_set($this->id . $locale . $slug, $counts, 'translation_bundle_status_breakdown');
+		}
+		$statuses = GP::$translation->get_static( 'statuses' );
+		$statuses[] = 'warnings';
+		$statuses[] = 'all';
+		foreach( $statuses as $status ) {
+			$this->{$status.'_count'}[$locale . $slug] = 0;
+		}
+		$this->untranslated_count[$locale . $slug] = 0;
+		foreach( $counts as $count ) {
+			if ( in_array( $count->translation_status, $statuses ) ) {
+				$this->{$count->translation_status.'_count'}[$locale . $slug] = $count->n;
+			}
+		}
+		$this->untranslated_count[$locale . $slug] = $this->all_count() - $this->current_count[$locale . $slug];
+	}
+
 }
 GP::$project = new GP_Project();

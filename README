@@ -4,6 +4,7 @@ http://glotpress.org/
 
 INSTALLATION
 
+* Create a database for your GlotPress installation and a username to access it
 * Checkout the source from github: https://github.com/fmestrone/GlotPress
 * Make sure your web server can write into the installation folder
 * Visit the URL where you put the files and GlotPress will guide you through the installation

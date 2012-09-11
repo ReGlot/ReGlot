@@ -37,7 +37,7 @@ class GP_Original extends GP_Thing {
 	}
 
 	function by_project_id($project_id, $page = 'no-limit') {
-		$selectFrom = "FROM $this->table WHERE project_id= %d AND status = '+active'";
+		$selectFrom = "FROM $this->table WHERE project_id = %d AND status = '+active'";
 		$this->found_rows = $this->value("SELECT COUNT(*) $selectFrom", $project_id);
 		$limit = $this->sql_limit_for_paging($page);
 		return $this->many("SELECT * $selectFrom $limit", $project_id);

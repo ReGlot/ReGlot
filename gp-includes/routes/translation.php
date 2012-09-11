@@ -4,7 +4,8 @@ class GP_Route_Translation extends GP_Route_Main {
 		$project = GP::$project->by_path( $project_path );
 		$locale = GP_Locales::by_slug( $locale_slug );
 		$translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $translation_set_slug, $locale_slug );
-		if ( !$project || !$locale || !$translation_set ) gp_tmpl_404();
+		if ( !$project || !$locale || count($translation_set) != 1 ) gp_tmpl_404();
+		$translation_set = $translation_set[0];
 		if ( $this->cannot_and_redirect( 'approve', 'translation-set', $translation_set->id ) ) return;
 		$kind = 'translations';
 		$this->tmpl( 'translation-import', get_defined_vars() );
@@ -14,7 +15,8 @@ class GP_Route_Translation extends GP_Route_Main {
 		$project = GP::$project->by_path( $project_path );
 		$locale = GP_Locales::by_slug( $locale_slug );
 		$translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $translation_set_slug, $locale_slug );
-		if ( !$project || !$locale || !$translation_set ) gp_tmpl_404();
+		if ( !$project || !$locale || count($translation_set) != 1 ) gp_tmpl_404();
+		$translation_set = $translation_set[0];
 		if ( $this->cannot_and_redirect( 'approve', 'translation-set', $translation_set->id ) ) return;
 
 		$format = gp_array_get( GP::$formats, gp_post( 'format', 'po' ), null );
@@ -60,7 +62,7 @@ class GP_Route_Translation extends GP_Route_Main {
 		$project = GP::$project->by_path( $project_path );
 		$locale = GP_Locales::by_slug( $locale_slug );
 		$translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $translation_set_slug, $locale_slug );
-		if ( !$project || !$locale || !$translation_set ) gp_tmpl_404();
+		if ( !$project || (!$locale && $locale_slug != '~') || !$translation_set ) gp_tmpl_404();
 		$page = gp_get( 'page', 1 );
 		$filters = gp_get( 'filters', array() );
 		$sort = gp_get( 'sort', array() );
