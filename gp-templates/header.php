@@ -28,16 +28,16 @@ wp_enqueue_script( 'jquery' );
 				 &nbsp; &nbsp;
 				<a href="<?php echo gp_url('/projects')?>"><?php _e('Projects'); ?></a> &bull;
 				<a href="<?php echo gp_url('/by-translation/locales')?>"><?php _e('Translations'); ?></a> &bull;
-				<a href="<?php echo gp_url('/admin/users/edit/' . GP::$user->current()->id)?>"><?php _e('Profile'); ?></a> &bull;
+				<a href="<?php echo gp_url('/tools')?>"><?php _e('Tools'); ?></a> &bull;
 				<?php
 				if ( GP::$user->admin() ):
 				?>
-					<a href="<?php echo gp_url('/tools')?>"><?php _e('Tools'); ?></a> &bull;
 					<a href="<?php echo gp_url('/admin/settings')?>"><?php _e('Settings'); ?></a> &bull;
 					<a href="<?php echo gp_url('/admin/users')?>"><?php _e('Users'); ?></a> &bull;
 				<?
 				endif;
 				?>
+				<a href="<?php echo gp_url('/admin/users/edit/' . GP::$user->current()->id)?>"><?php _e('Profile'); ?></a> &bull;
 				<a href="<?php echo gp_url('/logout')?>"><?php _e('Log out'); ?></a>
 			<?php elseif ( GP::$user ): ?>
 				<?php if ( gp_get_option('user_registration') == 'on' ) { ?>

@@ -123,7 +123,7 @@ function gp_select_format($name_and_id, $attrs = array(), $selected_key = null) 
 	}
 	$format_options = array();
 	foreach ( GP::$formats as $slug => $format ) {
-		$format_options[$slug] = $format->name;
+		$format_options[$slug] = $format->get_name();
 	}
 	return gp_select($name_and_id, $format_options, $selected_key, $attrs);
 }
@@ -211,8 +211,12 @@ function gp_locales_dropdown( $name_and_id, $selected_slug = null, $attrs = arra
 	return gp_select( $name_and_id, array_merge( array( '' => __('&mdash; Locale &mdash;') ), array_combine( $values, $labels ) ), $selected_slug, $attrs );
 }
 
-function gp_projects_dropdown( $name_and_id, $selected_project_id = null, $attrs = array() ) {
-	$projects = GP::$project->all();
+function gp_projects_dropdown( $name_and_id, $selected_project_id = null, $attrs = array(), $firstOption = null, $topOnly = false ) {
+	if ( $topOnly ) {
+		$projects = GP::$project->top_level();
+	} else {
+		$projects = GP::$project->all();
+	}
 	// TODO: mark which nodes are editable by the current user
 	$tree = array();
 	$top = array();
@@ -224,7 +228,7 @@ function gp_projects_dropdown( $name_and_id, $selected_project_id = null, $attrs
 			$top[] = $p->id;
 		}
 	}
-	$options = array( '' => __('&mdash; No parent &mdash;') );
+	$options = array('' => $firstOption ? __("&mdash; $firstOption &mdash;") : __('&mdash; No parent &mdash;'));
 	$stack = array();
 	foreach( $top as $top_id ) {
 		$stack = array( $top_id );

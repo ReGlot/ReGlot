@@ -223,18 +223,40 @@ span.context {
 span.morethan80 {
 	background-color: greenyellow;
 	color: black;
+	cursor: help;
 }
 span.morethan90 {
 	background-color: lightgreen;
 	color: black;
+	cursor: help;
 }
 span.morethan99 {
 	background-color: green;
 	color: white;
+	cursor: help;
+}
+span.morethan20 {
+	background-color: orange;
+	color: black;
+	cursor: help;
 }
 span.lessthan20 {
 	background-color: orangered;
 	color: white;
+	cursor: help;
+}
+.tooltip span {
+  margin-left: -999em;
+  position: absolute;
+  display: inline;
+}
+.tooltip:hover span {
+  font-family: Calibri, Tahoma, Geneva, sans-serif;
+  font-size: 1.1em;
+  position: relative;
+  left: 0em;
+  top: 0em;
+  margin-left: 5px;
 }
 
 .editor .original {

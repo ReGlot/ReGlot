@@ -30,6 +30,7 @@ class GP {
 	static $builtin_translation_warnings;
 	static $current_route = null;
 	static $formats;
+	static $userauths;
 	// plugins can use this space
 	static $vars = array();
 	// for plugin singletons

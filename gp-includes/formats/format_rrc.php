@@ -1,10 +1,10 @@
 <?php
 
-class GP_Format_RRC {
+class GP_Format_RRC extends GP_Format {
 
-	var $name = 'Blackberry Resource (.rrc)';
+	protected $name = 'Blackberry Resource (.rrc)';
 
-	var $extension = 'rrc';
+	protected $extension = 'rrc';
 	
 	function print_exported_file( $project, $locale, $translation_set, $entries ) {
 		$rrc = array();

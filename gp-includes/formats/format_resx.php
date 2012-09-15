@@ -1,12 +1,12 @@
 <?php
 
-class GP_Format_ResX {
+class GP_Format_ResX extends GP_Format {
 
-	var $name = '.NET Resource (.resx)';
+	protected $name = '.NET Resource (.resx)';
 
-	var $extension = 'resx.xml';
+	protected $extension = 'resx.xml';
 	
-	var $exported = '';
+	private $exported = '';
 	
 	function line( $string, $prepend_tabs = 0 ) {
 		$this->exported .= str_repeat( "\t", $prepend_tabs ) . "$string\n";

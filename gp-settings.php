@@ -226,12 +226,19 @@ require_once( GP_PATH . GP_INC . 'l10n.php' );
 
 require_once( GP_LOCALES_PATH . 'locales.php' );
 
-// Users and authentication
-if ( !class_exists( 'WP_Users' ) ) {
-	require_once( BACKPRESS_PATH . 'class.wp-users.php' );
-	$wp_users_object = new WP_Users( $gpdb );
+if ( defined('GP_INSTALLING') && GP_INSTALLING ) {
+	// Users and authentication
+	require_once(GP_PATH . GP_INC . 'class.gp-userauth.php');
+	foreach( glob(GP_PATH . GP_INC . 'authentication/userauth_*.php') as $auth_file ) {
+		require_once $auth_file;
+	}
+	unset($auth_file);
+} else {
+	$auth = 'wordpress';
+	require_once(GP_PATH . GP_INC . 'class.gp-userauth.php');
+	require_once(GP_PATH . GP_INC . "authentication/userauth_$auth.php");
+	$wp_user_auth = GP::$userauths[$auth];
 }
-
 
 if ( !defined( 'WP_AUTH_COOKIE_VERSION' ) ) {
 	define( 'WP_AUTH_COOKIE_VERSION', 2 );
@@ -307,6 +314,7 @@ if ( !defined('GP_INSTALLING') || !GP_INSTALLING ) {
 	GP::$router = new GP_Router();
 	GP::$formats = array();
 
+	require_once( GP_PATH . GP_INC . 'class.gp-format.php' );
 	foreach( glob( GP_PATH . GP_INC . 'formats/format_*.php' ) as $format_file ) {
 		require_once $format_file;
 	}

@@ -1,19 +1,23 @@
 <?php
 
-class GP_Format_Elgg {
+class GP_Format_Elgg extends GP_Format {
 	
-	var $name = 'PHP Array for Elgg (.php)';	
+	protected $name = 'PHP Array for Elgg (.php)';	
 
-	var $allowedCharsInKey = '[a-zA-Z0-9_:\\.]';
+	protected $extension = 'php';
 
-	var $extension = 'php';
+	private $allowedCharsInKey = '[a-zA-Z0-9_:\\.]';
 	
-	var $exported = '';
+	private $exported = '';
 	
-	function line($string, $prepend_tabs = 0) {
+	// version 1 is for 1.8 and below
+	// version 2 is for 1.9 and above
+	public $version = 2;
+	
+	function line($string = '', $prepend_tabs = 0) {
 		$this->exported .= str_repeat("\t", $prepend_tabs) . "$string\n";
 	}
-		
+	
 	function print_exported_file($project, $locale, $translation_set, $entries) {
 		$this->exported = '';
 		$this->line('<?php');
@@ -23,7 +27,15 @@ class GP_Format_Elgg {
 		$this->line(" * @subpackage Languages.{$translation_set->name}");
 		$this->line(' */');
 		$this->line();
-		$this->line('$localized = array(');
+		switch ( $version ) {
+			case 1:
+				$this->line('$localized = array(');
+				break;
+			case 2:
+			default:
+				$this->line('return array(');
+				break;
+		}
 		foreach ( $entries as $entry ) {
 			if ( !preg_match( "/^{$this->allowedCharsInKey}+$/", $entry->context ) ) {
 				error_log('Elgg PHP Export: Bad Entry: '. $entry->context);
@@ -35,8 +47,15 @@ class GP_Format_Elgg {
 			$this->line('\'' . $entry->context . '\' => ' . $this->escape($entry->translations[0]) . ',', 1);
 		}
 		$this->line(');');
-		$this->line();
-		$this->line("add_translation('{$locale->slug}', \$localized);");
+		switch ( $version ) {
+			case 1:
+				$this->line();
+				$this->line("add_translation('{$locale->slug}', \$localized);");
+				break;
+			case 2:
+			default:
+				break;
+		}
 		return $this->exported;
 	}
 
@@ -72,14 +91,23 @@ class GP_Format_Elgg {
 		$entries = new Translations();
 		$in_language_array = false;
 		$comment = '';
+		switch ( $this->version ) {
+			case 1:
+				$regexp = '/^\s*\$[a-z0-9_]+\s*=\s*array\s*\($/';
+				break;
+			case 2:
+			default:
+				$regexp = '/^\s*return\s*=\s*array\s*\($/';
+				break;
+		}
 		foreach ( $data as $line ) {
 			if ( !$in_language_array ) {
-				if ( preg_match('/^\\$[a-z0-9_]+\\s*=\\s*array\\($/', trim($line)) ) {
+				if ( preg_match($regexp, trim($line)) ) {
 					$in_language_array = true;
 				}
 				continue;
 			} else {
-				if ( preg_match( '/^\/\/\/\\s*(.*)$/', trim($line), $matches ) ) {
+				if ( preg_match('/^\/\/\/\\s*(.*)$/', trim($line), $matches) ) {
 					$comment = $matches[1];
 				} else if ( preg_match("/^(['\"])({$this->allowedCharsInKey}+)\\1\\s*=>\\s*(['\"])(.+)\\3\\s*,$/", trim($line), $matches) ) {
 					$entry = new Translation_Entry();
@@ -101,7 +129,6 @@ class GP_Format_Elgg {
 		return $entries;
 	}
 
-	
 	function unescape($string) {
 		return stripcslashes($string);		
 	}

@@ -3,20 +3,20 @@
  * Check this document out http://www.innerweaver.com/articles/php-java-properties for java to php properties accessibility
 */
 
-class GP_Format_Java {
+class GP_Format_Java extends GP_Format {
 	
-	var $name = 'Java Properties (.props|.properties)';
+	protected $name = 'Java Properties (.properties)';
 
+	protected $extension = '.properties';
+	
 	/**
 	 *
 	 * TODO all of this class needs to be written still
 	 * 
 	 */
-	var $allowedCharsInKey = '[a-zA-Z0-9_:\\.]';
+	private $allowedCharsInKey = '[a-zA-Z0-9_:\\.]';
 
-	var $extension = 'php';
-	
-	var $exported = '';
+	private $exported = '';
 	
 	function line($string, $prepend_tabs = 0) {
 		$this->exported .= str_repeat("\t", $prepend_tabs) . "$string\n";

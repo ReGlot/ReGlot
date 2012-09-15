@@ -26,6 +26,8 @@ class GP_Project extends GP_Thing {
 			/** @ToDo need to check whether delete succeded */
 			$child->delete();
 		}
+		gp_delete_meta($this->id, 'elgg_version', null, 'gp_project');
+		gp_delete_meta($this->id, 'elgg_manifest', null, 'gp_project');
 		return parent::delete();
 	}
 

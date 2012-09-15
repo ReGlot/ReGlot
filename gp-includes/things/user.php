@@ -1,20 +1,20 @@
 <?php
 class GP_User extends GP_Thing {
-	
+
 	var $table_basename = 'users';
 	var $field_names = array( 'id', 'user_login', 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'user_status', 'display_name' );
 	var $non_updatable_attributes = array( 'ID' );
-	
+
 	function create( $args ) {
-		global $wp_users_object;
+		global $wp_user_auth;
 		if ( isset( $args['id'] ) ) {
 			$args['ID'] = $args['id'];
 			unset( $args['id'] );
 		}
-		$user = $wp_users_object->new_user( $args );
+		$user = $wp_user_auth->new_user( $args );
 		return $this->coerce( $user );
 	}
-	
+
 	function normalize_fields( $args ) {
 		$args = (array)$args;
 		if ( isset( $args['ID'] ) ) {
@@ -23,25 +23,25 @@ class GP_User extends GP_Thing {
 		}
 		return $args;
 	}
-	
+
 	function get( $user_or_id ) {
-		global $wp_users_object;
+		global $wp_user_auth;
 		if ( is_object( $user_or_id ) ) $user_or_id = $user_or_id->id;
-		return $this->coerce( $wp_users_object->get_user( $user_or_id ) );
+		return $this->coerce( $wp_user_auth->get_user( $user_or_id ) );
 	}
-	
+
 	function by_login( $login ) {
-		global $wp_users_object;
-		$user = $wp_users_object->get_user( $login, array( 'by' => 'login' ) );
+		global $wp_user_auth;
+		$user = $wp_user_auth->get_user( $login, array( 'by' => 'login' ) );
 		return $this->coerce( $user );
 	}
-	
+
 	function logged_in() {
 		global $wp_auth_object;
 		$coerced = $this->coerce( $wp_auth_object->get_current_user() );
 		return ( $coerced && $coerced->id );
 	}
-	
+
 	function current() {
 		global $wp_auth_object;
 		if ( $this->logged_in() )
@@ -110,10 +110,10 @@ class GP_User extends GP_Thing {
 			GP::$permission->find_one( array_merge( $args, array( 'object_id' => null ) ) );
 		return apply_filters( 'can_user', $verdict, $filter_args );
 	}
-	
+
 	function get_meta( $key ) {
-		global $wp_users_object;
-		if ( !$user = $wp_users_object->get_user( $this->id ) ) {
+		global $wp_user_auth;
+		if ( !$user = $wp_user_auth->get_user( $this->id ) ) {
 			return;
 		}
 
@@ -134,9 +134,9 @@ class GP_User extends GP_Thing {
 	
 	
 	function reintialize_wp_users_object() {
-		global $gpdb, $wp_auth_object, $wp_users_object;
-		$wp_users_object = new WP_Users( $gpdb );
-		$wp_auth_object->users = $wp_users_object;
+		global $gpdb, $wp_auth_object, $wp_user_auth;
+		$wp_user_auth = new WP_Users( $gpdb );
+		$wp_auth_object->users = $wp_user_auth;
 	}
 }
 GP::$user = new GP_User();

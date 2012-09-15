@@ -293,6 +293,39 @@ function gp_get_option_from_db( $option ) {
 	return apply_filters( 'gp_get_option_from_db_' . $option, $r, $option );
 }
 
+/**
+ * Retrieves and returns the requested meta value from the meta table
+ *
+ * @param string The option to be echoed
+ * @return void
+ */
+function gp_retrieve_meta( $object_id = 0, $meta_key, $type, $global = false ) {
+	global $gpdb;
+	if ( !is_numeric( $object_id ) || empty( $object_id ) && !$global ) {
+		return false;
+	}
+	switch ( $type ) {
+		case 'option':
+			$object_type = 'gp_option';
+			break;
+		case 'user' :
+			return null;
+		default :
+			$object_type = $type;
+			break;
+	}
+
+	$meta_key = gp_sanitize_meta_key( $meta_key );
+
+	$row = $gpdb->get_row( $gpdb->prepare( "SELECT `meta_value` FROM `$gpdb->meta` WHERE `object_type` = %s AND `object_id` = %d AND `meta_key` = %s", $object_type, $object_id, $meta_key ) );
+	if ( is_object( $row ) ) {
+		$r = maybe_unserialize( $row->meta_value );
+	} else {
+		$r = null;
+	}
+	return $r;
+}
+
 // Don't use the return value; use the API. Only returns options stored in DB.
 function gp_cache_all_options()
 {

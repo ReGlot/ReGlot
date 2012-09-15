@@ -28,10 +28,10 @@ class GP_Route_Main extends GP_Route {
                 continue; 
             } 
             // Recurse
-            self::deltree($dirname . DS . $entry);
+            self::deltree("$dirname/$entry");
         }
         // Clean up 
-        $dir->close(); 
+        $dir->close();
         return rmdir($dirname); 
     }
 

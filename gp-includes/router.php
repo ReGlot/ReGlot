@@ -111,7 +111,8 @@ class GP_Router {
 			'/admin/users/register' => array('GP_Route_Admin', 'register'),
 
 			'get:/tools' => array('GP_Route_Tools', 'index'),
-			'/tools/elgg_import' => array('GP_Route_Tools', 'elgg_import'),
+			'/tools/elgg-import' => array('GP_Route_Tools', 'elgg_import'),
+			'/tools/elgg-export' => array('GP_Route_Tools', 'elgg_export'),
 		) );
 	}
 

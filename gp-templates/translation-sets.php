@@ -18,13 +18,26 @@
 				<td>
 					<strong><?php gp_link( gp_url_project( $set->path, gp_url_join( $set->locale ? $set->locale : '~', $set->slug ? $set->slug : '~' ) ), $set->display_name ); ?></strong>
 					<?php if ($set->current_count >= $set->all_count ) { ?>
-						<span class="bubble morethan99">Complete</span>
-					<?php } else if ($set->current_count >= $set->all_count * 0.9 ) { ?>
-						<span class="bubble morethan90">90%+</span>
+						<span class="bubble morethan99 tooltip">
+							Complete<span>All translations have been completed</span>
+						</span>
+					<?php } else if ($set->current_count > $set->all_count * 0.9 ) { ?>
+						<span class="bubble morethan90 tooltip">
+							&gt;90%<span>Project translation is almost complete</span>
+						</span>
 					<?php } else if ($set->current_count >= $set->all_count * 0.8 ) { ?>
-						<span class="bubble morethan80">80%+</span>
-					<?php } else if ($set->current_count < $set->all_count * 0.2 ) { ?>
-						<span class="bubble lessthan20"><20%</span>
+						<span class="bubble morethan80 tooltip">
+							&gt;80%<span>Project translation is more than 80% complete</span>
+						</span>
+					<?php } else if ($set->current_count < $set->all_count * 0.4 ) { ?>
+						<span class="bubble lessthan20 tooltip">
+							&lt;40%<span class="tooltip">Less than 40% of this project has been translated</span>
+						</span>
+					<?php } else { ?>
+						<span class="bubble morethan20 tooltip">
+							&nbsp;&ReverseEquilibrium;&nbsp;<span class="tooltip">Translation is in progress</span>
+						</span>
+						
 					<?php } ?>
 				</td>
 				<td class="stats percent"><?php echo $set->percent_translated; ?></td>

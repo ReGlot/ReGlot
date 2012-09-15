@@ -1,12 +1,12 @@
 <?php
 
-class GP_Format_Android {
+class GP_Format_Android extends GP_Format {
 	
-	var $name = 'Android XML (.xml)';
+	protected $name = 'Android XML (.xml)';
 	
-	var $extension = 'xml';
+	protected $extension = 'xml';
 	
-	var $exported = '';
+	protected $exported = '';
 	
 	function line( $string, $prepend_tabs = 0 ) {
 		$this->exported .= str_repeat( "\t", $prepend_tabs ) . "$string\n";

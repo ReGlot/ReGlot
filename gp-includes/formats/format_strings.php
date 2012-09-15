@@ -1,12 +1,12 @@
 <?php
 
-class GP_Format_Strings {
+class GP_Format_Strings extends GP_Format {
 
-	var $name = 'Mac OS X / iOS Strings File (.strings)';
+	protected $name = 'Mac OS X / iOS Strings File (.strings)';
 
-	var $extension = 'strings';
+	protected $extension = 'strings';
 	
-	var $exported = '';
+	private $exported = '';
 	
 	function sort_entries( $a, $b ) {
 		if ( $a->context == $b->context ) {

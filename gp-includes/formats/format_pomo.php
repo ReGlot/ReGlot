@@ -1,11 +1,12 @@
 <?php
 
-class GP_Format_PO {
+class GP_Format_PO extends GP_Format {
 	
-	var $name = 'Portable Object Message Catalog (.po)';
+	protected $name = 'Portable Object Message Catalog (.po)';
 
-	var $extension = 'po';
-	var $class = 'PO';
+	protected $extension = 'po';
+
+	private $class = 'PO';
 	
 	function print_exported_file( $project, $locale, $translation_set, $entries ) {
 		$po = new $this->class;

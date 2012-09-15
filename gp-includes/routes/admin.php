@@ -15,6 +15,7 @@ class GP_Route_Admin extends GP_Route_Main {
 		} else {
 			if ( $this->_manage_user(null) ) {
 				$register = true;
+				$user = new GP_User($_POST['user']);
 				gp_tmpl_load('users_edit', get_defined_vars());
 			} else {
 				if ( GP::$redirect_notices['error'] ) {
@@ -28,9 +29,12 @@ class GP_Route_Admin extends GP_Route_Main {
 	}
 
 	function edit($user_id) {
-		if ( !$this->_admin_gatekeeper() ) return;
+		if ( GP::$user->current()->id != $user_id && !$this->_admin_gatekeeper() ) return;
 		if ( $this->_manage_user($user_id) ) {
 			$user = GP::$user->get($user_id);
+			if ( !user ) {
+				$user = new GP_User($_POST['user']);
+			}
 			gp_tmpl_load('users_edit', get_defined_vars());
 		} else {
 			$this->users();
@@ -112,7 +116,7 @@ class GP_Route_Admin extends GP_Route_Main {
 		return $settings;
 	}
 
-	// return null to go to user edit page
+	// return true to stay in the user edit page
 	// return false to go to user list page
 	function _manage_user($user_id) {
 		$settings = $_POST['user'];
@@ -145,6 +149,10 @@ class GP_Route_Admin extends GP_Route_Main {
 					GP::$redirect_notices['error'] = __('Password confirmation does not match');
 					return true;
 				}
+				if ( empty($settings['user_pass']) || empty($settings['user_login']) || empty($settings['user_email']) ) {
+					GP::$redirect_notices['error'] = __('You must provide username and email, please');
+					return true;
+				}
 				$user = GP::$user->create(array(
 					'user_login' => $settings['user_login'],
 					'user_pass' => $settings['user_pass'],
@@ -152,8 +160,13 @@ class GP_Route_Admin extends GP_Route_Main {
 					'user_url' => $settings['user_url'],
 					'display_name' => $settings['display_name'])
 				);
-				GP::$redirect_notices['notice'] = __('User profile successfully created');
-				return false;
+				if ( $user ) {
+					GP::$redirect_notices['notice'] = __('User profile successfully created');
+					return false;
+				} else {
+					GP::$redirect_notices['error'] = __('User profile could not be created');
+					return true;
+				}
 			}
 		} else {
 			return true;
