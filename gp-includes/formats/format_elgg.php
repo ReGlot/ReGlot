@@ -97,7 +97,7 @@ class GP_Format_Elgg extends GP_Format {
 				break;
 			case 2:
 			default:
-				$regexp = '/^\s*return\s*=\s*array\s*\($/';
+				$regexp = '/^\s*return\s*array\s*\($/';
 				break;
 		}
 		foreach ( $data as $line ) {

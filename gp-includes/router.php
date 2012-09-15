@@ -103,7 +103,7 @@ class GP_Router {
 			"post:/originals/$id/set_priority" => array('GP_Route_Original', 'set_priority'),
 
 			'/admin/settings' => array('GP_Route_Admin', 'settings'),
-			'get:/admin/users' => array('GP_Route_Admin', 'users'),
+			'/admin/users' => array('GP_Route_Admin', 'users'),
 			"get:/admin/users/admin/$id" => array('GP_Route_Admin', 'admin'),
 			"/admin/users/edit/$id" => array('GP_Route_Admin', 'edit'),
 			"get:/admin/users/delete/$id" => array('GP_Route_Admin', 'delete'),

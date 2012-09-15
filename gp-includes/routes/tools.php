@@ -23,7 +23,6 @@ class GP_Route_Tools extends GP_Route_Main {
 			$this->version = null;
 			$this->parent_proj_id = null;
 			$this->parent3rd_proj_id = null;
-			$deltree = false;
 			if ( @$_POST['import']['elggtype'] == 'zip' ) {
 				$file = $_FILES['elggfile']['tmp_name'];
 				$zip = new ZipArchive;
@@ -34,21 +33,9 @@ class GP_Route_Tools extends GP_Route_Main {
 					$zip->extractTo($newdir);
 					$zip->close();
 					unlink($file);
-					$deltree = true;
-					$found = false;
-					$dir = dir($newdir);
-					while ( false !== ($entry = $dir->read()) ) {
-						if ( $entry != '.' && $entry != '..' && is_dir("$newdir/$entry") ) {
-							if ( $this->_check_elgg("$newdir/$entry", $version, $release) ) {
-								$this->version = $release;
-								$newdir = "$newdir/$entry";
-								$found = true;
-								break;
-							}
-						}
-					}
-			        $dir->close();
-					if ( !$found ) {
+					if ( $this->_check_elgg($newdir, $version, $release) ) {
+						$this->version = $release;
+					} else {
 						GP::$redirect_notices['error'] = 'Could not find an Elgg install in the ZIP file you specified';
 					}
 				} else {
@@ -62,13 +49,12 @@ class GP_Route_Tools extends GP_Route_Main {
 					GP::$redirect_notices['error'] = 'Could not find an Elgg install in the folder you specified';
 				}
 			}
-			if ( $deltree && @$_POST['import']['elggtype'] == 'zip' ) self::deltree($newdir);
 			if ( !GP::$redirect_notices['error'] ) {
 				$this->base_dir = $newdir;
 				$this->_find_languages($newdir);
 				if ( !empty($this->projects) ) {
 					$format = GP::$formats['elgg'];
-					if ( version_compare($this->version, '1.9.0-any') >= 0 ) {
+					if ( version_compare($this->version, '1.9.0-dev') >= 0 ) {
 						$format->version = 2;
 					} else {
 						$format->version = 1;
@@ -129,7 +115,7 @@ class GP_Route_Tools extends GP_Route_Main {
 							// Import originals
 							$translations = $format->read_originals_from_file($file);
 							list($originals_added, $originals_existing) = GP::$original->import_for_project($project_obj, $translations);
-							GP::$redirect_notices['notice'] .= sprintf(__('%s new originals were added, %s existing were updated for %s from %s.<br/>'), $originals_added, $originals_existing, $slug, $file);
+							GP::$redirect_notices['notice'] .= sprintf(__("%s new originals were added, %s existing were updated for %s from %s.<br/>\n"), $originals_added, $originals_existing, $slug, $file);
 						}
 						
 						foreach ( $project['langs'] as $locale => $file ) {
@@ -145,6 +131,9 @@ class GP_Route_Tools extends GP_Route_Main {
 									$data['project_id'] = $project_obj->id;
 									$new_ts = new GP_Translation_Set($data);
 									$ts = GP::$translation_set->create_and_select($new_ts);
+									GP::$redirect_notices['notice'] .= sprintf(__("New translation into %s was created for %s.<br/>\n"), $locale, $slug);
+								} else {
+									GP::$redirect_notices['notice'] .= sprintf(__("Existing translation into %s was updated for %s.<br/>\n"), $locale, $slug);
 								}
 								$ts->import($translations);
 							}
@@ -158,6 +147,7 @@ class GP_Route_Tools extends GP_Route_Main {
 				}
 			}
 		}
+		if ( @$_POST['import']['elggtype'] == 'zip' ) self::deltree($newdir);
 		gp_tmpl_load('tools-elgg-import', get_defined_vars());
 	}
 
