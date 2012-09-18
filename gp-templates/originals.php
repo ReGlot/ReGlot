@@ -16,11 +16,12 @@ $i = 0;
 	Original Strings of <?php echo esc_html( $project->name ); ?>
 </h2>
 <?php echo gp_pagination( $page, $per_page, $total_originals_count ); ?>
-<table id="translations" class="translations clear">
+<table id="translations" class="translations clear originals">
 	<thead>
 	<tr>
 		<th class="original"><?php _e('Context'); ?></th>
 		<th class="translation"><?php _e('Original Text'); ?></th>
+		<th class="comment"><?php _e('Comment'); ?></th>
 	</tr>
 	</thead>
 <?php foreach( $originals as $o ):
@@ -30,7 +31,7 @@ $i = 0;
 <?php
 	if ( !$originals ):
 ?>
-	<tr><td colspan="2"><?php _e('No originals were found!'); ?></td></tr>
+	<tr><td colspan="3"><?php _e('No originals were found!'); ?></td></tr>
 <?php
 	endif;
 ?>

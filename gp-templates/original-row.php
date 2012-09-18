@@ -9,4 +9,7 @@
 	<td class="translation foreign-text">
 		<?php echo prepare_original( esc_translation( $o->singular ) ); ?>
 	</td>
+	<td class="comment foreign-text">
+		<?php echo prepare_original( esc_translation( $o->comment ) ); ?>
+	</td>
 </tr>

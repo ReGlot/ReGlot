@@ -167,6 +167,16 @@ table.translations td.original, table.translations td.translation {
 table.translations th.original, table.translations th.translation  {
 	width: 45%;
 }
+table.translations.originals th.original, table.translations.originals td.original {
+	width: 20%;
+}
+table.translations.originals th.translation, table.translations.originals td.translation {
+	width: 40%;
+}
+table.translations.originals th.comment, table.translations.originals td.comment {
+	width: 40%;
+}
+
 table.translations tr.even {
 	background-color: #fcfcfc;
 }
