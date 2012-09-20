@@ -29,6 +29,10 @@
 						<span class="bubble morethan80 tooltip">
 							&gt;80%<span>Project translation is more than 80% complete</span>
 						</span>
+					<?php } else if ($set->current_count <= 0.0 ) { ?>
+						<span class="bubble lessthan20 tooltip">
+							EMPTY<span class="tooltip">Nothing at all has been translated in this project</span>
+						</span>
 					<?php } else if ($set->current_count < $set->all_count * 0.4 ) { ?>
 						<span class="bubble lessthan20 tooltip">
 							&lt;40%<span class="tooltip">Less than 40% of this project has been translated</span>

@@ -4,19 +4,17 @@ class GP_Route_Translation extends GP_Route_Main {
 		$project = GP::$project->by_path( $project_path );
 		$locale = GP_Locales::by_slug( $locale_slug );
 		$translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $translation_set_slug, $locale_slug );
-		if ( !$project || !$locale || count($translation_set) != 1 ) gp_tmpl_404();
-		$translation_set = $translation_set[0];
+		if ( !$project || !$locale || !$translation_set ) gp_tmpl_404();
 		if ( $this->cannot_and_redirect( 'approve', 'translation-set', $translation_set->id ) ) return;
 		$kind = 'translations';
-		$this->tmpl( 'translation-import', get_defined_vars() );
+		$this->tmpl('translation-import', get_defined_vars());
 	}
 
 	function import_translations_post( $project_path, $locale_slug, $translation_set_slug ) {
 		$project = GP::$project->by_path( $project_path );
 		$locale = GP_Locales::by_slug( $locale_slug );
 		$translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $translation_set_slug, $locale_slug );
-		if ( !$project || !$locale || count($translation_set) != 1 ) gp_tmpl_404();
-		$translation_set = $translation_set[0];
+		if ( !$project || !$locale || !$translation_set ) gp_tmpl_404();
 		if ( $this->cannot_and_redirect( 'approve', 'translation-set', $translation_set->id ) ) return;
 
 		$format = gp_array_get( GP::$formats, gp_post( 'format', 'po' ), null );

@@ -18,7 +18,7 @@ class GP_Route_Tools extends GP_Route_Main {
 	function elgg_import() {
 		if ( !$this->_admin_gatekeeper() ) return;
 		if ( @$_POST['import']['gp_handle_settings'] == 'on' ) {
-			set_time_limit(300);
+			@set_time_limit(300);
 			$elggcoreproject = $_POST['import']['elggcoreproject'];
 			$elgg3rdproject = $_POST['import']['elgg3rdproject'];
 			$this->projects = array();
@@ -55,6 +55,7 @@ class GP_Route_Tools extends GP_Route_Main {
 			if ( !GP::$redirect_notices['error'] ) {
 				$this->base_dir = $newdir;
 				$this->_find_languages($newdir);
+
 				if ( !empty($this->projects) ) {
 					$format = GP::$formats['elgg'];
 					if ( version_compare($this->version, '1.9.0-dev') >= 0 ) {
@@ -120,7 +121,9 @@ class GP_Route_Tools extends GP_Route_Main {
 							list($originals_added, $originals_existing) = GP::$original->import_for_project($project_obj, $translations);
 							GP::$redirect_notices['notice'] .= sprintf(__("%s new originals were added, %s existing were updated for %s from %s.<br/>\n"), $originals_added, $originals_existing, $slug, $file);
 						}
-	
+
+						$ts_added = '';
+						$ts_created = '';
 						foreach ( $project['langs'] as $locale => $file ) {
 							if ( $locale != 'en' ) {
 								// Import translations
@@ -134,9 +137,17 @@ class GP_Route_Tools extends GP_Route_Main {
 									$data['project_id'] = $project_obj->id;
 									$new_ts = new GP_Translation_Set($data);
 									$ts = GP::$translation_set->create_and_select($new_ts);
-									GP::$redirect_notices['notice'] .= sprintf(__("New translation into %s was created for %s.<br/>\n"), $locale, $slug);
+									if ( $ts_created == '' ) {
+										$ts_created .= $locale;
+									} else {
+										$ts_created .= ", $locale";
+									}
 								} else {
-									GP::$redirect_notices['notice'] .= sprintf(__("Existing translation into %s was updated for %s.<br/>\n"), $locale, $slug);
+									if ( $ts_added == '' ) {
+										$ts_added .= $locale;
+									} else {
+										$ts_added .= ", $locale";
+									}
 								}
 								if ( $ts ) {
 									$ts->import($translations);
@@ -145,11 +156,12 @@ class GP_Route_Tools extends GP_Route_Main {
 								}
 							}
 						}
+						GP::$redirect_notices['notice'] .= sprintf(__("Created [%s], updated [%s] for %s.<br/>\n"), $ts_created, $ts_added, $slug);
 					}
 					$allsubprojects = GP::$project->get($this->parent_proj_id)->sub_projects();
 					foreach ( $allsubprojects as $subproject ) {
 						foreach ( $this->all_langs as $lang => $locale_obj ) {
-							if ( !($ts = GP::$translation_set->by_project_id_slug_and_locale($subproject->id, $lang, $lang)) ) {
+							if ( $lang != 'en' && !($ts = GP::$translation_set->by_project_id_slug_and_locale($subproject->id, $lang, $lang)) ) {
 								$data = array();
 								$data['name'] = $locale_obj->english_name;
 								$data['slug'] = $lang;
@@ -163,7 +175,7 @@ class GP_Route_Tools extends GP_Route_Main {
 					$allsubprojects = GP::$project->get($this->parent3rd_proj_id)->sub_projects();
 					foreach ( $allsubprojects as $subproject ) {
 						foreach ( $this->all_langs as $lang => $locale_obj ) {
-							if ( !($ts = GP::$translation_set->by_project_id_slug_and_locale($subproject->id, $lang, $lang)) ) {
+							if ( $lang != 'en' && !($ts = GP::$translation_set->by_project_id_slug_and_locale($subproject->id, $lang, $lang)) ) {
 								$data = array();
 								$data['name'] = $locale_obj->english_name;
 								$data['slug'] = $lang;
@@ -365,7 +377,7 @@ class GP_Route_Tools extends GP_Route_Main {
 			}
 			$locale_obj = GP_Locales::by_slug($lang);
 			if ( $locale_obj ) {
-				$this->all_langs[$lang] = $locale_obj;
+				if ( $lang != 'en' ) $this->all_langs[$lang] = $locale_obj;
 				if ( !$this->projects[$slug] ) {
 					$this->projects[$slug]['name'] = $name;
 					$this->projects[$slug]['desc'] = $desc;

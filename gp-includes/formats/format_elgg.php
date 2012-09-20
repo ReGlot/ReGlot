@@ -72,8 +72,8 @@ class GP_Format_Elgg extends GP_Format {
 		$entries = new Translations();
 		$in_language_array = false;
 		$comment = '';
-		$regexp1 = '/^\s*\$[a-z0-9_]+\s*=\s*array\s*\($/';
-		$regexp2 = '/^\s*return\s*array\s*\($/';
+		$regexp1 = '/^\s*\$[a-z0-9_]+\s*=\s*array\s*\($/i';
+		$regexp2 = '/^\s*return\s*array\s*\($/i';
 		foreach ( $data as $line ) {
 			if ( !$in_language_array ) {
 				// read both 1.8 and 1.9 file format
