@@ -16,6 +16,9 @@ class GP {
 	* @var GP_Translation_Bundle $translation_bundle
 	*/
 	static $translation_bundle;
+	/**
+	* @var GP_Permission $permission
+	*/
 	static $permission;
 	static $validator_permission;
 	static $translation;

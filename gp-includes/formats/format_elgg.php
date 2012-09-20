@@ -10,10 +10,6 @@ class GP_Format_Elgg extends GP_Format {
 	
 	private $exported = '';
 	
-	// version 1 is for 1.8 and below
-	// version 2 is for 1.9 and above
-	public $version = 2;
-	
 	function line($string = '', $prepend_tabs = 0) {
 		$this->exported .= str_repeat("\t", $prepend_tabs) . "$string\n";
 	}
@@ -27,15 +23,7 @@ class GP_Format_Elgg extends GP_Format {
 		$this->line(" * @subpackage Languages.{$translation_set->name}");
 		$this->line(' */');
 		$this->line();
-		switch ( $version ) {
-			case 1:
-				$this->line('$localized = array(');
-				break;
-			case 2:
-			default:
-				$this->line('return array(');
-				break;
-		}
+		$this->line('$localized = array(');
 		foreach ( $entries as $entry ) {
 			if ( !preg_match( "/^{$this->allowedCharsInKey}+$/", $entry->context ) ) {
 				error_log('Elgg PHP Export: Bad Entry: '. $entry->context);
@@ -47,15 +35,8 @@ class GP_Format_Elgg extends GP_Format {
 			$this->line('\'' . $entry->context . '\' => ' . $this->escape($entry->translations[0]) . ',', 1);
 		}
 		$this->line(');');
-		switch ( $version ) {
-			case 1:
-				$this->line();
-				$this->line("add_translation('{$locale->slug}', \$localized);");
-				break;
-			case 2:
-			default:
-				break;
-		}
+		$this->line();
+		$this->line("add_translation('{$locale->slug}', \$localized);");
 		return $this->exported;
 	}
 
@@ -91,18 +72,12 @@ class GP_Format_Elgg extends GP_Format {
 		$entries = new Translations();
 		$in_language_array = false;
 		$comment = '';
-		switch ( $this->version ) {
-			case 1:
-				$regexp = '/^\s*\$[a-z0-9_]+\s*=\s*array\s*\($/';
-				break;
-			case 2:
-			default:
-				$regexp = '/^\s*return\s*array\s*\($/';
-				break;
-		}
+		$regexp1 = '/^\s*\$[a-z0-9_]+\s*=\s*array\s*\($/';
+		$regexp2 = '/^\s*return\s*array\s*\($/';
 		foreach ( $data as $line ) {
 			if ( !$in_language_array ) {
-				if ( preg_match($regexp, trim($line)) ) {
+				// read both 1.8 and 1.9 file format
+				if ( preg_match($regexp1, trim($line)) || preg_match($regexp2, trim($line)) ) {
 					$in_language_array = true;
 				}
 				continue;

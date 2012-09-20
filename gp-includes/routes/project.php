@@ -89,7 +89,7 @@ class GP_Route_Project extends GP_Route_Main {
 		list( $originals_added, $originals_existing ) = GP::$original->import_for_project( $project, $translations );
 		$this->notices[] = sprintf(__("%s new strings were added, %s existing were updated."), $originals_added, $originals_existing );
 				
-		$this->redirect( gp_url_project( $project, 'originals' ) );
+		$this->redirect( gp_url_project( $project, '-originals' ) );
 	}
 
 	function edit_get( $project_path ) {

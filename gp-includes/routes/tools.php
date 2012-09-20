@@ -2,6 +2,7 @@
 class GP_Route_Tools extends GP_Route_Main {
 	var $version;
 	var $projects;
+	var $all_langs;
 	var $topslug;
 	var $parent_proj_id;
 	var $top3rdslug;
@@ -17,9 +18,11 @@ class GP_Route_Tools extends GP_Route_Main {
 	function elgg_import() {
 		if ( !$this->_admin_gatekeeper() ) return;
 		if ( @$_POST['import']['gp_handle_settings'] == 'on' ) {
+			set_time_limit(300);
 			$elggcoreproject = $_POST['import']['elggcoreproject'];
 			$elgg3rdproject = $_POST['import']['elgg3rdproject'];
 			$this->projects = array();
+			$this->all_langs = array();
 			$this->version = null;
 			$this->parent_proj_id = null;
 			$this->parent3rd_proj_id = null;
@@ -117,7 +120,7 @@ class GP_Route_Tools extends GP_Route_Main {
 							list($originals_added, $originals_existing) = GP::$original->import_for_project($project_obj, $translations);
 							GP::$redirect_notices['notice'] .= sprintf(__("%s new originals were added, %s existing were updated for %s from %s.<br/>\n"), $originals_added, $originals_existing, $slug, $file);
 						}
-						
+	
 						foreach ( $project['langs'] as $locale => $file ) {
 							if ( $locale != 'en' ) {
 								// Import translations
@@ -135,7 +138,39 @@ class GP_Route_Tools extends GP_Route_Main {
 								} else {
 									GP::$redirect_notices['notice'] .= sprintf(__("Existing translation into %s was updated for %s.<br/>\n"), $locale, $slug);
 								}
-								$ts->import($translations);
+								if ( $ts ) {
+									$ts->import($translations);
+								} else {
+									GP::$redirect_notices['notice'] .= sprintf(__("Could not create translation into %s for %s.<br/>\n"), $locale, $slug);
+								}
+							}
+						}
+					}
+					$allsubprojects = GP::$project->get($this->parent_proj_id)->sub_projects();
+					foreach ( $allsubprojects as $subproject ) {
+						foreach ( $this->all_langs as $lang => $locale_obj ) {
+							if ( !($ts = GP::$translation_set->by_project_id_slug_and_locale($subproject->id, $lang, $lang)) ) {
+								$data = array();
+								$data['name'] = $locale_obj->english_name;
+								$data['slug'] = $lang;
+								$data['locale'] = $lang;
+								$data['project_id'] = $subproject->id;
+								$new_ts = new GP_Translation_Set($data);
+								$ts = GP::$translation_set->create_and_select($new_ts);
+							}
+						}
+					}
+					$allsubprojects = GP::$project->get($this->parent3rd_proj_id)->sub_projects();
+					foreach ( $allsubprojects as $subproject ) {
+						foreach ( $this->all_langs as $lang => $locale_obj ) {
+							if ( !($ts = GP::$translation_set->by_project_id_slug_and_locale($subproject->id, $lang, $lang)) ) {
+								$data = array();
+								$data['name'] = $locale_obj->english_name;
+								$data['slug'] = $lang;
+								$data['locale'] = $lang;
+								$data['project_id'] = $subproject->id;
+								$new_ts = new GP_Translation_Set($data);
+								$ts = GP::$translation_set->create_and_select($new_ts);
 							}
 						}
 					}
@@ -293,8 +328,12 @@ class GP_Route_Tools extends GP_Route_Main {
         if ( !file_exists($dirname) || is_link($dirname) ) { return; }
 		$subject = str_replace($this->base_dir, '', $dirname);
 		if ( $subject[0] == '/' ) $subject = substr ($subject, 1);
-		if ( is_file($dirname) && preg_match('#^(?:(install)/|mod/([^/]*?)/)?languages/(\w\w\w?(?:-\w\w\w?)?)\.php$#', $subject, $matches) ) {
+		if ( is_file($dirname) && preg_match('#^(?:(install)/|mod/([^/]*?)/)?languages/(\w\w\w?)(?:[_-](\w\w\w?))?\.php$#', $subject, $matches) ) {
 			$lang = $matches[3];
+			if ( $matches[4] ) {
+				$lang .= '-' . $matches[4];
+			}
+			$lang = strtolower($lang);
 			if ( $matches[1] == '' && $matches[2] == '' ) {
 				$slug = 'core';
 				$name = 'Elgg Core';
@@ -307,25 +346,35 @@ class GP_Route_Tools extends GP_Route_Main {
 				$manifest_contents = null;
 			} else {
 				$slug = $matches[2];
-				$manifest_name = dirname(dirname($dirname)) . '/manifest.xml';
-				$manifest_contents = file_get_contents($manifest_name);
-				try {
-					$manifest = new SimpleXMLElement($manifest_contents);				
-				} catch ( Exception $e ) {
-					error_log("$manifest_name not valid", E_USER_ERROR);
-					return;
-				}
-				$name = $manifest->name . ' v' . $manifest->version;
-				$desc = (string)$manifest->description;
-				if ( !in_array($slug, $cores) ) {
-					$slug .= "---v$manifest->version";
-					$slug = urlencode($slug);
+				if ( !$this->projects[$slug] ) {
+					$manifest_name = dirname(dirname($dirname)) . '/manifest.xml';
+					$manifest_contents = file_get_contents($manifest_name);
+					try {
+						$manifest = new SimpleXMLElement($manifest_contents);				
+					} catch ( Exception $e ) {
+						error_log("$manifest_name not valid", E_USER_ERROR);
+						return;
+					}
+					$name = $manifest->name . ' v' . $manifest->version;
+					$desc = (string)$manifest->description;
+					if ( !in_array($slug, $cores) ) {
+						$slug .= "---v$manifest->version";
+						$slug = urlencode($slug);
+					}
 				}
 			}
-			$this->projects[$slug]['name'] = $name;
-			$this->projects[$slug]['desc'] = $desc;
-			$this->projects[$slug]['langs'][$lang] = $dirname;
-			if ( $manifest_contents ) $this->projects[$slug]['manifest'] = $manifest_contents;
+			$locale_obj = GP_Locales::by_slug($lang);
+			if ( $locale_obj ) {
+				$this->all_langs[$lang] = $locale_obj;
+				if ( !$this->projects[$slug] ) {
+					$this->projects[$slug]['name'] = $name;
+					$this->projects[$slug]['desc'] = $desc;
+					if ( $manifest_contents ) $this->projects[$slug]['manifest'] = $manifest_contents;
+				}
+				$this->projects[$slug]['langs'][$lang] = $dirname;
+			} else {
+				error_log("Do not know locale $lang in $name for file $dirname");
+			}
             return;
         } else if ( is_file($dirname) || is_link($dirname) ) {
 			return;

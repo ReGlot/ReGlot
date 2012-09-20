@@ -1277,7 +1277,7 @@ class GP_Locales {
 		$pt_br->country_code = 'br';
 		$pt_br->wp_locale = 'pt_BR';
 		$pt_br->slug = 'pt-br';
-		$pt_br->google_code = 'pt-PT';
+		$pt_br->google_code = 'pt-BR';
 		$pt_br->facebook_locale = 'pt_BR';
 		$pt_br->nplurals = 2;
 		$pt_br->plural_expression = '(n > 1)';

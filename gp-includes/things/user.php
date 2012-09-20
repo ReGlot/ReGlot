@@ -15,6 +15,11 @@ class GP_User extends GP_Thing {
 		return $this->coerce( $user );
 	}
 
+	public function delete() {
+		GP::$permission->delete_all(array('user_id' => $this->id));
+		return parent::delete();
+	}
+
 	function normalize_fields( $args ) {
 		$args = (array)$args;
 		if ( isset( $args['ID'] ) ) {
@@ -111,6 +116,37 @@ class GP_User extends GP_Thing {
 		return apply_filters( 'can_user', $verdict, $filter_args );
 	}
 
+	/**
+	 * Determines whether the user can approve items from a specific translation set
+	 * 
+	 * If the method is called statically, it uses the current session user.
+	 * 
+	 * Example: $user->can( 'read', 'translation-set', 11 );
+	 */
+	function can_approve(GP_Translation_Set $translation_set) {
+		$user = null;
+		if ( isset($this) && $this->id )
+			$user = $this;
+		elseif ( GP::$user->logged_in() )
+			$user = GP::$user->current();
+		else
+			return false;
+		if ( $user->can('approve', 'translation-set', $translation_set->id) ) {
+			return true;
+		}
+		if ( $user->can('approve', 'locale', $translation_set->locale) ) {
+			$project_id = $translation_set->project_id;
+			while ( $project_id ) {
+				if ( $user->can('approve', 'project', $project_id) ) {
+					return true;
+				}
+				$project_id = GP::$project->get($project_id)->parent_project_id;
+			}
+			return false;
+		}
+
+	}
+	
 	function get_meta( $key ) {
 		global $wp_user_auth;
 		if ( !$user = $wp_user_auth->get_user( $this->id ) ) {
