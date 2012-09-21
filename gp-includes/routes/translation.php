@@ -74,6 +74,7 @@ class GP_Route_Translation extends GP_Route_Main {
 		$can_write = $this->can('write', 'project', $project->id);
 		$can_approve = GP::$user->can_approve($translation_set);
 		$url = gp_url_project($project, gp_url_join($locale_slug, $translation_set_slug, $kind));
+		$editorUrl = gp_url_project($project, gp_url_join($locale->slug, $translation_set->slug));
 		$set_priority_url = gp_url( '/originals/%original-id%/set_priority');
 		$discard_warning_url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug, '-discard-warning' ) );
 		$set_status_url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug, '-set-status' ) );

@@ -34,8 +34,9 @@ wp_enqueue_script( 'editor' );
 wp_enqueue_script('confirm');
 wp_enqueue_script( 'translations-page' );
 // localizer adds var in front of the variable name, so we can't use $gp.editor.options
-$editor_options = compact('can_approve', 'can_write', 'url', 'discard_warning_url', 'set_priority_url', 'set_status_url');
+$editor_options = compact('can_approve', 'can_write', 'discard_warning_url', 'set_priority_url', 'set_status_url');
 $editor_options['google_translate_language'] = $locale->google_code;
+$editor_options['url'] = $editorUrl;
 wp_localize_script( 'editor', '$gp_editor_options', $editor_options );
 $parity = gp_parity_factory();
 add_action( 'gp_head', lambda( '', 'gp_preferred_sans_serif_style_tag($locale);', compact( 'locale' ) ) );
