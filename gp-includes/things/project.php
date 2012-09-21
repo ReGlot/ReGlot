@@ -187,7 +187,7 @@ class GP_Project extends GP_Thing {
 		}
 		return compact( 'added', 'removed' );
 	}
-	
+
 	function sets_by_locale($locale) {
 		$sets_table = GP::$translation_set->table;
 		return $this->many("SELECT DISTINCT p.id, p.path, p.name, %1\$s AS `locale` FROM $this->table p LEFT JOIN $sets_table s ON p.id = s.project_id WHERE s.locale = %1\$s;", $locale);

@@ -29,6 +29,7 @@ function gp_scripts_default( &$scripts ) {
 	$scripts->add( 'common', '/common.js', array( 'jquery' ), $bump );
 	$scripts->add( 'confirm', '/confirm.js', array( 'jquery' ), $bump );
 	$scripts->add( 'install', '/install.js', array( 'jquery' ), $bump );
+	$scripts->add( 'elgg_import_export', '/elgg_import_export.js', array( 'common' ), $bump );
 	$scripts->add( 'editor', '/editor.js', array( 'common', 'google-js-api' ), $bump );
 	$scripts->add( 'translations-page', '/translations-page.js', array( 'common' ), $bump );
 	$scripts->add( 'mass-create-sets-page', '/mass-create-sets-page.js', array( 'common' ), $bump );

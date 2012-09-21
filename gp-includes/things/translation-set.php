@@ -52,6 +52,10 @@ class GP_Translation_Set extends GP_Thing {
 		    WHERE project_id = %d ORDER BY name ASC", $project_id );
 	}
 
+	function locales_in_use() {
+		return $this->many_no_map("SELECT DISTINCT locale FROM $this->table");
+	}
+
 	function import( $translations ) {
 		@ini_set('memory_limit', '256M');
 		if ( !isset( $this->project ) || !$this->project ) $this->project = GP::$project->get( $this->project_id );

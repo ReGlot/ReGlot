@@ -50,7 +50,7 @@ class GP_Route_Translation extends GP_Route_Main {
 		if ( !$format ) gp_tmpl_404();
 
 		$export_locale = apply_filters( 'export_locale', $locale->slug, $locale );
-		$filename = sprintf( '%s-%s.'.$format->extension, str_replace( '/', '-', $project->path ), $export_locale );
+		$filename = sprintf( '%s-%s.'.$format->get_extension(), str_replace( '/', '-', $project->path ), $export_locale );
 		$entries = GP::$translation->for_export( $project, $translation_set, gp_get( 'filters' ) );
 		$this->headers_for_download( $filename );		
 		echo $format->print_exported_file( $project, $locale, $translation_set, $entries );

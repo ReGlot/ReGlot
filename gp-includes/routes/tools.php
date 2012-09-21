@@ -201,30 +201,26 @@ class GP_Route_Tools extends GP_Route_Main {
 	function elgg_export() {
 		$export = $_POST['export'];
 		if ( @$export['gp_handle_settings'] == 'on' ) {
-			$elggcoreproject = $export['elggcoreproject'];
-			$elgg3rdproject = $export['elgg3rdproject'];
+			$elggprojects = explode('|',$export['project_selection']);
+			// explode seems to put one element there if string is empy
+			if ( @empty($elggprojects[0]) ) $elggprojects = array();
+			$elgglocales = explode('|',$export['locale_selection']);
+			// explode seems to put one element there if string is empy
+			if ( @empty($elgglocales[0]) ) $elgglocales = array();
 			$file2download = $export['elggpath'] ? $export['elggpath'] : 'elgg-languages.zip';
 			if ( substr($file2download, -4) != '.zip' ) {
 				$file2download .= '.zip';
 			}
 			$version = $export['version'];
+			$originals = ($export['originals'] == 'on');
 
-			$coreProject = GP::$project->get($elggcoreproject);
+			$coreProject = GP::$project->by_path('elgg');
 			if ( !$coreProject ) {
 				GP::$redirect_notices['error'] = 'Core Elgg project could not be found';
 				gp_tmpl_load('tools-elgg-export', get_defined_vars());
 			}
 
-			if ( $elgg3rdproject ) {
-				$thirdProject = GP::$project->get($elgg3rdproject);
-				if ( !$thirdProject ) {
-					GP::$redirect_notices['error'] = 'Third-party Elgg project could not be found';
-					gp_tmpl_load('tools-elgg-export', get_defined_vars());
-				}
-			}
-
 			$this->format = GP::$formats['elgg'];
-			$this->format->version = $version;
 
 			// create initial directory structure
 			$newdir = $this->_tempdir();
@@ -237,13 +233,14 @@ class GP_Route_Tools extends GP_Route_Main {
 
 			// work through each subproject in elgg core
 			$subprojects = $coreProject->sub_projects();
-			foreach ( $subprojects as $subproject ) {
+			foreach ( $elggprojects as $projectid ) {
+				$subproject = GP::$project->get($projectid);
 				if ( $subproject->slug == 'core' ) {
-					$this->_export_originals($subproject, $newdir);
+					if ( $originals ) $this->_export_originals($subproject, $newdir);
 					$this->_export_languages($subproject, $newdir);
 				} else if ( $subproject->slug == 'install' ) {
-					$this->_export_originals($subproject, "$newdir/install");
-					$this->_export_languages($subproject, "$newdir/install");
+					if ( $originals ) $this->_export_originals($subproject, "$newdir/install", $elgglocales);
+					$this->_export_languages($subproject, "$newdir/install", $elgglocales);
 				} else {
 					// create initial plugin directory structure
 					$modpath = "$newdir/mod/$subproject->slug";
@@ -252,30 +249,8 @@ class GP_Route_Tools extends GP_Route_Main {
 					$manifestFile = gp_retrieve_meta($subproject->id, 'elgg_manifest', 'gp_project');
 					file_put_contents("$modpath/manifest.xml", $manifestFile);
 					// export languages
-					$this->_export_originals($subproject, $modpath);
-					$this->_export_languages($subproject, $modpath);
-				}
-			}
-
-			// if one was specified, work through each subproject in third party project
-			if ( $thirdProject ) {
-				$subprojects = $thirdProject->sub_projects();
-				foreach ( $subprojects as $subproject ) {
-					$pos = strpos($subproject->slug, '---v');
-					if ( $pos ) {
-						$slug = substr($subproject->slug, 0, pos);
-					} else {
-						$slug = $subproject->slug;
-					}
-					// create initial plugin directory structure
-					$modpath = "$newdir/mod/$slug";
-					@mkdir("$modpath/languages", 0777, true);
-					// create the manifest.xml file
-					$manifestFile = gp_retrieve_meta($subproject->id, 'elgg_manifest', 'gp_project');
-					file_put_contents("$modpath/manifest.xml", $manifestFile);
-					// export languages
-					$this->_export_originals($subproject, $modpath);
-					$this->_export_languages($subproject, $modpath);
+					if ( $originals ) $this->_export_originals($subproject, $modpath);
+					$this->_export_languages($subproject, $modpath, $elgglocales);
 				}
 			}
 
@@ -486,9 +461,10 @@ class GP_Route_Tools extends GP_Route_Main {
 		file_put_contents("$basedir/languages/en.php", $langFile);
 	}
 
-	function _export_languages($proj, $basedir) {
+	function _export_languages($proj, $basedir, $langs = array()) {
 		$sets = GP::$translation_set->by_project_id($proj->id);
 		foreach ( $sets as $set ) {
+			if ( !empty($langs) && !in_array($set->locale, $langs) ) continue;
 			$entries = GP::$translation->for_export($proj, $set);
 			$locale = GP_Locales::by_slug($set->locale);
 			$langFile = $this->format->print_exported_file($proj, $locale, $set, $entries);

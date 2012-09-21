@@ -653,3 +653,38 @@ td.user_actions {
 	text-align: center;
 	vertical-align: middle;
 }
+
+ul.selection-expanded, span.selection-expanded {
+    font-size: 80%;    
+    padding: 0.8em;
+    margin: 0 0 0.5em 0.2em;
+    background-color: #eee;
+    border-radius: 0.3em;
+    -webkit-border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+}
+ul.filters-expanded {
+	float: left;
+	display: table;
+	margin: 7px 0;
+}
+ul.filters-expanded li {
+	display: table-cell;
+	vertical-align: middle;
+}
+.languagepacks-select {
+	min-width: 185px;
+	max-width: 185px;
+	width: 185px;
+	height: 200px;
+}
+.languagepacks-buttons {
+	min-width: 150px;
+	padding: 9px;
+	vertical-align: middle;
+	text-align: center;
+}
+.languagepacks-buttons input[type=button] {
+	min-width: 132px;
+	width: 132px;
+}
