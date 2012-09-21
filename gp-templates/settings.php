@@ -1,5 +1,5 @@
 <?php
-gp_title(__('Site Settings'));
+gp_title(__('Site Settings &lt; GlotPress'));
 gp_tmpl_header();
 ?>
 <h2><?php _e('Site Settings'); ?></h2>

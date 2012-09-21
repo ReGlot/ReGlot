@@ -1,9 +1,35 @@
 <?php
 gp_title( sprintf( __( 'Translations &lt; %s &lt; %s &lt; GlotPress' ), $translation_set->name, $project->name ) );
-gp_breadcrumb( array(
-	gp_project_links_from_root( $project ),
-	gp_link_get( $url, $locale->english_name . 'default' != $translation_set->slug? $translation_set->name : '' ),
-) );
+switch ( $kind ) {
+	case 'p':
+		gp_breadcrumb( array(
+			gp_project_links_from_root( $project ),
+			gp_link_get( $url, $locale->english_name . 'default' != $translation_set->slug? $translation_set->name : '' ),
+		) );
+		break;
+	case 'b':
+		gp_breadcrumb( array(
+			gp_link_get(gp_url('by-translation/both'), __('Translations')),
+			gp_link_get(gp_url("by-translation/both/$locale_slug/$translation_set_slug"), "$locale->english_name + $translation_set_slug"),
+			$project->name
+		) );
+		break;
+	case 'l':
+		gp_breadcrumb( array(
+			gp_link_get(gp_url('by-translation/locales'), __('Translations')),
+			gp_link_get(gp_url("by-translation/locale/$locale_slug"), $locale->english_name),
+			$project->name
+		) );
+		break;
+	case 's':
+		gp_breadcrumb( array(
+			gp_link_get(gp_url('by-translation/slugs'), __('Translations')),
+			gp_link_get(gp_url("by-translation/slug/$translation_set_slug"), "Slug $translation_set_slug"),
+			$project->name
+		) );
+		break;
+	
+}
 wp_enqueue_script( 'editor' );
 wp_enqueue_script('confirm');
 wp_enqueue_script( 'translations-page' );
@@ -40,7 +66,7 @@ $i = 0;
 <?php echo gp_pagination( $page, $per_page, $total_translations_count ); ?>
 <form id="upper-filters-toolbar" class="filters-toolbar" action="" method="get" accept-charset="utf-8">
 	<div>
-	<a href="#" class="revealing filter"><?php _e('Search &darr;'); ?></a> <span class="separator">&bull;</span>
+	<a href="#" class="revealing filter"><?php _e('Filter &darr;'); ?></a> <span class="separator">&bull;</span>
 	<a href="#" class="revealing sort"><?php _e('Sort &darr;'); ?></a> <strong class="separator">&bull;</strong>
 	<?php
 	$filter_links = array();
@@ -147,7 +173,7 @@ $i = 0;
 	<div><strong><?php _e('Legend:'); ?></strong></div>
 <?php 
 	foreach( GP::$translation->get_static( 'statuses' ) as $status ):
-		if ( 'rejected' == $status ) continue;
+//		if ( 'rejected' == $status ) continue;
 ?>
 	<div class="box status-<?php echo $status; ?>"></div>
 	<div><?php echo $status; ?></div>

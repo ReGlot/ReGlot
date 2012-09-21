@@ -88,6 +88,7 @@ class GP_Router {
 			"post:/$set/-set-status" => array('GP_Route_Translation', 'set_status'),
 			"/$set/export-translations" => array('GP_Route_Translation', 'export_translations_get'),
 			// keep this below all URLs ending with a literal string, because it may catch one of them
+			"get:/$set/([lsbp])" => array('GP_Route_Translation', 'translations_get'),
 			"get:/$set" => array('GP_Route_Translation', 'translations_get'),
 			"post:/$set" => array('GP_Route_Translation', 'translations_post'),
 			// keep this one at the bottom of the project, because it will catch anything starting with project

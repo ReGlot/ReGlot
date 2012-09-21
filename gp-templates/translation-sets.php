@@ -16,7 +16,7 @@
 		<?php foreach( $translation_sets as $set ): ?>
 			<tr class="<?php echo $parity(); ?>">
 				<td>
-					<strong><?php gp_link( gp_url_project( $set->path, gp_url_join( $set->locale ? $set->locale : '~', $set->slug ? $set->slug : '~' ) ), $set->display_name ); ?></strong>
+					<strong><?php gp_link(gp_url_project($set->path, gp_url_join($set->locale ? $set->locale : '~', $set->slug ? $set->slug : '~', $suffix)), $set->display_name); ?></strong>
 					<?php if ($set->current_count >= $set->all_count ) { ?>
 						<span class="bubble morethan99">
 							Complete

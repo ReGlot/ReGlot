@@ -56,7 +56,7 @@ class GP_Route_Translation extends GP_Route_Main {
 		echo $format->print_exported_file( $project, $locale, $translation_set, $entries );
 	}
 
-	function translations_get( $project_path, $locale_slug, $translation_set_slug ) {
+	function translations_get($project_path, $locale_slug, $translation_set_slug, $kind = 'p') {
 		$project = GP::$project->by_path( $project_path );
 		$locale = GP_Locales::by_slug( $locale_slug );
 		$translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $translation_set_slug, $locale_slug );
@@ -73,7 +73,7 @@ class GP_Route_Translation extends GP_Route_Main {
 		$can_edit = GP::$user->logged_in();
 		$can_write = $this->can('write', 'project', $project->id);
 		$can_approve = GP::$user->can_approve($translation_set);
-		$url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug ) );
+		$url = gp_url_project($project, gp_url_join($locale_slug, $translation_set_slug, $kind));
 		$set_priority_url = gp_url( '/originals/%original-id%/set_priority');
 		$discard_warning_url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug, '-discard-warning' ) );
 		$set_status_url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug, '-set-status' ) );

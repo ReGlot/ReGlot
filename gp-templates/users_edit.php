@@ -1,5 +1,5 @@
 <?php
-gp_title( $user ? __('Edit User') : __('Create User') );
+gp_title(($user ? __('Edit User') : __('Create User')) . ' &lt; GlotPress');
 
 gp_tmpl_header();
 ?>

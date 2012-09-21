@@ -1,5 +1,5 @@
 <?php
-gp_title(__('User Management'));
+gp_title(__('User Management &lt; GlotPress'));
 wp_enqueue_script('confirm');
 gp_tmpl_header();
 ?>
