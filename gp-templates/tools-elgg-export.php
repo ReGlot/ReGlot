@@ -10,8 +10,9 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 
 <form action="" method="post" class="filters-toolbar" enctype="multipart/form-data">
 <input type="hidden" name="export[gp_handle_settings]" value="on">
-<input type="hidden" name="export[project_selection]" value="">
-<input type="hidden" name="export[locale_selection]" value="">
+<input type="hidden" name="export[cores_selection]" value="">
+<input type="hidden" name="export[plugins_selection]" value="">
+<input type="hidden" name="export[locales_selection]" value="">
 <dl>
 	<dt><h3><?php _e('Elgg Package Export'); ?></h3></dt>
 	<dd>
@@ -19,45 +20,67 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 			The mod folders should include the manifest.xml file, used to get data about each plugin. The core plugins are imported as subprojects into an Elgg v&lt;version&gt; project, while all other
 			plugins are imported into a top level Third Party Elgg Plugins project. The en locale is used for originals, any other locale is imported as translations.'); ?></p>
 	<div>
-	<a href="#" class="revealing projects"><?php _e('Projects &darr;'); ?></a> <span class="separator">&bull;</span>
+	<a href="#" class="revealing cores"><?php _e('Core &amp; Bundled &darr;'); ?></a> <span class="separator">&bull;</span>
+	<a href="#" class="revealing plugins"><?php _e('Extra Plugins &darr;'); ?></a> <span class="separator">&bull;</span>
 	<a href="#" class="revealing locales"><?php _e('Locales &darr;'); ?></a> <strong class="separator"></strong>
 	</div>
 
-	<div class="projects hidden clearfix">
+	<div class="cores hidden clearfix">
 			<ul class="filters-expanded selection-expanded">
-				<li><select id="select1_project" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
+				<li>Available for Export<br/><select id="select1_cores" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
 				</select>
 				</li>
 				<li><div class="languagepacks-buttons">
-<p><input type="button" id="add_project" value="Add Selected" class="elgg-button">
-</p><p><input type="button" id="add-all_project" value="Add All" class="elgg-button">
-</p><p><input type="button" id="remove-all_project" value="Remove All" class="elgg-button">
-</p><p><input type="button" id="remove_project" value="Remove Selected" class="elgg-button">
-</p></div></li><li><select id="select2_project" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
+<p><input type="button" id="add_cores" value="Add Selected" class="elgg-button">
+</p><p><input type="button" id="add-all_cores" value="Add All" class="elgg-button">
+</p><p><input type="button" id="remove-all_cores" value="Remove All" class="elgg-button">
+</p><p><input type="button" id="remove_cores" value="Remove Selected" class="elgg-button">
+</p></div></li><li>Selected for Export<br/><select id="select2_cores" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
 		<?php
-		$projects = GP::$project->by_path('elgg')->sub_projects();
+		$projects = GP::$project->by_path('elgg---v1.8.8')->sub_projects();
 		foreach ( $projects as $project ) {
 			echo "<option value=\"$project->id\">$project->name</option>\n";
-		}
-		$projects = GP::$project->by_path('elgg3rd')->sub_projects();
-		foreach ( $projects as $project ) {
-			echo "<option value=\"$project->id\">(3) $project->name</option>\n";
 		}
 		?>
 </select>
 </li></ul>		
 	</div>
-	<div class="locales hidden clearfix">
+
+	<div class="plugins hidden clearfix">
 			<ul class="filters-expanded selection-expanded">
-				<li><select id="select1_locale" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
+				<li>Available for Export<br/><select id="select1_plugins" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
 				</select>
 				</li>
 				<li><div class="languagepacks-buttons">
-<p><input type="button" id="add_locale" value="Add Selected" class="elgg-button">
-</p><p><input type="button" id="add-all_locale" value="Add All" class="elgg-button">
-</p><p><input type="button" id="remove-all_locale" value="Remove All" class="elgg-button">
-</p><p><input type="button" id="remove_locale" value="Remove Selected" class="elgg-button">
-</p></div></li><li><select id="select2_locale" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
+<p><input type="button" id="add_plugins" value="Add Selected" class="elgg-button">
+</p><p><input type="button" id="add-all_plugins" value="Add All" class="elgg-button">
+</p><p><input type="button" id="remove-all_plugins" value="Remove All" class="elgg-button">
+</p><p><input type="button" id="remove_plugins" value="Remove Selected" class="elgg-button">
+</p></div></li><li>Selected for Export<br/><select id="select2_plugins" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
+		<?php
+		$projects = GP::$project->by_path('elgg3rd')->sub_projects();
+		foreach ( $projects as $project ) {
+			echo "<option value=\"$project->id\">$project->name</option>\n";
+		}
+		?>
+</select>
+</li></ul>		
+	</div>
+
+	<div class="locales hidden clearfix">
+			<ul class="filters-expanded selection-expanded">
+				<li>Available for Export<br/><select id="select1_locales" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
+				</select>
+		<br/>
+		<input type="checkbox" name="export[empty]" value="on">
+		<label for="export[originals]"><?php _e('Create empty language files'); ?></label><br/>
+				</li>
+				<li><div class="languagepacks-buttons">
+<p><input type="button" id="add_locales" value="Add Selected" class="elgg-button">
+</p><p><input type="button" id="add-all_locales" value="Add All" class="elgg-button">
+</p><p><input type="button" id="remove-all_locales" value="Remove All" class="elgg-button">
+</p><p><input type="button" id="remove_locales" value="Remove Selected" class="elgg-button">
+</p></div></li><li>Selected for Export<br/><select id="select2_locales" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
 		<?php
 		$locales = GP::$translation_set->locales_in_use();
 		foreach ( $locales as $slug ) {
@@ -66,6 +89,9 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 		}
 		?>
 </select>
+		<br/>
+		<input type="checkbox" name="export[originals]" value="on">
+		<label for="export[originals]"><?php _e('Also export original English texts'); ?></label><br/>
 </li></ul>
 	</div>
 
@@ -73,10 +99,6 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 		<label for="export[elggpath]"><?php _e('Type the name for the file to download'); ?></label><br/>
 		<input type="text" name="export[elggpath]" id="elggpath" style="width:400px" value="<?php echo $export['elggpath']; ?>"><br/>
 		<small><?php _e('You can leave this blank and the file will be called <i>elgg-languages.zip</i>.'); ?></small>
-		</p>
-		<p>
-		<input type="checkbox" name="export[originals]" value="on">
-		<label for="export[originals]"><?php _e('Export original English texts with this language pack'); ?></label><br/>
 		</p>
 <?php
 /**

@@ -7,11 +7,7 @@ class GP_Translation_Set extends GP_Thing {
 
 	function delete() {
 		// delete all translations for this original
-		$translations = GP::$translation->find_many(array('translation_set_id' => $this->id));
-		foreach ( $translations as $translation ) {
-			/** @ToDo need to check whether delete succeded */
-			$translation->delete();
-		}
+		$translations = GP::$translation->delete_all(array('translation_set_id' => $this->id));
 		return parent::delete();
 	}
 

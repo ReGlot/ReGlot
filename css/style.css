@@ -671,6 +671,7 @@ ul.filters-expanded {
 ul.filters-expanded li {
 	display: table-cell;
 	vertical-align: middle;
+	max-width: 200px;
 }
 .languagepacks-select {
 	min-width: 185px;

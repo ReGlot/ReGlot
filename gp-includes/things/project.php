@@ -26,8 +26,8 @@ class GP_Project extends GP_Thing {
 			/** @ToDo need to check whether delete succeded */
 			$child->delete();
 		}
-		gp_delete_meta($this->id, 'elgg_version', null, 'gp_project');
-		gp_delete_meta($this->id, 'elgg_manifest', null, 'gp_project');
+		global $gpdb;
+		$gpdb->query($gpdb->prepare("DELETE FROM `$gpdb->meta` WHERE `object_type` = 'gp_project' AND `object_id` = %d", $this->id));
 		GP::$permission->delete_all(array('object_type' => 'project', 'object_id' => $this->id));
 		return parent::delete();
 	}

@@ -36,8 +36,8 @@ class GP_Route_Tools extends GP_Route_Main {
 					$zip->extractTo($newdir);
 					$zip->close();
 					unlink($file);
-					if ( $this->_check_elgg($newdir, $version, $release) ) {
-						$this->version = $release;
+					if ( $this->_check_elgg($newdir, $elgg_version, $lp_version) ) {
+						$this->version = $elgg_version;
 					} else {
 						GP::$redirect_notices['error'] = 'Could not find an Elgg install in the ZIP file you specified';
 					}
@@ -46,8 +46,8 @@ class GP_Route_Tools extends GP_Route_Main {
 				}
 			} else if ( @$_POST['import']['elggtype'] == 'dir' ) {
 				$newdir = @$_POST['import']['elggpath'];
-				if ( $this->_check_elgg($newdir, $version, $release) ) {
-					$this->version = $release;
+				if ( $this->_check_elgg($newdir, $elgg_version, $lp_version) ) {
+					$this->version = $elgg_version;
 				} else {
 					GP::$redirect_notices['error'] = 'Could not find an Elgg install in the folder you specified';
 				}
@@ -58,11 +58,6 @@ class GP_Route_Tools extends GP_Route_Main {
 
 				if ( !empty($this->projects) ) {
 					$format = GP::$formats['elgg'];
-					if ( version_compare($this->version, '1.9.0-dev') >= 0 ) {
-						$format->version = 2;
-					} else {
-						$format->version = 1;
-					}
 					// create 3rd party first, so id of project is not there for _create_project method
 					if ( $elgg3rdproject ) {
 						if ( ($top3rdproj = GP::$project->get($elgg3rdproject)) ) {
@@ -89,11 +84,11 @@ class GP_Route_Tools extends GP_Route_Main {
 					} else {
 						$name = 'Elgg v' . $this->version;
 						$desc = 'Social networking engine, delivering the building blocks that enable businesses, schools, universities and associations to create their own fully-featured social networks and applications';
-						$this->topslug = 'elgg';
+						$this->topslug = 'elgg---v' . $this->version;
 						$this->parent_proj_id = $this->_create_project($name, $this->topslug, $desc)->id;
 					}
 					if ( $this->parent_proj_id ) {
-						gp_update_meta($this->parent_proj_id, 'elgg_version', file_get_contents("$newdir/version.php"), 'gp_project');
+						gp_update_meta($this->parent_proj_id, 'elgg_version', $this->version, 'gp_project');
 					}
 					$cores = $this->core_plugins($this->version);
 					foreach ( $this->projects as $slug => $project ) {
@@ -102,17 +97,17 @@ class GP_Route_Tools extends GP_Route_Main {
 							if ( !($project_obj = GP::$project->by_path("$this->topslug/$slug")) ) {
 								$project_obj = $this->_create_project($project['name'], $slug, $project['desc']);
 							}
-							if ( $project['manifest'] ) {
-								gp_update_meta($project_obj->id, 'elgg_manifest', $project['manifest'], 'gp_project');
-							} else {
-								gp_delete_meta($project_obj->id, 'elgg_manifest', null, 'gp_project');
-							}
 						} else {
 							// Third party plugins
+							$slug = $project['meta']['project_slug'];
 							if ( !($project_obj = GP::$project->by_path("$this->top3rdslug/$slug")) ) {
 								$project_obj = $this->_create_project3rd($project['name'], $slug, $project['desc']);
 							}
 						}
+						gp_update_meta($project_obj->id, 'elgg_plugin_version', $project['meta']['version'], 'gp_project');
+						gp_update_meta($project_obj->id, 'elgg_plugin_name', $project['meta']['name'], 'gp_project');
+						gp_update_meta($project_obj->id, 'elgg_plugin_description', $project['meta']['description'], 'gp_project');
+						gp_update_meta($project_obj->id, 'elgg_plugin_unique', $project['meta']['unique'], 'gp_project');
 						// First, import originals, as they must be there when importing translations
 						$file = $project['langs']['en'];
 						if ( $file ) {
@@ -201,57 +196,86 @@ class GP_Route_Tools extends GP_Route_Main {
 	function elgg_export() {
 		$export = $_POST['export'];
 		if ( @$export['gp_handle_settings'] == 'on' ) {
-			$elggprojects = explode('|',$export['project_selection']);
-			// explode seems to put one element there if string is empy
-			if ( @empty($elggprojects[0]) ) $elggprojects = array();
-			$elgglocales = explode('|',$export['locale_selection']);
-			// explode seems to put one element there if string is empy
-			if ( @empty($elgglocales[0]) ) $elgglocales = array();
+
+			// get the selection of projects and locales
+			$elgg_cores = explode('|', $export['cores_selection']);
+			$elgg_plugins = explode('|', $export['plugins_selection']);
+			$elgg_locales = explode('|', $export['locales_selection']);
+
+			// explode seems to put one element there if string is empty
+			if ( @empty($elgg_cores[0]) ) $elgg_cores = array();
+			if ( @empty($elgg_plugins[0]) ) $elgg_plugins = array();
+			if ( @empty($elgg_locales[0]) ) $elgg_locales = array();
+
+			// work out the name of the file to send to the browser as content-disposition
 			$file2download = $export['elggpath'] ? $export['elggpath'] : 'elgg-languages.zip';
 			if ( substr($file2download, -4) != '.zip' ) {
 				$file2download .= '.zip';
 			}
-			$version = $export['version'];
+
+			// version not needed at the moment
+			// $version = $export['version'];
+
+			// are original English texts to be included in language pack?
 			$originals = ($export['originals'] == 'on');
 
-			$coreProject = GP::$project->by_path('elgg');
+			// should empty translation files to created in language pack?
+			$export_empty = ($export['empty'] == 'on');
+
+			// let's get information about the core project (use camelCase for object variables)
+			$coreProject = GP::$project->by_path('elgg---v1.8.8');
 			if ( !$coreProject ) {
 				GP::$redirect_notices['error'] = 'Core Elgg project could not be found';
 				gp_tmpl_load('tools-elgg-export', get_defined_vars());
+				exit;
 			}
 
+			// get the Elgg formatting object for exporting language files
 			$this->format = GP::$formats['elgg'];
 
-			// create initial directory structure
+			// create the initial directory structure for the language pack
 			$newdir = $this->_tempdir();
 			@mkdir("$newdir/languages", 0777, true);
 			@mkdir("$newdir/install/languages", 0777, true);
 			@mkdir("$newdir/mod", 0777, true);
-			// create the version.php file
-			$versionFile = gp_retrieve_meta($elggcoreproject, 'elgg_version', 'gp_project');
-			file_put_contents("$newdir/version.php", $versionFile);
+
+			// create the languagepack.meta file
+			$meta = array();
+			$meta['elgg_version'] = gp_retrieve_meta($coreProject->id, 'elgg_version', 'gp_project');
+			$meta['languagepack_version'] = '1.0';
+			file_put_contents("$newdir/languagepack.meta", json_encode($meta));
 
 			// work through each subproject in elgg core
-			$subprojects = $coreProject->sub_projects();
-			foreach ( $elggprojects as $projectid ) {
-				$subproject = GP::$project->get($projectid);
-				if ( $subproject->slug == 'core' ) {
-					if ( $originals ) $this->_export_originals($subproject, $newdir);
-					$this->_export_languages($subproject, $newdir);
-				} else if ( $subproject->slug == 'install' ) {
-					if ( $originals ) $this->_export_originals($subproject, "$newdir/install", $elgglocales);
-					$this->_export_languages($subproject, "$newdir/install", $elgglocales);
-				} else {
-					// create initial plugin directory structure
-					$modpath = "$newdir/mod/$subproject->slug";
-					@mkdir("$modpath/languages", 0777, true);
-					// create the manifest.xml file
-					$manifestFile = gp_retrieve_meta($subproject->id, 'elgg_manifest', 'gp_project');
-					file_put_contents("$modpath/manifest.xml", $manifestFile);
-					// export languages
-					if ( $originals ) $this->_export_originals($subproject, $modpath);
-					$this->_export_languages($subproject, $modpath, $elgglocales);
+			$all_projects = array_merge($elgg_cores, $elgg_plugins);
+			foreach ( $all_projects as $projectid ) {
+				// create the project object
+				$subProject = GP::$project->get($projectid);
+				// if not found, log error and continue
+				if ( !$subProject ) {
+					error_log("ElggExport: Could not open Elgg subproject $projectid in export loop");
 				}
+				// get the metadata for the project
+				$meta = array();
+				$meta['version'] = gp_retrieve_meta($subProject->id, 'elgg_plugin_version', 'gp_project');
+				$meta['name'] = gp_retrieve_meta($subProject->id, 'elgg_plugin_name', 'gp_project');
+				$meta['description'] = gp_retrieve_meta($subProject->id, 'elgg_plugin_description', 'gp_project');
+				$meta['unique'] = gp_retrieve_meta($subProject->id, 'elgg_plugin_unique', 'gp_project');
+				if ( $meta['unique'] == 'core' ) {
+					// this is the core Elgg language file
+					$modpath = $newdir;
+				} else if ( $meta['unique'] == 'install' ) {
+					// this is the Elgg installation language file
+					$modpath = "$newdir/install";
+				} else {
+					// create the initial plugin directory structure
+					$modpath = "$newdir/mod/$meta[unique]";
+					@mkdir("$modpath/languages", 0777, true);
+				}
+				// export language files
+				if ( $originals ) $this->_export_originals($subProject, $modpath);
+				$this->_export_languages($subProject, $modpath, $elgg_locales, $export_empty);
+				// create the languagemod.meta file
+				file_put_contents("$modpath/languages/languagemod.meta", json_encode($meta));
 			}
 
 			$zipfile = tempnam(sys_get_temp_dir(), 'zip');
@@ -295,12 +319,14 @@ class GP_Route_Tools extends GP_Route_Main {
 		return $project;
 	}
 
-	function _check_elgg($dir, &$version, &$release) {
+	function _check_elgg($dir, &$elgg_version, &$languagepack_version) {
 		if ( file_exists("$dir/install") && is_dir("$dir/install") &&
 		  file_exists("$dir/languages") && is_dir("$dir/languages") &&
 		  file_exists("$dir/mod") && is_dir("$dir/mod") &&
-		  file_exists("$dir/version.php") && is_file("$dir/version.php") ) {
-			include "$dir/version.php";
+		  file_exists("$dir/languagepack.meta") && is_file("$dir/languagepack.meta") ) {
+			$meta = json_decode(file_get_contents("$dir/languagepack.meta"), true);
+			$elgg_version = $meta['elgg_version'];
+			$languagepack_version = $meta['languagepack_version'];
 			return true;
 		}
 		return false;
@@ -321,32 +347,35 @@ class GP_Route_Tools extends GP_Route_Main {
 				$lang .= '-' . $matches[4];
 			}
 			$lang = strtolower($lang);
-			if ( $matches[1] == '' && $matches[2] == '' ) {
-				$slug = 'core';
-				$name = 'Elgg Core';
-				$desc = 'The core elements of the social networking engine';
-				$manifest_contents = null;
-			} else if ( $matches[2] == '' ) {
-				$slug = $matches[1];
-				$name = 'Elgg Install';
-				$desc = 'Install wizard for setting up and configuring a new Elgg instance, or upgrading an existing one';
-				$manifest_contents = null;
+			if ( $matches[2] == '' ) {
+				if ( $matches[1] == '' ) {
+					$slug = 'core';
+					$name = 'Elgg Core';
+					$desc = 'The core elements of the social networking engine';
+				} else {
+					$slug = $matches[1];
+					$name = 'Elgg Install';
+					$desc = 'Install wizard for setting up and configuring a new Elgg instance, or upgrading an existing one';
+				}
+				if ( !$this->projects[$slug] ) {
+					$meta = array(
+						'version' => $this->version,
+						'description' => $desc,
+						'name' => $name,
+					);
+				}
 			} else {
 				$slug = $matches[2];
+				$meta = null;
 				if ( !$this->projects[$slug] ) {
-					$manifest_name = dirname(dirname($dirname)) . '/manifest.xml';
-					$manifest_contents = file_get_contents($manifest_name);
-					try {
-						$manifest = new SimpleXMLElement($manifest_contents);				
-					} catch ( Exception $e ) {
-						error_log("$manifest_name not valid", E_USER_ERROR);
-						return;
-					}
-					$name = $manifest->name . ' v' . $manifest->version;
-					$desc = (string)$manifest->description;
+					$meta_name = dirname($dirname) . '/languagemod.meta';
+					$meta_contents = file_get_contents($meta_name);
+					$meta = json_decode($meta_contents, true);
+					$name = $meta['name'] . ' v' . $meta['version'];
+					$desc = (string)$meta['description'];
 					if ( !in_array($slug, $cores) ) {
-						$slug .= "---v$manifest->version";
-						$slug = urlencode($slug);
+						$projslug = "$slug---v$meta[version]";
+						$projslug = urlencode($projslug);
 					}
 				}
 			}
@@ -356,7 +385,13 @@ class GP_Route_Tools extends GP_Route_Main {
 				if ( !$this->projects[$slug] ) {
 					$this->projects[$slug]['name'] = $name;
 					$this->projects[$slug]['desc'] = $desc;
-					if ( $manifest_contents ) $this->projects[$slug]['manifest'] = $manifest_contents;
+					if ( $meta ) {
+						$this->projects[$slug]['meta']['version'] = $meta['version'];
+						$this->projects[$slug]['meta']['description'] = $meta['description'];
+						$this->projects[$slug]['meta']['name'] = $meta['name'];
+						$this->projects[$slug]['meta']['unique'] = $slug;
+						$this->projects[$slug]['meta']['project_slug'] = $projslug;
+					}
 				}
 				$this->projects[$slug]['langs'][$lang] = $dirname;
 			} else {
@@ -461,14 +496,16 @@ class GP_Route_Tools extends GP_Route_Main {
 		file_put_contents("$basedir/languages/en.php", $langFile);
 	}
 
-	function _export_languages($proj, $basedir, $langs = array()) {
+	function _export_languages($proj, $basedir, $langs = array(), $export_empty = false) {
 		$sets = GP::$translation_set->by_project_id($proj->id);
 		foreach ( $sets as $set ) {
 			if ( !empty($langs) && !in_array($set->locale, $langs) ) continue;
-			$entries = GP::$translation->for_export($proj, $set);
-			$locale = GP_Locales::by_slug($set->locale);
-			$langFile = $this->format->print_exported_file($proj, $locale, $set, $entries);
-			file_put_contents("$basedir/languages/$locale->slug.php", $langFile);
+			if ( $export_empty || $set->current_count() > 0 ) {
+				$entries = GP::$translation->for_export($proj, $set);
+				$locale = GP_Locales::by_slug($set->locale);
+				$langFile = $this->format->print_exported_file($proj, $locale, $set, $entries);
+				file_put_contents("$basedir/languages/$locale->slug.php", $langFile);
+			}
 		}
 	}
 

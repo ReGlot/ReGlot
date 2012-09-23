@@ -10,11 +10,7 @@ class GP_Original extends GP_Thing {
 
 	function delete() {
 		// delete all translations for this original
-		$translations = GP::$translation->find_many(array('original_id' => $this->id));
-		foreach ( $translations as $translation ) {
-			/** @ToDo need to check whether delete succeded */
-			$translation->delete();
-		}
+		GP::$translation->delete_all(array('original_id' => $this->id));
 		return parent::delete();
 	}
 
