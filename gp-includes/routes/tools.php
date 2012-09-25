@@ -1,252 +1,172 @@
 <?php
+
+require_once(GP_PATH . GP_INC . 'elgg_language_packs/elgg_language_packs.php');
+
 class GP_Route_Tools extends GP_Route_Main {
-	var $version;
-	var $projects;
-	var $all_langs;
-	var $topslug;
-	var $parent_proj_id;
-	var $top3rdslug;
-	var $parent3rd_proj_id;
-	var $core_plugins;
-	var $base_dir;
-	var $format;
+	private $coreProject;
+	private $pluginProject;
+	private $currentModProject;
+	private $format;
+	private $originals_added = 0;
+	private $originals_updated = 0;
+	private $translations_added = array();
+	private $import_errors = array();
 
 	function index() {
 		gp_tmpl_load('tools', get_defined_vars());
 	}
 
 	function elgg_import() {
+		// only admin can do this
+		$this->admin_or_forbidden();
+		// you need to be an admin for this
 		if ( !$this->_admin_gatekeeper() ) return;
+		// if it's a POST we need to import stuff
 		if ( @$_POST['import']['gp_handle_settings'] == 'on' ) {
-			@set_time_limit(300);
-			$elggcoreproject = $_POST['import']['elggcoreproject'];
-			$elgg3rdproject = $_POST['import']['elgg3rdproject'];
-			$this->projects = array();
-			$this->all_langs = array();
-			$this->version = null;
-			$this->parent_proj_id = null;
-			$this->parent3rd_proj_id = null;
-			if ( @$_POST['import']['elggtype'] == 'zip' ) {
-				$file = $_FILES['elggfile']['tmp_name'];
-				$zip = new ZipArchive;
-				$res = $zip->open($file);
-				if ( $res === true ) {
-					$newdir = sys_get_temp_dir() . '/' . basename($file) . '_zzz';
-					@mkdir($newdir);
-					$zip->extractTo($newdir);
-					$zip->close();
-					unlink($file);
-					if ( $this->_check_elgg($newdir, $elgg_version, $lp_version) ) {
-						$this->version = $elgg_version;
-					} else {
-						GP::$redirect_notices['error'] = 'Could not find an Elgg install in the ZIP file you specified';
-					}
-				} else {
-					GP::$redirect_notices['error'] = 'Could not open the ZIP file you specified';
-				}
-			} else if ( @$_POST['import']['elggtype'] == 'dir' ) {
-				$newdir = @$_POST['import']['elggpath'];
-				if ( $this->_check_elgg($newdir, $elgg_version, $lp_version) ) {
-					$this->version = $elgg_version;
-				} else {
-					GP::$redirect_notices['error'] = 'Could not find an Elgg install in the folder you specified';
-				}
+			// the uploaded file to import
+			$file2upload = $_FILES['upload']['tmp_name'];
+			if ( !$file2upload ) {
+				register_error(elgg_echo('languagepacks:error:upload'));
+				$this->elgglp_error_and_import_form(__('No file to import'));
+				return;
 			}
-			if ( !GP::$redirect_notices['error'] ) {
-				$this->base_dir = $newdir;
-				$this->_find_languages($newdir);
-
-				if ( !empty($this->projects) ) {
-					$format = GP::$formats['elgg'];
-					// create 3rd party first, so id of project is not there for _create_project method
-					if ( $elgg3rdproject ) {
-						if ( ($top3rdproj = GP::$project->get($elgg3rdproject)) ) {
-							$this->parent3rd_proj_id = $top3rdproj->id;
-							$this->top3rdslug = $top3rdproj->slug;
-						} else {
-							GP::$redirect_notices['error'] = 'Could not find the project to import into';
-							$this->projects = array();
-						}
-					} else {
-						$name = 'Third Party Plugins for Elgg';
-						$desc = 'Plugins extend your Elgg site by adding additional functionality, languages and themes. They are contributed by members of the Elgg community.';
-						$this->top3rdslug = 'elgg3rd';
-						$this->parent3rd_proj_id = $this->_create_project($name, $this->top3rdslug, $desc)->id;
-					}
-					if ( $elggcoreproject ) {
-						if ( ($topcoreproj = GP::$project->get($elggcoreproject)) ) {
-							$this->parent_proj_id = $topcoreproj->id;
-							$this->topslug = $topcoreproj->slug;
-						} else {
-							GP::$redirect_notices['error'] = 'Could not find the project to import into';
-							$this->projects = array();
-						}
-					} else {
-						$name = 'Elgg v' . $this->version;
-						$desc = 'Social networking engine, delivering the building blocks that enable businesses, schools, universities and associations to create their own fully-featured social networks and applications';
-						$this->topslug = 'elgg---v' . $this->version;
-						$this->parent_proj_id = $this->_create_project($name, $this->topslug, $desc)->id;
-					}
-					if ( $this->parent_proj_id ) {
-						gp_update_meta($this->parent_proj_id, 'elgg_version', $this->version, 'gp_project');
-					}
-					$cores = $this->core_plugins($this->version);
-					foreach ( $this->projects as $slug => $project ) {
-						if ( in_array($slug, $cores) ) {
-							// Core Plugins
-							if ( !($project_obj = GP::$project->by_path("$this->topslug/$slug")) ) {
-								$project_obj = $this->_create_project($project['name'], $slug, $project['desc']);
-							}
-						} else {
-							// Third party plugins
-							$slug = $project['meta']['project_slug'];
-							if ( !($project_obj = GP::$project->by_path("$this->top3rdslug/$slug")) ) {
-								$project_obj = $this->_create_project3rd($project['name'], $slug, $project['desc']);
-							}
-						}
-						gp_update_meta($project_obj->id, 'elgg_plugin_version', $project['meta']['version'], 'gp_project');
-						gp_update_meta($project_obj->id, 'elgg_plugin_name', $project['meta']['name'], 'gp_project');
-						gp_update_meta($project_obj->id, 'elgg_plugin_description', $project['meta']['description'], 'gp_project');
-						gp_update_meta($project_obj->id, 'elgg_plugin_unique', $project['meta']['unique'], 'gp_project');
-						// First, import originals, as they must be there when importing translations
-						$file = $project['langs']['en'];
-						if ( $file ) {
-							// Import originals
-							$translations = $format->read_originals_from_file($file);
-							list($originals_added, $originals_existing) = GP::$original->import_for_project($project_obj, $translations);
-							GP::$redirect_notices['notice'] .= sprintf(__("%s new originals were added, %s existing were updated for %s from %s.<br/>\n"), $originals_added, $originals_existing, $slug, $file);
-						}
-
-						$ts_added = '';
-						$ts_created = '';
-						foreach ( $project['langs'] as $locale => $file ) {
-							if ( $locale != 'en' ) {
-								// Import translations
-								$translations = $format->read_translations_from_file($file, $project_obj);
-								if ( !($ts = GP::$translation_set->by_project_id_slug_and_locale($project_obj->id, $locale, $locale)) ) {
-									$locale_obj = GP_Locales::by_slug($locale);
+			// open the Zip file
+			$zip = new ZipArchive;
+			$res = $zip->open($file2upload);
+			if ( $res === true ) {
+				// extract the Zip file to a temporary folder
+				$newdir = elgglp_tempdir();
+				@mkdir($newdir);
+				$zip->extractTo($newdir);
+				$zip->close();
+				// delete original file
+				unlink($file2upload);
+				unset($file2upload);
+				unset($zip);
+				// the languages to import
+	//			$langstring = get_input('locales-selection');
+				if ( $langstring ) {
+					$filters['langs'] = explode('|', $langstring);
+				} else {
+					$filters['langs'] = null;
+				}
+				unset($langstring);
+				// the plugins/projects to import
+	//			$projstring = get_input('plugins-selection');
+				if ( $projstring ) {
+					$filters['projs'] = explode('|', $projstring);
+				} else {
+					$filters['projs'] = null;
+				}
+				unset($projstring);
+				// overwrite existing translations (checkbox semantics are reversed)
+				$filters['overwrite'] = @$_POST['import']['overwrite'] != 'on';
+				// ignore English originals (checkbox semantics are reversed)
+				$filters['ignore_en'] = @$_POST['import']['originals'] != 'on';
+				// we need a meta file for each language mod
+				$filters['needs_meta'] = true;
+				// the project for Elgg core and bundled plugins to import into (if empty, one is created)
+				$filters['coreproject'] = $_POST['import']['core_project'];
+				// the project for third party plugins to import into (if empty, one is created)
+				$filters['pluginproject'] = $_POST['import']['plugin_project'];
+				// the versions we support
+				$filters['elgg_release'] = array_keys(elgglp_core_plugins());
+				// the method that will handle each language mod found
+				$callback = array($this, 'elgglp_import_languagemod');
+				// get the format object used to import language files
+				$this->format = GP::$formats['elgg'];
+				// main import switch
+				switch ( elgglp_recurse_language_pack($newdir, $filters, $callback) ) {
+					case ELGGLP_ERR_STRUCTURE:
+						$this->elgglp_error_and_import_form(__('Could not find an Elgg language pack in the ZIP file you specified'));
+					case ELGGLP_ERR_VERSION:
+						$this->elgglp_error_and_import_form(__('The version of your language pack is not supported by this plugin'));
+					case ELGGLP_OK:
+						elgglp_deltree($newdir);
+						$all_langs = array_keys($this->translations_added);
+						$allsubprojects1 = $this->coreProject->sub_projects();
+						$allsubprojects2 = $this->pluginProject->sub_projects();
+						$allsubprojects = array_merge($allsubprojects1, $allsubprojects2);
+						unset($allsubprojects1);
+						unset($allsubprojects2);
+						foreach ( $allsubprojects as $subproject ) {
+							foreach ( $all_langs as $lang ) {
+								if ( $lang != 'en' && !($ts = GP::$translation_set->by_project_id_slug_and_locale($subproject->id, $lang, $lang)) ) {
+									$locale_obj = GP_Locales::by_slug($lang);
 									$data = array();
 									$data['name'] = $locale_obj->english_name;
-									$data['slug'] = $locale;
-									$data['locale'] = $locale;
-									$data['project_id'] = $project_obj->id;
+									$data['slug'] = $lang;
+									$data['locale'] = $lang;
+									$data['project_id'] = $subproject->id;
 									$new_ts = new GP_Translation_Set($data);
-									$ts = GP::$translation_set->create_and_select($new_ts);
-									if ( $ts_created == '' ) {
-										$ts_created .= $locale;
-									} else {
-										$ts_created .= ", $locale";
-									}
-								} else {
-									if ( $ts_added == '' ) {
-										$ts_added .= $locale;
-									} else {
-										$ts_added .= ", $locale";
-									}
-								}
-								if ( $ts ) {
-									$ts->import($translations);
-								} else {
-									GP::$redirect_notices['notice'] .= sprintf(__("Could not create translation into %s for %s.<br/>\n"), $locale, $slug);
+									GP::$translation_set->create($new_ts);
 								}
 							}
 						}
-						GP::$redirect_notices['notice'] .= sprintf(__("Created [%s], updated [%s] for %s.<br/>\n"), $ts_created, $ts_added, $slug);
-					}
-					$allsubprojects = GP::$project->get($this->parent_proj_id)->sub_projects();
-					foreach ( $allsubprojects as $subproject ) {
-						foreach ( $this->all_langs as $lang => $locale_obj ) {
-							if ( $lang != 'en' && !($ts = GP::$translation_set->by_project_id_slug_and_locale($subproject->id, $lang, $lang)) ) {
-								$data = array();
-								$data['name'] = $locale_obj->english_name;
-								$data['slug'] = $lang;
-								$data['locale'] = $lang;
-								$data['project_id'] = $subproject->id;
-								$new_ts = new GP_Translation_Set($data);
-								$ts = GP::$translation_set->create_and_select($new_ts);
-							}
+						$message = sprintf(__('Import completed successfully with %d new and %d updated originals<br/>'), $this->originals_added, $this->originals_updated);
+						foreach ( $this->translations_added as $lang => $added ) {
+							$message .= sprintf(__('Added %d entries to [%s] translations<br/>'), $added, $lang);
 						}
-					}
-					$allsubprojects = GP::$project->get($this->parent3rd_proj_id)->sub_projects();
-					foreach ( $allsubprojects as $subproject ) {
-						foreach ( $this->all_langs as $lang => $locale_obj ) {
-							if ( $lang != 'en' && !($ts = GP::$translation_set->by_project_id_slug_and_locale($subproject->id, $lang, $lang)) ) {
-								$data = array();
-								$data['name'] = $locale_obj->english_name;
-								$data['slug'] = $lang;
-								$data['locale'] = $lang;
-								$data['project_id'] = $subproject->id;
-								$new_ts = new GP_Translation_Set($data);
-								$ts = GP::$translation_set->create_and_select($new_ts);
-							}
-						}
-					}
-//					if ( !GP::$redirect_notices['error'] ) {
-//						GP::$redirect_notices['notice'] .= 'File ' . $file . ' successfully imported to ' . sys_get_temp_dir();
-//					}
-				} else {
-					GP::$redirect_notices['notice'] = 'Could not find any translations in your package';
+						foreach ( $this->import_errors as $error ) {
+							$message .= "\n$error<br/>";
+						}						
+						$this->elgglp_success_and_form($message);
+						return;
 				}
+			} else {
+				$this->elgglp_error_and_import_form(__('Could not open the ZIP file you specified'));
+				return;
 			}
 		}
-		if ( @$_POST['import']['elggtype'] == 'zip' ) self::deltree($newdir);
 		gp_tmpl_load('tools-elgg-import', get_defined_vars());
 	}
 
 	function elgg_export() {
-		$export = $_POST['export'];
-		if ( @$export['gp_handle_settings'] == 'on' ) {
-
+		// anyone can export Elgg language packs
+		//$this->logged_in_or_forbidden();
+		// if it's a POST we need to export stuff
+		if ( @$_POST['export']['gp_handle_settings'] == 'on' ) {
 			// get the selection of projects and locales
-			$elgg_cores = explode('|', $export['cores_selection']);
-			$elgg_plugins = explode('|', $export['plugins_selection']);
-			$elgg_locales = explode('|', $export['locales_selection']);
-
+			$elgg_cores = explode('|', @$_POST['export']['cores_selection']);
+			$elgg_plugins = explode('|', @$_POST['export']['plugins_selection']);
+			$elgg_locales = explode('|', @$_POST['export']['locales_selection']);
 			// explode seems to put one element there if string is empty
 			if ( @empty($elgg_cores[0]) ) $elgg_cores = array();
 			if ( @empty($elgg_plugins[0]) ) $elgg_plugins = array();
 			if ( @empty($elgg_locales[0]) ) $elgg_locales = array();
-
 			// work out the name of the file to send to the browser as content-disposition
 			$file2download = $export['elggpath'] ? $export['elggpath'] : 'elgg-languages.zip';
 			if ( substr($file2download, -4) != '.zip' ) {
 				$file2download .= '.zip';
 			}
-
-			// version not needed at the moment
-			// $version = $export['version'];
-
 			// are original English texts to be included in language pack?
 			$originals = ($export['originals'] == 'on');
-
 			// should empty translation files to created in language pack?
 			$export_empty = ($export['empty'] == 'on');
-
 			// let's get information about the core project (use camelCase for object variables)
-			$coreProject = GP::$project->by_path('elgg---v1.8.8');
+			$coreProject = GP::$project->by_slug('elgg');
 			if ( !$coreProject ) {
-				GP::$redirect_notices['error'] = 'Core Elgg project could not be found';
-				gp_tmpl_load('tools-elgg-export', get_defined_vars());
-				exit;
+				$this->elgglp_error_and_export_form(__('Core Elgg project could not be found'));
+				return;
 			}
-
+			$filters['elgg_release'] = gp_retrieve_meta($coreProject->id, 'elgg_version', 'gp_project');
+			unset($coreProject);
 			// get the Elgg formatting object for exporting language files
 			$this->format = GP::$formats['elgg'];
-
 			// create the initial directory structure for the language pack
-			$newdir = $this->_tempdir();
+			$newdir = elgglp_tempdir();
 			@mkdir("$newdir/languages", 0777, true);
 			@mkdir("$newdir/install/languages", 0777, true);
 			@mkdir("$newdir/mod", 0777, true);
-
-			// create the languagepack.meta file
-			$meta = array();
-			$meta['elgg_version'] = gp_retrieve_meta($coreProject->id, 'elgg_version', 'gp_project');
-			$meta['languagepack_version'] = '1.0';
-			file_put_contents("$newdir/languagepack.meta", json_encode($meta));
+			$filters['dst_dir'] = $newdir;
+			unset($newdir);
+			// this adds the plugin version automatically and the Elgg version from $filters['elgg_release']
+			elgglp_create_languagepack_meta(null, $filters);
 
 			// work through each subproject in elgg core
 			$all_projects = array_merge($elgg_cores, $elgg_plugins);
+			unset($elgg_cores);
+			unset($elgg_plugins);
 			foreach ( $all_projects as $projectid ) {
 				// create the project object
 				$subProject = GP::$project->get($projectid);
@@ -260,27 +180,25 @@ class GP_Route_Tools extends GP_Route_Main {
 				$meta['name'] = gp_retrieve_meta($subProject->id, 'elgg_plugin_name', 'gp_project');
 				$meta['description'] = gp_retrieve_meta($subProject->id, 'elgg_plugin_description', 'gp_project');
 				$meta['unique'] = gp_retrieve_meta($subProject->id, 'elgg_plugin_unique', 'gp_project');
-				if ( $meta['unique'] == 'core' ) {
-					// this is the core Elgg language file
-					$modpath = $newdir;
-				} else if ( $meta['unique'] == 'install' ) {
-					// this is the Elgg installation language file
-					$modpath = "$newdir/install";
-				} else {
-					// create the initial plugin directory structure
-					$modpath = "$newdir/mod/$meta[unique]";
-					@mkdir("$modpath/languages", 0777, true);
+				// work out the destination folder
+				$dstdir = $filters['dst_dir'];
+				if ( $meta['unique'] == 'install' ) {
+					$dstdir = "$dstdir/install";
+				} else if ( $meta['unique'] != 'core' ) {
+					$dstdir = "$dstdir/mod/$meta[unique]";
 				}
+				// create directory if necessary
+				@mkdir("$dstdir/languages", 0777, true);
 				// export language files
-				if ( $originals ) $this->_export_originals($subProject, $modpath);
-				$this->_export_languages($subProject, $modpath, $elgg_locales, $export_empty);
+				if ( $originals ) $this->elgglp_export_originals($subProject, $dstdir);
+				$this->elgglp_export_languages($subProject, $dstdir, $elgg_locales, $export_empty);
 				// create the languagemod.meta file
-				file_put_contents("$modpath/languages/languagemod.meta", json_encode($meta));
+				elgglp_create_languagemod_meta($meta, $filters);
 			}
 
-			$zipfile = tempnam(sys_get_temp_dir(), 'zip');
-			$this->_zip_folder($newdir, $zipfile);
-			self::deltree($newdir);
+			$zipfile = tempnam(sys_get_temp_dir(), 'elgglpzip');
+			elgglp_zip_folder($filters['dst_dir'], $zipfile);
+			elgglp_deltree($filters['dst_dir']);
 			$this->headers_for_download($file2download);
 			readfile($zipfile);
 			unlink($zipfile);
@@ -289,196 +207,33 @@ class GP_Route_Tools extends GP_Route_Main {
 		gp_tmpl_load('tools-elgg-export', get_defined_vars());
 	}
 
-	function _create_project($name, $slug, $desc) {
+	function elgglp_create_project($name, $slug, $desc, $parent = null) {
 		$data = array();
+		if ( $parent ) {
+			$data['parent_project_id'] = $parent->id;
+		} else {
+			// make sure the slug of top level projects is unique
+			$new_slug = $slug;
+			while ( GP::$project->by_slug($new_slug) ) {
+				$new_slug = "$slug-" . rand(1000, 9999);
+			}
+			$slug = $new_slug;
+			unset($new_slug);
+		}
 		$data['name'] = $name;
 		$data['slug'] = $slug;
 		$data['description'] = $desc;
-		$data['parent_project_id'] = $this->parent_proj_id;
 		$data['active'] = true;
 		$new_project = new GP_Project($data);
 		$project = GP::$project->create_and_select($new_project);
 		if ( !$project ) {
 			GP::$redirect_notices['error'] .= 'Could not create project ' . $name;
-		}
-		return $project;
-	}
-
-	function _create_project3rd($name, $slug, $desc) {
-		$data = array();
-		$data['name'] = $name;
-		$data['slug'] = $slug;
-		$data['description'] = $desc;
-		$data['parent_project_id'] = $this->parent3rd_proj_id;
-		$data['active'] = true;
-		$new_project = new GP_Project($data);
-		$project = GP::$project->create_and_select($new_project);
-		if ( !$project ) {
-			GP::$redirect_notices['error'] .= 'Could not create project ' . $name;
-		}
-		return $project;
-	}
-
-	function _check_elgg($dir, &$elgg_version, &$languagepack_version) {
-		if ( file_exists("$dir/install") && is_dir("$dir/install") &&
-		  file_exists("$dir/languages") && is_dir("$dir/languages") &&
-		  file_exists("$dir/mod") && is_dir("$dir/mod") &&
-		  file_exists("$dir/languagepack.meta") && is_file("$dir/languagepack.meta") ) {
-			$meta = json_decode(file_get_contents("$dir/languagepack.meta"), true);
-			$elgg_version = $meta['elgg_version'];
-			$languagepack_version = $meta['languagepack_version'];
-			return true;
-		}
-		return false;
-	}
-
-	function _find_languages($dirname) {
-		$cores = $this->core_plugins($this->version);
-		if ( !$cores ) {
-			GP::$redirect_notices['error'] = "Elgg Version $this->version not supported";
-			return;
-		}
-        if ( !file_exists($dirname) || is_link($dirname) ) { return; }
-		$subject = str_replace($this->base_dir, '', $dirname);
-		if ( $subject[0] == '/' ) $subject = substr ($subject, 1);
-		if ( is_file($dirname) && preg_match('#^(?:(install)/|mod/([^/]*?)/)?languages/(\w\w\w?)(?:[_-](\w\w\w?))?\.php$#', $subject, $matches) ) {
-			$lang = $matches[3];
-			if ( $matches[4] ) {
-				$lang .= '-' . $matches[4];
-			}
-			$lang = strtolower($lang);
-			if ( $matches[2] == '' ) {
-				if ( $matches[1] == '' ) {
-					$slug = 'core';
-					$name = 'Elgg Core';
-					$desc = 'The core elements of the social networking engine';
-				} else {
-					$slug = $matches[1];
-					$name = 'Elgg Install';
-					$desc = 'Install wizard for setting up and configuring a new Elgg instance, or upgrading an existing one';
-				}
-				if ( !$this->projects[$slug] ) {
-					$meta = array(
-						'version' => $this->version,
-						'description' => $desc,
-						'name' => $name,
-					);
-				}
-			} else {
-				$slug = $matches[2];
-				$meta = null;
-				if ( !$this->projects[$slug] ) {
-					$meta_name = dirname($dirname) . '/languagemod.meta';
-					$meta_contents = file_get_contents($meta_name);
-					$meta = json_decode($meta_contents, true);
-					$name = $meta['name'] . ' v' . $meta['version'];
-					$desc = (string)$meta['description'];
-					if ( !in_array($slug, $cores) ) {
-						$projslug = "$slug---v$meta[version]";
-						$projslug = urlencode($projslug);
-					}
-				}
-			}
-			$locale_obj = GP_Locales::by_slug($lang);
-			if ( $locale_obj ) {
-				if ( $lang != 'en' ) $this->all_langs[$lang] = $locale_obj;
-				if ( !$this->projects[$slug] ) {
-					$this->projects[$slug]['name'] = $name;
-					$this->projects[$slug]['desc'] = $desc;
-					if ( $meta ) {
-						$this->projects[$slug]['meta']['version'] = $meta['version'];
-						$this->projects[$slug]['meta']['description'] = $meta['description'];
-						$this->projects[$slug]['meta']['name'] = $meta['name'];
-						$this->projects[$slug]['meta']['unique'] = $slug;
-						$this->projects[$slug]['meta']['project_slug'] = $projslug;
-					}
-				}
-				$this->projects[$slug]['langs'][$lang] = $dirname;
-			} else {
-				error_log("Do not know locale $lang in $name for file $dirname");
-			}
-            return;
-        } else if ( is_file($dirname) || is_link($dirname) ) {
-			return;
-		}
-
-        $dir = dir($dirname);
-        while ( false !== ($entry = $dir->read()) ) {
-            if ( $entry[0] == '.' ) {
-                continue; 
-            } 
-            $this->_find_languages("$dirname/$entry");
-        }
-        $dir->close();
-        return;
-    }
-
-	function core_plugins($version) {
-		if ( !$this->core_plugins ) {
-			$this->core_plugins = array(
-				'1.8.8' => array(
-					'core', 'install', // these ones are not real Elgg plugins
-					'blog', 'bookmarks', 'categories', 'custom_index', 'dashboard', 'developers', 'diagnostics', 'embed',
-					'externalpages', 'file', 'garbagecollector', 'groups', 'invitefriends', 'likes', 'logbrowser', 'logrotate',
-					'members', 'messageboard', 'messages', 'notifications', 'oauth_api', 'pages', 'profile', 'reportedcontent',
-					'search', 'tagcloud', 'thewire', 'tinymce', 'twitter', 'twitter_api', 'uservalidationbyemail', 'zaudio'
-				)
-			);
-			$this->core_plugins['1.8.6'] = $this->core_plugins['1.8.8'];
-			$this->core_plugins['1.9.0-dev'] = array_merge($this->core_plugins['1.8.8'], array('languagepacks'));
-		}
-		return $this->core_plugins[$version];
-	}
-
-	function _tempdir($dir = false, $prefix = '') {
-		if ( !$dir ) $dir = sys_get_temp_dir();
-		$tempfile = tempnam($dir, $prefix);
-		if ( file_exists($tempfile) ) { unlink($tempfile); }
-		mkdir($tempfile);
-		if ( is_dir($tempfile) ) { return $tempfile; }
-	}
-
-	function _zip_folder($source, $destination) {
-		$zip = new ZipArchive();
-		if ( !$zip->open($destination, ZIPARCHIVE::CREATE) ) {
 			return false;
 		}
-
-		$source = str_replace('\\', '/', realpath($source));
-
-		if ( is_dir($source) === true )
-		{
-			$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
-
-			foreach ( $files as $file )
-			{
-				$file = str_replace('\\', '/', $file);
-
-				// Ignore all hidden files and folders
-				if ( $file[0] == '.' )
-					continue;
-
-				$file = realpath($file);
-
-				if ( is_dir($file) === true )
-				{
-					$zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
-				}
-				else if (is_file($file) === true)
-				{
-					$zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
-				}
-			}
-		}
-		else if (is_file($source) === true)
-		{
-			$zip->addFromString(basename($source), file_get_contents($source));
-		}
-
-		return $zip->close();
+		return $project;
 	}
 
-	function _export_originals($proj, $basedir) {
+	function elgglp_export_originals($proj, $basedir) {
 		$rows = GP::$original->by_project_id($proj->id);
 		$entries = array();
 		foreach( (array)$rows as $row ) {
@@ -496,7 +251,7 @@ class GP_Route_Tools extends GP_Route_Main {
 		file_put_contents("$basedir/languages/en.php", $langFile);
 	}
 
-	function _export_languages($proj, $basedir, $langs = array(), $export_empty = false) {
+	function elgglp_export_languages($proj, $basedir, $langs = array(), $export_empty = false) {
 		$sets = GP::$translation_set->by_project_id($proj->id);
 		foreach ( $sets as $set ) {
 			if ( !empty($langs) && !in_array($set->locale, $langs) ) continue;
@@ -509,4 +264,132 @@ class GP_Route_Tools extends GP_Route_Main {
 		}
 	}
 
+	function elgglp_error_and_export_form($message) {
+		GP::$redirect_notices['error'] = $message;
+		gp_tmpl_load('tools-elgg-export', get_defined_vars());
+	}
+
+	function elgglp_success_and_export_form($message) {
+		GP::$redirect_notices['notice'] = $message;
+		gp_tmpl_load('tools-elgg-export', get_defined_vars());
+	}
+
+	function elgglp_error_and_import_form($message) {
+		GP::$redirect_notices['error'] = $message;
+		gp_tmpl_load('tools-elgg-import', get_defined_vars());
+	}
+
+	function elgglp_success_and_import_form($message) {
+		GP::$redirect_notices['notice'] = $message;
+		gp_tmpl_load('tools-elgg-import', get_defined_vars());
+	}
+
+	function elgglp_import_languagemod($meta, $srcdir, $filters) {
+		// copy meta and filter values used here into local variables
+		$slug = $meta['unique'];
+		$ignore_en = $filters['ignore_en'];
+		$version = $filters['elgg_release'];
+		// this creates the top level core project if necessary
+		if ( !$this->coreProject ) {
+			if ( $filters['coreproject'] ) {
+				if ( !($this->coreProject = GP::$project->get($filters['coreproject'])) ) {
+					GP::$redirect_notices['error'] = 'Could not find the project to import into';
+					return false;
+				}
+			} else {
+				$name = 'Elgg v' . $version;
+				$desc = 'Social networking engine, delivering the building blocks that enable businesses, schools, universities and associations to create their own fully-featured social networks and applications';
+				$newslug = 'elgg';
+				if ( !($this->coreProject = $this->elgglp_create_project($name, $newslug, $desc)) ) {
+					return false;
+				}
+			}
+			gp_update_meta($this->coreProject->id, 'elgg_version', $version, 'gp_project');
+		}
+		// this creates the top level plugin project if necessary
+		if ( !$this->pluginProject ) {
+			if ( $filters['pluginproject'] ) {
+				if ( !($this->pluginProject = GP::$project->get($filters['pluginproject'])) ) {
+					GP::$redirect_notices['error'] = 'Could not find the project to import into';
+					return false;
+				}
+			} else {
+				$name = 'Third Party Plugins for Elgg';
+				$desc = 'Plugins extend your Elgg site by adding additional functionality, languages and themes. They are contributed by members of the Elgg community.';
+				$newslug = 'elgg3rd';
+				if ( !($this->pluginProject = $this->elgglp_create_project($name, $newslug, $desc)) ) {
+					return false;
+				}
+			}
+			gp_update_meta($this->pluginProject->id, 'elgg_version', 'plugins', 'gp_project');
+		}
+		// first determine if this is a core or 3rd party plugin
+		$cores = elgglp_core_plugins($version);
+		if ( in_array($slug, $cores) ) {
+			// it is a core plugin
+			if ( !($projectObj = GP::$project->by_path("{$this->coreProject->slug}/$slug")) ) {
+				$projectObj = $this->elgglp_create_project($meta['name'], $slug, $meta['description'], $this->coreProject);
+			}
+		} else {
+			// it is a third party plugin
+			$slug .= "---v$meta[version]";
+			if ( !($projectObj = GP::$project->by_path("{$this->pluginProject->slug}/$slug")) ) {
+				$projectObj = $this->elgglp_create_project($meta['name'], $slug, $meta['description'], $this->pluginProject);
+			}
+		}
+		if ( $projectObj ) {
+			gp_update_meta($projectObj->id, 'elgg_plugin_version', $meta['version'], 'gp_project');
+			gp_update_meta($projectObj->id, 'elgg_plugin_name', $meta['name'], 'gp_project');
+			gp_update_meta($projectObj->id, 'elgg_plugin_description', $meta['description'], 'gp_project');
+			gp_update_meta($projectObj->id, 'elgg_plugin_unique', $meta['unique'], 'gp_project');
+			$this->currentModProject = $projectObj;
+			// prepare to import the English originals
+			$file = "$srcdir/languages/en.php";
+			// if should not ignore English and the language file for English exists...
+			if ( !$ignore_en && file_exists($file) ) {
+				// read originals from file
+				$translations = $this->format->read_originals_from_file($file);
+				// import into the current project
+				list($originals_added, $originals_updated) = GP::$original->import_for_project($projectObj, $translations);
+				// update import stats
+				$this->originals_added += $originals_added;
+				$this->originals_updated += $originals_updated;
+			}
+			// now go through all other language files in language mod
+			elgglp_recurse_languages($meta, $srcdir, $filters, array($this, 'elgglp_import_languagefile'));
+		} else {
+			return false;
+		}
+	}
+
+	function elgglp_import_languagefile($meta, $file, $lang, $filters) {
+		// normalize language code so it works with GP_Locales object
+		$lang = preg_replace_callback('/^([a-z]{2})[-_]([a-z]{2,3})$/i', create_function('$matches', 'return strtolower("$matches[1]-$matches[2]");'), $lang);
+		// English originals have already been dealt with
+		if ( $lang != 'en' ) {
+			// import translations from language file
+			$translations = $this->format->read_translations_from_file($file, $this->currentModProject);
+			// is there an existing translation set for this language and project? if not, create one
+			if ( !($ts = GP::$translation_set->by_project_id_slug_and_locale($this->currentModProject->id, $lang, $lang)) ) {
+				$localeObj = GP_Locales::by_slug($lang);
+				if ( $localeObj ) {
+					$data = array();
+					$data['name'] = $localeObj->english_name;
+					$data['slug'] = $lang;
+					$data['locale'] = $lang;
+					$data['project_id'] = $this->currentModProject->id;
+					$new_ts = new GP_Translation_Set($data);
+					$ts = GP::$translation_set->create_and_select($new_ts);
+				}
+			}
+			if ( $ts ) {
+				// import translations into translation set
+				$translations_added = $ts->import($translations);
+				// update import stats
+				$this->translations_added[$lang] += $translations_added;
+			} else {
+				$this->import_errors[] = sprintf(__('Could not create translations into %s for %s'), $lang, $meta['unique']);
+			}
+		}
+	}
 }

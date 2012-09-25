@@ -39,7 +39,7 @@ class GP_Router {
 			));
 		}
 		$dir = '(~|[^_/][^/]*)';
-		$path = '(.+?)';
+		$path = '(~|[^~]+?)';
 		$projects = 'projects';
 		$project = $projects.'/'.$path;
 		$id = '(\d+)';
@@ -89,6 +89,7 @@ class GP_Router {
 			"/$set/export-translations" => array('GP_Route_Translation', 'export_translations_get'),
 			// keep this below all URLs ending with a literal string, because it may catch one of them
 			"get:/$set/([lsbp])" => array('GP_Route_Translation', 'translations_get'),
+			"get:/$set/(u)/(\d+)" => array('GP_Route_Translation', 'translations_get'),
 			"get:/$set" => array('GP_Route_Translation', 'translations_get'),
 			"post:/$set" => array('GP_Route_Translation', 'translations_post'),
 			// keep this one at the bottom of the project, because it will catch anything starting with project
@@ -109,7 +110,7 @@ class GP_Router {
 			"/admin/users/edit/$id" => array('GP_Route_Admin', 'edit'),
 			"get:/admin/users/delete/$id" => array('GP_Route_Admin', 'delete'),
 			'/admin/users/new' => array('GP_Route_Admin', 'edit'),
-			'/admin/users/register' => array('GP_Route_Admin', 'register'),
+			'/register' => array('GP_Route_Admin', 'register'),
 
 			'get:/tools' => array('GP_Route_Tools', 'index'),
 			'/tools/elgg-import' => array('GP_Route_Tools', 'elgg_import'),

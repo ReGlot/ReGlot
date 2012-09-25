@@ -63,9 +63,13 @@ class GP_Translation extends GP_Thing {
 		return GP::$translation->for_translation( $project, $translation_set, 'no-limit', $filters? $filters : array( 'status' => 'current_or_untranslated' ) );
 	}
 
-	function for_translation( $project, $translation_set, $page, $filters = array(), $sort = array() ) {
+	function for_translation($project, $translation_set, $page, $filters = array(), $sort = array(), $user_id = null) {
 		global $gpdb;
-		$locale = GP_Locales::by_slug( $translation_set->locale );
+		if ( $user_id ) {
+			unset($filters['user_login']);
+		} else {
+			$locale = GP_Locales::by_slug( $translation_set->locale );
+		}
 		$status_cond = '';
 		$join_type = 'INNER';
 
@@ -145,7 +149,7 @@ class GP_Translation extends GP_Thing {
 		}
 		
 		if ( is_array($translation_set) ) {
-			$tswhere = 'IN (';
+			$tswhere = 'AND t.translation_set_id IN (';
 			$first = true;
 			foreach ( $translation_set as $ts ) {
 				if ( $first ) {
@@ -156,8 +160,10 @@ class GP_Translation extends GP_Thing {
 				$tswhere .= $gpdb->escape($translation_set->id);
 			}
 			$tswhere .= ')';
+		} else if ( $translation_set ) {
+			$tswhere = 'AND t.translation_set_id = ' . $gpdb->escape($translation_set->id);
 		} else {
-			$tswhere = '= ' . $gpdb->escape($translation_set->id);
+			$tswhere = '';
 		}
 
 		$sql_sort = sprintf( $sort_by, $sort_how );
@@ -165,8 +171,15 @@ class GP_Translation extends GP_Thing {
 		$sql_for_translations = "
 			SELECT SQL_CALC_FOUND_ROWS t.*, o.*, t.id as id, o.id as original_id, t.status as translation_status, o.status as original_status, t.date_added as translation_added, o.date_added as original_added
 		    FROM $gpdb->originals as o
-		    $join_type JOIN $gpdb->translations AS t ON o.id = t.original_id AND t.translation_set_id $tswhere $join_where
-		    WHERE o.project_id = ".$gpdb->escape( $project->id )." AND o.status LIKE '+%' $where ORDER BY $sql_sort $limit";
+		    $join_type JOIN $gpdb->translations AS t ON o.id = t.original_id $tswhere $join_where
+			WHERE ";
+		if ( $user_id ) {
+			$sql_for_translations .= 't.user_id = ' . $gpdb->escape($user_id) . ' AND ';
+		}
+		if ( $project ) {
+			$sql_for_translations .= 'o.project_id = ' . $gpdb->escape($project->id) . ' AND ';
+		}
+		$sql_for_translations .= "o.status LIKE '+%' $where ORDER BY $sql_sort $limit";
 		$rows = $this->many_no_map( $sql_for_translations );
 		$this->found_rows = $this->found_rows();
 		$translations = array();
@@ -178,6 +191,10 @@ class GP_Translation extends GP_Thing {
 				$row->user_login = '';
 			}
 			$row->translations = array();
+			if ( !$locale ) {
+				$tempts = GP::$translation_set->get($row->translation_set_id);
+				$locale = GP_Locales::by_slug($tempts->locale);
+			}
 			for( $i = 0; $i < $locale->nplurals; $i++ ) {
 				$row->translations[] = $row->{"translation_".$i};
 			}
@@ -194,6 +211,14 @@ class GP_Translation extends GP_Thing {
 		}
 		unset( $rows );
 		return $translations;
+	}
+
+	function count_by_user($user_id) {
+		return $this->value("
+			SELECT COUNT(*) FROM gp_originals AS o
+			LEFT JOIN gp_translations AS t ON o.id = t.original_id
+			WHERE t.user_id = %d AND o.status LIKE '+%%'", $user_id
+		);
 	}
 
 	function set_as_current() {

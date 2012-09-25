@@ -21,6 +21,9 @@ class GP {
 	*/
 	static $permission;
 	static $validator_permission;
+	/**
+	* @var GP_Translation $translation
+	*/
 	static $translation;
 	/**
 	* @var GP_Original $original

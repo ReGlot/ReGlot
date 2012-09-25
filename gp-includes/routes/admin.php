@@ -1,48 +1,58 @@
 <?php
 class GP_Route_Admin extends GP_Route_Main {
 
+	// this method is also invoked by ::delete(), ::admin(), and ::edit() when they complete their task
 	function users() {
-		// this method is also invoked by ::delete(), ::admin(), and ::edit()
-		if ( !$this->_admin_gatekeeper() ) return;
+		// only logged-in users have access to this
+		$this->logged_in_or_forbidden();
+		// save settings avaible on users page
 		$settings = $this->_save_setting(array('user_registration', 'public_home'));
+		// load list of users
 		$users = GP::$user->all();
+		// open users template and pass all defined variables ($users and $settings) into it
 		gp_tmpl_load('users', get_defined_vars());
 	}
 
 	function register() {
-		if ( gp_get_option('user_registration') != 'on' || (GP::$user && GP::$user->logged_in()) ) {
-			$this->redirect(gp_url());
+		// this page is forbidden if registration is not enabled or a user is logged in
+		$this->forbidden_if(gp_get_option('user_registration') != 'on' || (GP::$user && GP::$user->logged_in()));
+		// handles POST of user data if POST request
+		if ( $this->_manage_user(null) ) {
+			// if true, need to show the user_edit template (again)
+			$register = true;
+			$user = new GP_User($_POST['user']);
+			gp_tmpl_load('users_edit', get_defined_vars());
 		} else {
-			if ( $this->_manage_user(null) ) {
-				$register = true;
-				$user = new GP_User($_POST['user']);
-				gp_tmpl_load('users_edit', get_defined_vars());
-			} else {
-				if ( GP::$redirect_notices['error'] ) {
-					gp_notice_set(GP::$redirect_notices['error']);
-				} else if ( GP::$redirect_notices['notice'] ) {
-					gp_notice_set(GP::$redirect_notices['notice']);
-				}
-				$this->redirect(gp_url('/login'));
+			// if false, can move on to login page, with error or new user
+			if ( GP::$redirect_notices['error'] ) {
+				gp_notice_set(GP::$redirect_notices['error']);
+			} else if ( GP::$redirect_notices['notice'] ) {
+				gp_notice_set(GP::$redirect_notices['notice']);
 			}
+			$this->redirect(gp_url('/login'));
 		}
 	}
 
 	function edit($user_id) {
-		if ( GP::$user->current()->id != $user_id && !$this->_admin_gatekeeper() ) return;
+		// this page is forbidden if user is not editing their own profile and user is not an admin
+		$this->forbidden_if(GP::$user->current()->id != $user_id && !GP::$user->current()->admin());
+		// handles POST of user data if POST request
 		if ( $this->_manage_user($user_id) ) {
+			// if true, need to show the user_edit template (again)
 			$user = GP::$user->get($user_id);
 			if ( !user ) {
 				$user = new GP_User($_POST['user']);
 			}
 			gp_tmpl_load('users_edit', get_defined_vars());
 		} else {
+			// if false, can move on to user list page, with error or new user
 			$this->users();
 		}
 	}
 
 	function delete($user_id) {
-		if ( !$this->_admin_gatekeeper() ) return;
+		// only admin can do this
+		$this->admin_or_forbidden();
 		$user = GP::$user->get($user_id);
 		if ( $user ) {
 			if ( $user->admin() && GP::$permission->count_admins() <= 1 ) {
@@ -61,7 +71,8 @@ class GP_Route_Admin extends GP_Route_Main {
 	}
 
 	function admin($user_id) {
-		if ( !$this->_admin_gatekeeper() ) return;
+		// only admin can do this
+		$this->admin_or_forbidden();
 		$user = GP::$user->get($user_id);
 		if ( $user ) {
 			if ( $user->admin() ) {
@@ -93,12 +104,15 @@ class GP_Route_Admin extends GP_Route_Main {
 	}
 
 	function settings() {
-		if ( !$this->_admin_gatekeeper() ) return;
+		// only admin can do this
+		$this->admin_or_forbidden();
+		// save settings avaible on settings page
 		$settings = $this->_save_setting(array('default_format','default_recursive_sets'));
+		// open settings template and pass all defined variables ($settings) into it
 		gp_tmpl_load('settings', get_defined_vars());
 	}
 
-	function _save_setting($options) {
+	private function _save_setting($options) {
 		$settings = $_POST['settings'];
 		if ( $settings['gp_handle_settings'] ) {
 			if ( !is_array($options) ) { $options = array($options); };
@@ -116,9 +130,9 @@ class GP_Route_Admin extends GP_Route_Main {
 		return $settings;
 	}
 
-	// return true to stay in the user edit page
-	// return false to go to user list page
-	function _manage_user($user_id) {
+	// returns true to stay in the user edit page
+	// returns false to go to user list page
+	private function _manage_user($user_id) {
 		$settings = $_POST['user'];
 		if ( $settings['gp_handle_settings'] ) {
 			if ( $user_id ) {

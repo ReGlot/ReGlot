@@ -56,29 +56,36 @@ class GP_Route_Translation extends GP_Route_Main {
 		echo $format->print_exported_file( $project, $locale, $translation_set, $entries );
 	}
 
-	function translations_get($project_path, $locale_slug, $translation_set_slug, $kind = 'p') {
-		$project = GP::$project->by_path( $project_path );
-		$locale = GP_Locales::by_slug( $locale_slug );
-		$translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $translation_set_slug, $locale_slug );
-		if ( !$project || (!$locale && $locale_slug != '~') || !$translation_set ) gp_tmpl_404();
+	function translations_get($project_path, $locale_slug, $translation_set_slug, $kind = 'p', $user_id = null) {
+		if ( $project_path != '~' ) $project = GP::$project->by_path( $project_path );
+		if ( $locale_slug != '~' ) $locale = GP_Locales::by_slug( $locale_slug );
+		if ( $project ) $translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $translation_set_slug, $locale_slug );
+		if ( $kind != 'u' ) {
+			if ( !$project || (!$locale && $locale_slug != '~') || !$translation_set ) gp_tmpl_404();
+		} else {
+			$user = GP::$user->get($user_id);
+			if ( !$user ) gp_tmpl_404();
+		}
 		$page = gp_get( 'page', 1 );
 		$filters = gp_get( 'filters', array() );
 		$sort = gp_get( 'sort', array() );
 		if ( 'random' == gp_array_get( $sort, 'by') ) {
 			add_filter( 'gp_pagination', create_function( '$html', 'return "";' ) );
 		}
-		$translations = GP::$translation->for_translation( $project, $translation_set, $page, $filters, $sort );
+		$translations = GP::$translation->for_translation( $project, $translation_set, $page, $filters, $sort, $user_id );
 		$total_translations_count = GP::$translation->found_rows;
 		$per_page = GP::$translation->per_page;
 		$can_edit = GP::$user->logged_in();
-		$can_write = $this->can('write', 'project', $project->id);
-		$can_approve = GP::$user->can_approve($translation_set);
-		$url = gp_url_project($project, gp_url_join($locale_slug, $translation_set_slug, $kind));
-		$editorUrl = gp_url_project($project, gp_url_join($locale->slug, $translation_set->slug));
-		$set_priority_url = gp_url( '/originals/%original-id%/set_priority');
-		$discard_warning_url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug, '-discard-warning' ) );
-		$set_status_url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug, '-set-status' ) );
-		$bulk_action = gp_url_join( $url, '-bulk' );
+		if ( $kind != 'u' ) {
+			$can_write = $this->can('write', 'project', $project->id);
+			$can_approve = GP::$user->can_approve($translation_set);
+			$url = gp_url_project($project, gp_url_join($locale_slug, $translation_set_slug, $kind));
+			$editorUrl = gp_url_project($project, gp_url_join($locale->slug, $translation_set->slug));
+			$set_priority_url = gp_url( '/originals/%original-id%/set_priority');
+			$discard_warning_url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug, '-discard-warning' ) );
+			$set_status_url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug, '-set-status' ) );
+			$bulk_action = gp_url_join( $url, '-bulk' );
+		}
 		$this->tmpl( 'translations', get_defined_vars() );
 	}
 
@@ -97,7 +104,7 @@ class GP_Route_Translation extends GP_Route_Main {
 		    foreach( range( 0, GP::$translation->get_static( 'number_of_plural_translations' ) ) as $i ) {
 		        if ( isset( $translations[$i] ) ) $data["translation_$i"] = $translations[$i];
 		    }
-			if ( GP::$user->can_approve($translation_set) || $this->can('write', 'project', $project->id) ) {
+			if ( GP::$user->current()->can_approve($translation_set) || $this->can('write', 'project', $project->id) ) {
 				$data['status'] = 'current';
 			} else {
 				$data['status'] = 'waiting';

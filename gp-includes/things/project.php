@@ -9,26 +9,28 @@ class GP_Project extends GP_Thing {
 	 * Deletes project and all subprojects
 	 */
 	function delete() {
-		// delete all originals
-		$originals = GP::$original->by_project_id($this->id);
-		foreach ( $originals as $original ) {
-			/** @ToDo need to check whether delete succeded */
-			$original->delete();
-		}
+		// table names
+		$translations = GP::$translation->table;
+		$originals = GP::$original->table;
+		$translation_sets = GP::$translation_set->table;
+		// delete all translations indirectly related to this project via originals and translation sets
+		$this->query("DELETE FROM $translations WHERE original_id IN (SELECT id FROM $originals WHERE project_id = %d)", $this->id);
+		$this->query("DELETE FROM $translations WHERE translation_set_id IN (SELECT id FROM $translation_sets WHERE project_id = %d)", $this->id);
+		// delete all originals for this project
+		GP::$original->delete_all(array('project_id' => $this->id));
 		// delete all translation sets for this project
-		$translation_sets = GP::$translation_set->by_project_id($this->id);
-		foreach ( $translation_sets as $translation_set ) {
-			/** @ToDo need to check whether delete succeded */
-			$translation_set->delete();
-		}
+		GP::$translation_set->delete_all(array('project_id' => $this->id));
+		// delete all permissions for this project
+		GP::$permission->delete_all(array('object_type' => 'project', 'object_id' => $this->id));
+		// delete all subprojects
 		$subprojects = $this->sub_projects();
 		foreach ( $subprojects as $child ) {
 			/** @ToDo need to check whether delete succeded */
 			$child->delete();
 		}
+		// delete all meta for the project (need $gpdp object as there is no Meta thing)
 		global $gpdb;
 		$gpdb->query($gpdb->prepare("DELETE FROM `$gpdb->meta` WHERE `object_type` = 'gp_project' AND `object_id` = %d", $this->id));
-		GP::$permission->delete_all(array('object_type' => 'project', 'object_id' => $this->id));
 		return parent::delete();
 	}
 
@@ -42,6 +44,10 @@ class GP_Project extends GP_Thing {
 		return $this->one( "SELECT * FROM $this->table WHERE path = '%s'", trim( $path, '/' ) );
 	}
 	
+	function by_slug( $slug ) {
+		return $this->one( "SELECT * FROM $this->table WHERE slug = '%s'", trim( $slug ) );
+	}
+
 	function sub_projects() {
 		return $this->many( "SELECT * FROM $this->table WHERE parent_project_id = %d ORDER BY active DESC, id ASC", $this->id );
 	}

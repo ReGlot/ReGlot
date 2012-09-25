@@ -105,12 +105,22 @@ class GP_Route {
 		return false;
 	}
 
+	function forbidden_if($condition) {
+		if ( $condition ) $this->die_with_error( 'Forbidden', 403 );
+	}
+
 	function logged_in_or_forbidden() {
-		if ( !GP::$user->logged_in() ) {
+		if ( !GP::$user || !GP::$user->logged_in() ) {
 			$this->die_with_error( 'Forbidden', 403 );
 		}
 	}
-	
+
+	function admin_or_forbidden() {
+		if ( !GP::$user || !GP::$user->current()->admin() ) {
+			$this->die_with_error( 'Forbidden', 403 );
+		}
+	}
+
 	function redirect_with_error( $message, $url = null ) {
 		$this->errors[] = $message;
 		$this->redirect( $url );

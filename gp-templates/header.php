@@ -24,6 +24,9 @@ wp_enqueue_script( 'jquery' );
 				$user = GP::$user->current();
 				printf( __('Welcome %s! &nbsp; &nbsp; '), $user->display_name );
 			}
+
+			do_action( 'after_hello' );
+
 			if ( gp_get_option('public_home') == 'on' ) {
 			?>
 				<a href="<?php echo gp_url('/projects')?>"><?php _e('Projects'); ?></a> &bull;
@@ -34,24 +37,23 @@ wp_enqueue_script( 'jquery' );
 			if ( GP::$user && GP::$user->logged_in() && GP::$user->admin() ) {
 			?>
 				<a href="<?php echo gp_url('/admin/settings')?>"><?php _e('Settings'); ?></a> &bull;
-				<a href="<?php echo gp_url('/admin/users')?>"><?php _e('Users'); ?></a> &bull;
 			<?php
 			}
 			if ( GP::$user && GP::$user->logged_in() ) {
 			?>
-			<a href="<?php echo gp_url('/admin/users/edit/' . GP::$user->current()->id)?>"><?php _e('Profile'); ?></a> &bull;
-			<a href="<?php echo gp_url('/logout')?>"><?php _e('Log out'); ?></a>
+				<a href="<?php echo gp_url('/admin/users')?>"><?php _e('Users'); ?></a> &bull;
+				<a href="<?php echo gp_url('/admin/users/edit/' . GP::$user->current()->id)?>"><?php _e('Profile'); ?></a> &bull;
+				<a href="<?php echo gp_url_logout() ?>"><?php _e('Log out'); ?></a>
 			<?php
 			} else if ( GP::$user ) {
 			?>
 				<?php if ( gp_get_option('user_registration') == 'on' ) { ?>
-				<strong><a href="<?php echo gp_url('/admin/users/register'); ?>"><?php _e('Register'); ?></a></strong> &bull;
+				<strong><a href="<?php echo gp_url_register(); ?>"><?php _e('Register'); ?></a></strong> &bull;
 				<?php } ?>
 				<strong><a href="<?php echo gp_url_login(); ?>"><?php _e('Log in'); ?></a></strong>
 			<?php
 			}
 			?>
-			<?php do_action( 'after_hello' ); ?>
 			</span>
 			<div class="clearfix"></div>
 		</h1>

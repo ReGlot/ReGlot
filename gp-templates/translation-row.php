@@ -8,9 +8,32 @@ $priority_char = array(
     '0' => array('', 'transparent', 'white'),
     '1' => array('&uarr;', 'transparent', 'green'),
 );
+if ( $project ) {
+	$row_project = $project;
+} else {
+	$row_project = GP::$project->get($t->project_id);
+	$can_write = GP::$user->current()->can('write', 'project', $row_project->id);
+}
+if ( $translation_set ) {
+	$row_translation_set = $translation_set;
+} else {
+	$row_translation_set = GP::$translation_set->get($t->translation_set_id);
+	$can_approve = GP::$user->current()->can_approve($row_translation_set);
+}
+if ( $locale ) {
+	$row_locale = $locale;
+} else {
+	$row_locale = GP_Locales::by_slug($row_translation_set->locale);
+}
+$url = gp_url_project($row_project, gp_url_join($locale_slug, $translation_set_slug, $kind));
+$editorUrl = gp_url_project($row_project, gp_url_join($row_locale->slug, $row_translation_set->slug));
+$set_priority_url = gp_url( '/originals/%original-id%/set_priority');
+$discard_warning_url = gp_url_project($row_project, gp_url_join($row_locale->slug, $row_translation_set->slug, '-discard-warning'));
+$set_status_url = gp_url_project($row_project, gp_url_join($row_locale->slug, $row_translation_set->slug, '-set-status'));
+$bulk_action = gp_url_join($url, '-bulk');
 ?>
 <tr class="preview <?php echo $parity().' '.$status_class.' '.$warning_class.' '.$priority_class ?>" id="preview-<?php echo $t->row_id ?>" row="<?php echo $t->row_id; ?>">
-	<?php if ( $can_approve ) : ?><th scope="row" class="checkbox"><input type="checkbox" name="selected-row[]" /></th><?php endif; ?>
+	<th scope="row" class="checkbox"><?php if ( $can_approve && $kind != 'u' ) : ?><input type="checkbox" name="selected-row[]" /><?php else: echo '&nbsp;'; endif; ?></th>
 	<?php /*
 	<td class="priority" style="background-color: <?php echo $priority_char[$t->priority][1] ?>; color: <?php echo $priority_char[$t->priority][2] ?>; text-align: center; font-size: 1.2em;" title="<?php echo esc_attr('Priority: '.gp_array_get( GP::$original->get_static( 'priorities' ), $t->priority )); ?>">
 	*/ ?>
@@ -51,13 +74,13 @@ $priority_char = array(
 	</td>
 </tr>
 <tr class="editor <?php echo $warning_class; ?>" id="editor-<?php echo $t->row_id; ?>" row="<?php echo $t->row_id; ?>">
-	<td colspan="<?php echo $can_approve ? 5 : 4 ?>">
+	<td colspan="5">
 		<div class="strings">
 		<?php if ( !$t->plural ): ?>
 		<p class="original"><?php echo prepare_original( esc_translation($t->singular) ); ?></p>
 		<?php textareas( $t, array( $can_edit, $can_approve ) ); ?>
 		<?php else: ?>
-			<?php if ( $locale->nplurals == 2 && $locale->plural_expression == 'n != 1'): ?>
+			<?php if ( $row_locale->nplurals == 2 && $row_locale->plural_expression == 'n != 1'): ?>
 				<p><?php printf(__('Singular: %s'), '<span class="original">'.esc_translation($t->singular).'</span>'); ?></p>
 				<?php textareas( $t, array( $can_edit, $can_approve ), 0 ); ?>
 				<p class="clear">
@@ -72,10 +95,10 @@ $priority_char = array(
 				<p class="clear">
 					<?php printf(__('Plural: %s'), '<span class="original">'.esc_translation($t->plural).'</span>'); ?>
 				</p>
-				<?php foreach( range( 0, $locale->nplurals - 1 ) as $plural_index ): ?>
-					<?php if ( $locale->nplurals > 1 ): ?>
+				<?php foreach( range( 0, $row_locale->nplurals - 1 ) as $plural_index ): ?>
+					<?php if ( $row_locale->nplurals > 1 ): ?>
 					<p class="plural-numbers"><?php printf(__('This plural form is used for numbers like: %s'),
-							'<span class="numbers">'.implode(', ', $locale->numbers_for_index( $plural_index ) ).'</span>' ); ?></p>
+							'<span class="numbers">'.implode(', ', $row_locale->numbers_for_index( $plural_index ) ).'</span>' ); ?></p>
 					<?php endif; ?>
 					<?php textareas( $t, array( $can_edit, $can_approve ), $plural_index ); ?>
 				<?php endforeach; ?>
@@ -132,7 +155,7 @@ $priority_char = array(
 			</dl>
 			<?php endif; ?>
 			
-			<?php references( $project, $t ); ?>
+			<?php references( $row_project, $t ); ?>
 			
 			<dl>
 			    <dt><?php _e('Priority of the original:'); ?></dt>
@@ -146,9 +169,9 @@ $priority_char = array(
 			<?php $extra_args = $t->translation_status? array( 'filters[translation_id]' => $t->id ) : array(); ?>
 			<dl>
 <?php
-		$permalink = gp_url_project_locale( $project, $locale->slug, $translation_set->slug,
+		$permalink = gp_url_project_locale( $row_project, $row_locale->slug, $row_translation_set->slug,
         	array_merge( array('filters[status]' => 'either', 'filters[original_id]' => $t->original_id ), $extra_args ) );
-		$original_history = gp_url_project_locale( $project, $locale->slug, $translation_set->slug,
+		$original_history = gp_url_project_locale( $row_project, $row_locale->slug, $row_translation_set->slug,
         	array_merge( array('filters[status]' => 'either', 'filters[original_id]' => $t->original_id, 'sort[by]' => 'translation_date_added', 'sort[how]' => 'asc' ) ) );
 
 ?>
@@ -162,7 +185,7 @@ $priority_char = array(
 		</div>
 		<div class="actions">
 		<?php if ( $can_edit ): ?>
-			<button class="ok">
+			<button class="ok" data-url="<?php echo $editorUrl ?>">
 				<?php echo $can_approve? __('Add translation &rarr;') : __('Suggest new translation &rarr;'); ?>
 			</button>
 		<?php endif; ?>

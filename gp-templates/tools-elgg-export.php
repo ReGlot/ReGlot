@@ -37,7 +37,7 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 </p><p><input type="button" id="remove_cores" value="Remove Selected" class="elgg-button">
 </p></div></li><li>Selected for Export<br/><select id="select2_cores" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
 		<?php
-		$projects = GP::$project->by_path('elgg---v1.8.8')->sub_projects();
+		$projects = GP::$project->by_slug('elgg')->sub_projects();
 		foreach ( $projects as $project ) {
 			echo "<option value=\"$project->id\">$project->name</option>\n";
 		}
@@ -73,7 +73,7 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 				</select>
 		<br/>
 		<input type="checkbox" name="export[empty]" value="on">
-		<label for="export[originals]"><?php _e('Create empty language files'); ?></label><br/>
+		<label for="export[empty]"><?php _e('Create empty language files'); ?></label><br/>
 				</li>
 				<li><div class="languagepacks-buttons">
 <p><input type="button" id="add_locales" value="Add Selected" class="elgg-button">

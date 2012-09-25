@@ -5,6 +5,10 @@ class GP_Route_Index extends GP_Route_Main {
 		$this->redirect(gp_url('/login'));
 	}
 	function index() {
-		$this->redirect( gp_url_project( '' ) );
+		if ( has_action('index') ) {
+			do_action('index');
+		} else {
+			gp_tmpl_load('index');
+		}
 	}
 }

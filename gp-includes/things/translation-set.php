@@ -52,32 +52,32 @@ class GP_Translation_Set extends GP_Thing {
 		return $this->many_no_map("SELECT DISTINCT locale FROM $this->table");
 	}
 
-	function import( $translations ) {
+	function import($translations, $user_id = null, $fuzzy = false) {
 		@ini_set('memory_limit', '256M');
-		if ( !isset( $this->project ) || !$this->project ) $this->project = GP::$project->get( $this->project_id );
-		$locale = GP_Locales::by_slug( $this->locale );
+		if ( !isset( $this->project ) || !$this->project ) $this->project = GP::$project->get($this->project_id);
+		$locale = GP_Locales::by_slug($this->locale);
 		
-		$current_translations_list = GP::$translation->for_translation( $this->project, $this, 'no-limit', array('status' => 'current', 'translated' => 'yes') );
+		$current_translations_list = GP::$translation->for_translation($this->project, $this, 'no-limit', array('status' => 'current', 'translated' => 'yes'));
 		$current_translations = new Translations();
-		foreach( $current_translations_list as $entry ) {
-			$current_translations->add_entry( $entry );
+		foreach ( $current_translations_list as $entry ) {
+			$current_translations->add_entry($entry);
 		}
-		unset( $current_translations_list );
+		unset($current_translations_list);
 		$translations_added = 0;
-		foreach( $translations->entries as $entry ) {
-			if ( empty( $entry->translations ) ) continue;
-			if ( in_array( 'fuzzy', $entry->flags ) ) continue;
-			
+		foreach ( $translations->entries as $entry ) {
+			if ( empty($entry->translations) ) continue;
+			if ( !$fuzzy && in_array('fuzzy', $entry->flags) ) continue;
+
 			$create = false;
 			
-			if ( $translated = $current_translations->translate_entry( $entry ) ) {
+			if ( ($translated = $current_translations->translate_entry($entry)) ) {
 				// we have the same string translated
 				// create a new one if they don't match
 				$entry->original_id = $translated->original_id;
-				$create  = ( array_pad( $entry->translations, $locale->nplurals, null ) != $translated->translations );
+				$create = (array_pad($entry->translations, $locale->nplurals, null) != $translated->translations);
 			} else {
 				// we don't have the string translated, let's see if the original is there
-				$original = GP::$original->by_project_id_and_entry( $this->project->id, $entry, '+active' );
+				$original = GP::$original->by_project_id_and_entry($this->project->id, $entry, '+active');
 				if ( $original ) {
 					$entry->original_id = $original->id;
 					$create = true;
@@ -86,16 +86,19 @@ class GP_Translation_Set extends GP_Thing {
 			if ( $create ) {
 				$entry->translation_set_id = $this->id;
 				$entry->status = 'current';
+				if ( $user_id ) {
+					$entry->user_id = $user_id;
+				}
 				// check for errors
-				$translation = GP::$translation->create( $entry );
-				$translation->set_status( 'current' );
+				$translation = GP::$translation->create($entry);
+				$translation->set_status('current');
 				$translations_added += 1;
 			}
 		}
-		wp_cache_delete( $this->id, 'translation_set_status_breakdown' );
+		wp_cache_delete($this->id, 'translation_set_status_breakdown');
 		return $translations_added;
 	}
-	
+
 	function waiting_count() {
 		if ( !isset( $this->waiting_count ) ) $this->update_status_breakdown();
 		return $this->waiting_count;

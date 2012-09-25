@@ -1,0 +1,3 @@
+[submodule "gp-includes/elgg_language_packs"]
+	path = gp-includes/elgg_language_packs
+	url = https://fmestrone@github.com/fmestrone/elgg_language_packs.git

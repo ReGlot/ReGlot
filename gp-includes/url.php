@@ -48,7 +48,6 @@ function gp_url_base( $path = '/', $query = null ) {
 	return apply_filters( 'gp_url_base', gp_url_add_path_and_query( gp_url_path( gp_url_base_root() ), $path, $query ), $path, $query );
 }
 
-
 function gp_url_add_path_and_query( $base, $path, $query ) {
 	// todo: same domain with current url?
 	$url = gp_url_join( $base, $path );
@@ -108,10 +107,19 @@ function gp_url_project( $project_or_path = '', $path = '', $query = null ) {
 	return gp_url( array( 'projects', $project_path, $path ), $query );
 }
 
+function gp_url_by_translation($mode = 'locales', $item = '', $query = null) {
+	// $mode can be 'locales', 'slugs', 'both'
+	return gp_url( array( 'by-translation', $mode, $item ), $query );
+}
+
 function gp_url_login( $redirect_to = null ) {
 	return gp_url( '/login', array( 'redirect_to' => $redirect_to? $redirect_to : gp_url_current() ) );
 }
 
 function gp_url_logout() {
 	return gp_url( '/logout' );
+}
+
+function gp_url_register() {
+	return gp_url('/register');
 }

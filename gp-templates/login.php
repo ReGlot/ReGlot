@@ -18,7 +18,7 @@ gp_tmpl_header();
 	<p>
 		<input type="submit" name="submit" value="<?php _e('Login'); ?>" id="submit">
 		<?php if ( gp_get_option('user_registration') == 'on' ) { ?>
-		or <strong><a href="<?php echo gp_url('/admin/users/register'); ?>"><?php _e('register'); ?></a></strong>
+		or <strong><a href="<?php echo gp_url_register(); ?>"><?php _e('register'); ?></a></strong>
 		if you don't have an account yet
 		<?php } ?>
 	</p>

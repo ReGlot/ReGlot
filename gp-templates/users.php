@@ -1,11 +1,12 @@
 <?php
+$is_admin = GP::$user->current()->admin();
 gp_title(__('User Management &lt; GlotPress'));
 wp_enqueue_script('confirm');
 gp_tmpl_header();
 ?>
 <h2><?php _e('User Management'); ?></h2>
 <?php
-	if ( !defined('CUSTOM_USER_TABLE') ) {
+	if ( $is_admin && !defined('CUSTOM_USER_TABLE') ) {
 ?>
 <h3><?php _e('Options'); ?></h3>
 <form action="" method="post" class="secondary">
@@ -36,10 +37,16 @@ gp_tmpl_header();
 		<th><?php _e('ID'); ?></th>
 		<th><?php _e('Login'); ?></th>
 		<th><?php _e('Display Name'); ?></th>
+<?php if ( $is_admin ) { ?>
 		<th><?php _e('Email'); ?></th>
 		<th><?php _e('Nice Name'); ?></th>
+<?php } ?>
+		<th><?php _e('URL'); ?></th>
+		<th><?php _e('Translations'); ?></th>
+<?php if ( $is_admin ) { ?>
 		<th><?php _e('Status'); ?></th>
 		<th><?php _e('Actions'); ?></th>
+<?php } ?>
 	</tr>
 	</thead>
 <?php
@@ -57,12 +64,32 @@ foreach( $users as $user ):
 	<td class="user_long">
 		<?php echo esc_html( $user->display_name ); ?>
 	</td>
+<?php if ( $is_admin ) { ?>
 	<td class="user_long">
 		<?php echo esc_html( $user->user_email ); ?>
 	</td>
 	<td class="user_long">
 		<?php echo esc_html( $user->user_nicename ); ?>
 	</td>
+<?php } ?>
+	<td class="user_long">
+		<a href="<?php echo $user->user_url; ?>" target="_blank">
+		<?php echo esc_html( $user->user_url ); ?>
+		</a>
+	</td>
+	<td class="user_short">
+		<?php
+		$trans_count = GP::$translation->count_by_user($user->id);
+		if ( $trans_count ) {
+		?>
+		<a href="<?php echo gp_url('/projects/~/~/~/u/' . $user->id) ?>"><?php echo esc_html( GP::$translation->count_by_user($user->id) ); ?></a>
+		<?php
+		} else {
+			echo __('None');
+		}
+		?>
+	</td>
+<?php if ( $is_admin ) { ?>
 	<td class="user_short">
 		<?php echo esc_html( $user->user_status ); ?>
 	</td>
@@ -71,12 +98,13 @@ foreach( $users as $user ):
 		<a href="<?php echo gp_url('/admin/users/admin/') . $user->id; ?>" class="bubble action edit"><?php $user->admin() ? _e('Revoke Admin') : _e('Make Admin'); ?></a> 
 		<a href="<?php echo gp_url('/admin/users/delete/') . $user->id; ?>" class="bubble action delete"><?php _e('Delete'); ?></a>
 	</td>
+<?php } ?>
 </tr>
 <?php
 endforeach;
 if ( !$users ):
 ?>
-	<tr><td colspan="7"><?php _e('No users were found!'); ?></td></tr>
+	<tr><td colspan="<?php if ( $is_admin ) echo '9'; else echo '5'; ?>"><?php _e('No users were found!'); ?></td></tr>
 <?php
 endif;
 ?>

@@ -1,5 +1,5 @@
 <?php
-gp_title( sprintf( __( 'Translations &lt; %s &lt; %s &lt; GlotPress' ), $translation_set->name, $project->name ) );
+gp_title(__( 'Translations &lt; GlotPress' ));
 switch ( $kind ) {
 	case 'p':
 		gp_breadcrumb( array(
@@ -28,7 +28,12 @@ switch ( $kind ) {
 			$project->name
 		) );
 		break;
-	
+	case 'u':
+		gp_breadcrumb( array(
+			gp_link_get(gp_url('admin/users'), __('Users')),
+			sprintf(__('Translations by %s'), $user->display_name)
+		) );
+		break;
 }
 wp_enqueue_script( 'editor' );
 wp_enqueue_script('confirm');
@@ -45,9 +50,13 @@ gp_tmpl_header();
 $i = 0;
 ?>
 <h2>
+<?php if ( $kind == 'u' ) { ?>
+	Translations by <?php echo $user->display_name; ?>
+<?php } else { ?>
 	Translation of <?php echo esc_html( $project->name ); ?>: <?php echo esc_html( $translation_set->name ); ?>
 	<?php gp_link_set_edit( $translation_set, $project, '(edit)' ); ?>
 	<?php gp_link_set_delete( $translation_set, $project, '(del)' ); ?>
+<?php } ?>
 </h2>
 <?php if ( $can_approve ): ?>
 <form id="bulk-actions-toolbar" class="filters-toolbar bulk-actions" action="<?php echo $bulk_action; ?>" method="post">
@@ -150,7 +159,7 @@ $i = 0;
 <table id="translations" class="translations clear">
 	<thead>
 	<tr>
-		<?php if ( $can_approve ) : ?><th class="checkbox"><input type="checkbox" /></th><?php endif; ?>
+		<th class="checkbox"><?php if ( $can_approve && $kind != 'u' ) : ?><input type="checkbox" /><?php else: echo '&nbsp;'; endif; ?></th>
 		<th><?php /* Translators: Priority */ _e('Prio'); ?></th>
 		<th class="original"><?php _e('Original string'); ?></th>
 		<th class="translation"><?php _e('Translation'); ?></th>
@@ -164,7 +173,7 @@ $i = 0;
 <?php
 	if ( !$translations ):
 ?>
-	<tr><td colspan="<?php echo $can_approve ? 5 : 4; ?>"><?php _e('No translations were found!'); ?></td></tr>
+	<tr><td colspan="5"><?php _e('No translations were found!'); ?></td></tr>
 <?php
 	endif;
 ?>

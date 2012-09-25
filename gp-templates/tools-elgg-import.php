@@ -1,8 +1,8 @@
 <?php
 gp_title(__('Tools'));
 gp_tmpl_header();
-$project_dropdown1 = gp_projects_dropdown('import[elggcoreproject]', $import['elggcoreproject'], array(), 'Create a new project', true);
-$project_dropdown2 = gp_projects_dropdown('import[elgg3rdproject]', $import['elgg3rdproject'], array(), 'Create a new project', true);
+$project_dropdown1 = gp_projects_dropdown('import[core_project]', $import['core_project'], array(), 'Create a new project', true);
+$project_dropdown2 = gp_projects_dropdown('import[plugin_project]', $import['plugin_project'], array(), 'Create a new project', true);
 ?>
 <h2><?php _e('GlotPress Tools'); ?></h2>
 
@@ -15,20 +15,21 @@ $project_dropdown2 = gp_projects_dropdown('import[elgg3rdproject]', $import['elg
 			The mod folders should include the manifest.xml file, used to get data about each plugin. The core plugins are imported as subprojects into an Elgg v&lt;version&gt; project, while all other
 			plugins are imported into a top level Third Party Elgg Plugins project. The en locale is used for originals, any other locale is imported as translations.'); ?></p>
 		<p>
-		<label for="import[elggcoreproject]"><?php _e('Project to import Elgg cores into'); ?></label><br/>
+		<label for="import[core_project]"><?php _e('Project to import Elgg cores into'); ?></label><br/>
 		<?php echo $project_dropdown1; ?>
 		</p>
 		<p>
-		<label for="import[elgg3rdproject]"><?php _e('Project to import third party plugins into'); ?></label><br/>
+		<label for="import[plugin_project]"><?php _e('Project to import third party plugins into'); ?></label><br/>
 		<?php echo $project_dropdown2; ?>
 		</p>
-		<p> Either </p>
+		<?php // <p> Either </p> ?>
 		<p>
-		<input type="radio" value="zip" name="import[elggtype]" id="elggtypezip">
-		<label for="elggfile"><?php _e('Select the Elgg install zip file'); ?></label><br/>
-		<input type="file" name="elggfile" id="elggfile"><br/>
+		<?php // <input type="radio" value="zip" name="import[elggtype]" id="elggtypezip"> ?>
+		<label for="upload"><?php _e('Select the Elgg install zip file'); ?></label><br/>
+		<input type="file" name="upload" id="elggfile"><br/>
 		<small><?php _e('You can get this file from <a href="http://www.elgg.org/download.php" target="_blank">the Elgg web site</a>. Make sure the file is in ZIP format.'); ?></small>
 		</p>
+		<?php /*
 		<p> Or </p>
 		<p>
 		<input type="radio" value="dir" name="import[elggtype]" id="elggtypedir">
@@ -36,12 +37,23 @@ $project_dropdown2 = gp_projects_dropdown('import[elgg3rdproject]', $import['elg
 		<input type="text" name="import[elggpath]" id="elggpath" style="width:400px" value="<?php echo $import['elggpath']; ?>"><br/>
 		<small><?php _e('If GlotPress and Elgg are running on the same server, then you can specify what the Elgg path is and GlotPress will read from it directly.'); ?></small>
 		</p>
+		 */ ?>
+		<p>
+		<input type="checkbox" name="import[originals]" value="on" checked="checked">
+		<label for="import[originals]"><?php _e('Also import original English texts'); ?></label><br/>
+		</p>
+		<p>
+		<input type="checkbox" name="import[overwrite]" value="on">
+		<label for="import[overwrite]"><?php _e('Do not overwrite exisiting translation sets'); ?></label><br/>
+		</p>
 	</dd>
 </dl>
 <p>
 	<input type="submit" name="submit" value="<?php echo esc_attr(__('Import')); ?>" id="submit" />
 </p>
 </form>
+<?php
+/*
 <script>
 	$('#elggfile').focus(function() {
 		$('#elggtypezip').attr('checked', true);
@@ -50,5 +62,5 @@ $project_dropdown2 = gp_projects_dropdown('import[elgg3rdproject]', $import['elg
 		$('#elggtypedir').attr('checked', true);
 	})
 </script>
-<?php
+*/
 gp_tmpl_footer();
