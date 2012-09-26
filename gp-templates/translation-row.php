@@ -25,6 +25,12 @@ if ( $locale ) {
 } else {
 	$row_locale = GP_Locales::by_slug($row_translation_set->locale);
 }
+if ( $user ) {
+	$row_user = $user;
+} else {
+	$row_user = GP::$user->by_login($t->user_login);
+}
+
 $url = gp_url_project($row_project, gp_url_join($locale_slug, $translation_set_slug, $kind));
 $editorUrl = gp_url_project($row_project, gp_url_join($row_locale->slug, $row_translation_set->slug));
 $set_priority_url = gp_url( '/originals/%original-id%/set_priority');
@@ -151,10 +157,20 @@ $bulk_action = gp_url_join($url, '-bulk');
 			<?php if ( $t->user_login ): ?>
 			<dl>
 				<dt><?php _e('Translated by:'); ?></dt>
-				<dd><?php echo $t->user_login; ?></dd>
+				<dd><?php echo $row_user->display_name; ?></dd>
+				&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+				<dt><?php _e('Username:'); ?></dt>
+				<dd><?php echo $row_user->user_login; ?></dd>
 			</dl>
 			<?php endif; ?>
-			
+			<dl>
+				<dt><?php _e('Translated into:'); ?></dt>
+				<dd><?php echo $row_locale->english_name; ?></dd>
+				&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+				<dt><?php _e('Code:'); ?></dt>
+				<dd><?php echo $row_locale->slug; ?></dd>
+			</dl>
+
 			<?php references( $row_project, $t ); ?>
 			
 			<dl>
