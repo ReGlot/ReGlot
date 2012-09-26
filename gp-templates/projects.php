@@ -1,5 +1,5 @@
 <?php
-gp_title(__('Projects &lt; GlotPress'));
+gp_title(__('Projects'));
 gp_breadcrumb(array(__('Projects')));
 wp_enqueue_script('confirm');
 gp_tmpl_header();

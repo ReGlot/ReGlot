@@ -1,5 +1,5 @@
 <?php
-gp_title(__( 'Translations &lt; GlotPress' ));
+gp_title(__('Translation Entries'));
 switch ( $kind ) {
 	case 'p':
 		gp_breadcrumb( array(

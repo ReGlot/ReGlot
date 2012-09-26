@@ -1,5 +1,5 @@
 <?php
-gp_title( sprintf( __('%s &lt; GlotPress'), __('Login') ) );
+gp_title(__('Login'));
 gp_breadcrumb( array(
 	__('Login'),
 ) );

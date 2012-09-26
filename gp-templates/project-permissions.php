@@ -1,5 +1,5 @@
 <?php
-gp_title( sprintf( __( 'Permissions &lt; %s &lt; GlotPress' ), $project->name ) );
+gp_title(__('Permissions'));
 gp_breadcrumb_project( $project );
 gp_tmpl_header();
 ?>

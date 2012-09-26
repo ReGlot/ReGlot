@@ -1,5 +1,5 @@
 <?php
-gp_title(sprintf(__('Import Translations &lt; %s &lt; GlotPress'), esc_html($project->name)));
+gp_title(__('Import Translations'));
 gp_breadcrumb_project($project);
 gp_tmpl_header();
 gp_tmpl_load('project-import', get_defined_vars());

@@ -1,6 +1,6 @@
 <?php
 wp_enqueue_script('elgg_import_export');
-gp_title(__('Tools'));
+gp_title(__('Elgg Export'));
 gp_tmpl_header();
 $project_dropdown1 = gp_projects_dropdown('export[elggcoreproject]', $export['elggcoreproject'], array(), 'Select an Elgg project', true);
 $project_dropdown2 = gp_projects_dropdown('export[elgg3rdproject]', $export['elgg3rdproject'], array(), 'No 3rd Party project', true);

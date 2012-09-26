@@ -1,13 +1,13 @@
 <?php
-gp_title(($user ? __('Edit User') : __('Create User')) . ' &lt; GlotPress');
-
+$exists = $user && $user->id;
+gp_title($exists ? __('Edit User') : __('Create User'));
 gp_tmpl_header();
 ?>
 
-<h2><?php echo wptexturize($user ? sprintf(__('User #%d'), $user->id) : __('New User')); ?></h2>
+<h2><?php echo wptexturize($exists ? sprintf(__('User #%d'), $user->id) : __('New User')); ?></h2>
 <form action="" method="post">
 <input type="hidden" name="user[gp_handle_settings]" value="on">
-<input type="hidden" name="user[gp_user_id]" value="<?php echo $user ? $user->id : '' ?>">
+<input type="hidden" name="user[gp_user_id]" value="<?php echo $exists ? $user->id : '' ?>">
 <dl>
 	<dt><h3><?php echo __('Basic Information'); ?></h3></dt>
 	<dd>
@@ -20,7 +20,7 @@ gp_tmpl_header();
 		<input type="password" name="user[user_pass]" value="" id="user[user_pass]"><br/>
 		<label for="user[user_pass2]"><?php echo __('Confirm Password'); ?></label>
 		<input type="password" name="user[user_pass2]" value="" id="user[user_pass2]"><br/>
-<?php if ( $user ) { ?>
+<?php if ( $exists ) { ?>
 		<small><?php _e('Leave both password fields blank to leave password unchanged') ?></small><br/>
 <?php } ?>
 		<label for="user[user_email]"><?php echo __('Email Address'); ?></label>

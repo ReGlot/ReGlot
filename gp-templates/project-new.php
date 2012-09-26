@@ -1,7 +1,7 @@
 <?php
-gp_title( __( 'Create New Project &lt; GlotPress' ) );
+gp_title(__('Create New Project'));
 gp_breadcrumb( array(
-	__('Create New Project'),
+	__('New Project'),
 ) );
 gp_tmpl_header();
 ?>

@@ -1,5 +1,5 @@
 <?php
-gp_title( sprintf( __( 'Edit Translation Set &lt; %s &lt; %s &lt; GlotPress' ), $set->name, $project->name ) );
+gp_title(__('Edit Translation Set'));
 gp_breadcrumb( array(
 	gp_link_project_get( $project, $project->name ),
 	gp_link_get( $url, $locale->english_name . 'default' != $set->slug? ' '.$set->name : '' ),

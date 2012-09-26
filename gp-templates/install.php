@@ -1,5 +1,5 @@
 <?php
-gp_title(__('Install &lt; GlotPress'));
+gp_title(__('Install'));
 gp_breadcrumb(array(__('Install')));
 wp_enqueue_script('install');
 

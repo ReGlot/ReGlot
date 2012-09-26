@@ -62,11 +62,23 @@ function gp_tmpl_404( $args = array()) {
 	exit();
 }
 
+function gp_app_name() {
+	if ( has_filter('gp_app_name') ) {
+		return apply_filters('gp_app_name');
+	} else {
+		return 'Re&sdot;Glot';
+	}
+}
+
 function gp_title( $title = null ) {
 	if ( !is_null( $title ) )
 		add_filter( 'gp_title', lambda( '$x', '$title', compact( 'title' ) ), 5 );
 	else
-		return apply_filters( 'gp_title', '' );
+		if ( has_filter('gp_title_decorator') ) {
+			return apply_filters('gp_title_decorator', apply_filters('gp_title', ''));
+		} else {
+			return apply_filters('gp_title', '') . ' &lt; ' . gp_app_name();
+		}
 }
 
 function gp_breadcrumb( $breadcrumb = null, $args = array() ) {

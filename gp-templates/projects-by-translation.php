@@ -26,7 +26,7 @@ switch ( $kind ) {
 		$suffix = 'b';
 		break;
 }
-gp_title(sprintf(__('%s &lt; GlotPress'), esc_html($title)));
+gp_title(esc_html($title));
 gp_breadcrumb(array(
 	gp_link_get(gp_url($url),__('Translations')),
 	$title

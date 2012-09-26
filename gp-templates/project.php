@@ -1,5 +1,5 @@
 <?php
-gp_title( sprintf( __('%s &lt; GlotPress'), esc_html( $project->name ) ) );
+gp_title(esc_html($project->name));
 gp_breadcrumb_project( $project );
 wp_enqueue_script( 'common' );
 wp_enqueue_script('confirm');

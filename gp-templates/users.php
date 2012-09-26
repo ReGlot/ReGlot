@@ -1,6 +1,6 @@
 <?php
 $is_admin = GP::$user->current()->admin();
-gp_title(__('User Management &lt; GlotPress'));
+gp_title(__('Users'));
 wp_enqueue_script('confirm');
 gp_tmpl_header();
 ?>

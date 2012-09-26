@@ -1,5 +1,5 @@
 <?php
-gp_title( sprintf( __( 'Originals &lt; %s &lt; GlotPress' ), $project->name ) );
+gp_title(__('Originals'));
 gp_breadcrumb( array(
 	gp_project_links_from_root( $project ),
 	gp_link_get($url . '/originals', __('Originals')),
