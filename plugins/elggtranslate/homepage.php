@@ -1,5 +1,5 @@
 <?php
-gp_title(sprintf(__('%s &lt; ElggTranslate'), __('Welcome')));
+gp_title(__('Welcome'));
 gp_tmpl_header();
 ?>
 	<h2>Welcome to the Elgg Translation Portal</h2>
