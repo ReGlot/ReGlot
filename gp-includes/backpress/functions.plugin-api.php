@@ -104,6 +104,24 @@ function has_filter($tag, $function_to_check = false) {
 }
 
 /**
+ * Check if any filter has been registered for a hook at a certain priority.
+ *
+ * @package WordPress
+ * @subpackage Plugin
+ * @since 2.5
+ * @global array $wp_filter Stores all of the filters
+ *
+ * @param string $tag The name of the filter hook.
+ * @param int $priority  The priority to look at.
+ * @return boolean If there are filters at the given priority
+ */
+function has_filter_at_priority($tag, $priority) {
+	global $wp_filter;
+
+	return !empty($wp_filter[$tag][$priority]);
+}
+
+/**
  * Call the functions added to a filter hook.
  *
  * The callback functions attached to filter hook $tag are invoked by calling
