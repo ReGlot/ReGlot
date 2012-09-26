@@ -19,8 +19,6 @@ class GP_Route_Tools extends GP_Route_Main {
 	function elgg_import() {
 		// only admin can do this
 		$this->admin_or_forbidden();
-		// you need to be an admin for this
-		if ( !$this->_admin_gatekeeper() ) return;
 		// if it's a POST we need to import stuff
 		if ( @$_POST['import']['gp_handle_settings'] == 'on' ) {
 			// the uploaded file to import
