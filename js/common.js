@@ -1,4 +1,14 @@
 var $gp = function($) { return {
+	messages: {
+		fadeTimeout: 7500,
+		fadeSpeed: 2500,
+		fadeAndRemove: function(notice, speed) {
+			if ( !speed ) speed = $gp.messages.fadeSpeed;
+			notice.fadeOut(speed, function() {
+				$(this).remove();
+			});
+		}
+	},
 	notices: {
 		element: null,
 		init: function() {
@@ -66,3 +76,24 @@ $gp.showhide = function($) { return function(link, container, options) {
 	})
 }}(jQuery);
 $gp.showhide.registry = {};
+
+$(function() {
+	errors = $('.error');
+	if ( errors ) {
+		errors.on('click', function() {
+			$gp.messages.fadeAndRemove(errors, 1000);
+		});
+//		window.setTimeout(function() {
+//			$gp.messages.fadeAndRemove(errors);
+//		}, $gp.messages.fadeTimeout);
+	}
+	notices = $('.notice');
+	if ( notices ) {
+	notices.on('click', function() {
+		$gp.messages.fadeAndRemove(notices, 1000);
+	});
+	window.setTimeout(function() {
+			$gp.messages.fadeAndRemove(notices);
+		}, $gp.messages.fadeTimeout);
+	}
+});
