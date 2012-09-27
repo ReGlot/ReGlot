@@ -19,7 +19,7 @@ gp_tmpl_header();
 <dl>
 	<dt><h3><?php echo __('Product installed successfully'); ?></h3></dt>
 	<dd>
-		<span><?php echo __('You can access your ' . gp_app_name() . 'installation <a href="' . gp_url_base() . '">from here</a>'); ?></span>
+		<span><?php echo __('You can access your ' . gp_app_name() . ' installation <a href="' . gp_url_base() . '">from here</a>'); ?></span>
 		<br/>
 		<small><?php _e('Or you can <a href="' . gp_url_login() . '">log in</a> to the product straightaway with the username and password you have just created'); ?></small>
 	</dd>
