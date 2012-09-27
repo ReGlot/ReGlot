@@ -32,6 +32,9 @@ switch ( $kind ) {
 }
 ?>
 </p>
+<?php if ( empty($projects) ): ?>
+<p><?php _e('No translations were found!'); ?></p>
+<?php else: ?>
 <ul>
 <?php foreach( $bundles as $bundle ): ?>
 	<li>
@@ -61,5 +64,6 @@ switch ( $kind ) {
 		<?php // if ( $project->active ) echo '<span class="active bubble">Active</span>'; ?>
 	</li>
 <?php endforeach; ?>
+<?php endif; ?>
 </ul>
 <?php gp_tmpl_footer(); ?>

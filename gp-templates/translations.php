@@ -173,7 +173,7 @@ $i = 0;
 <?php
 	if ( !$translations ):
 ?>
-	<tr><td colspan="5"><?php _e('No translations were found!'); ?></td></tr>
+	<tr><td colspan="5"><?php _e('No translation entries were found!'); ?></td></tr>
 <?php
 	endif;
 ?>

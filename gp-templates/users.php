@@ -102,7 +102,7 @@ foreach( $users as $user ):
 </tr>
 <?php
 endforeach;
-if ( !$users ):
+if ( empty($users) ):
 ?>
 	<tr><td colspan="<?php if ( $is_admin ) echo '9'; else echo '5'; ?>"><?php _e('No users were found!'); ?></td></tr>
 <?php
