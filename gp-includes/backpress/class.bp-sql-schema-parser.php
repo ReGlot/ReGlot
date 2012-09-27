@@ -141,7 +141,7 @@ class BP_SQL_Schema_Parser
 				}
 				unset( $_index_type, $_index_name, $_index_columns, $_index_columns_index, $_index_column, $_matches_column );
 
-			} elseif ( preg_match( "@^`?(\w+)`?\s+(?:(\w+)(?:\s*\(\s*(\d+)\s*\))?(?:\s+(unsigned)){0,1})(?:\s+(NOT\s+NULL))?(?:\s+(auto_increment))?(?:\s+(default)\s+(?:(NULL|'[^']*'|\d+)))?@im", $_column_index, $_matches ) ) {
+			} elseif ( preg_match( "@^`?(\w+)`?\s+(?:(\w+)(?:\s*\(\s*(\d+)\s*\))?(?:\s+(unsigned|CHARACTER SET \\S* COLLATE \\S*)){0,1})(?:\s+(NOT\s+NULL))?(?:\s+(auto_increment))?(?:\s+(default)\s+(?:(NULL|'[^']*'|\d+)))?@im", $_column_index, $_matches ) ) {
 				// It's a column
 
 				// Tidy the NOT NULL
@@ -149,7 +149,7 @@ class BP_SQL_Schema_Parser
 
 				$_columns[$_matches[1]] = array(
 					'Field'   => $_matches[1],
-					'Type'    => ( isset( $_matches[3] ) && is_numeric( $_matches[3] ) ) ? $_matches[2] . '(' . $_matches[3] . ')' . ( ( isset( $_matches[4] ) && strtolower( $_matches[4] ) == 'unsigned' ) ? ' unsigned' : '' ) : $_matches[2],
+					'Type'    => ( isset( $_matches[3] ) && is_numeric( $_matches[3] ) ) ? $_matches[2] . '(' . $_matches[3] . ')' . (isset($_matches[4]) ?  ' ' . $_matches[4] : '' ) : $_matches[2],
 					'Null'    => ( 'NOT NULL' == strtoupper( $_matches[5] ) ) ? 'NO' : 'YES',
 					'Default' => ( isset( $_matches[7] ) && 'default' == strtolower( $_matches[7] ) && 'NULL' !== strtoupper( $_matches[8] ) ) ? trim( $_matches[8], "'" ) : null,
 					'Extra'   => ( isset( $_matches[6] ) && 'auto_increment' == strtolower( $_matches[6] ) ) ? 'auto_increment' : ''
