@@ -46,7 +46,7 @@ function gp_schema_get() {
     $gp_schema['translation_sets'] = "CREATE TABLE IF NOT EXISTS `$gpdb->translation_sets` (
     	`id` INT(10) NOT NULL auto_increment,
     	`name` VARCHAR(255) NOT NULL,
-    	`slug` VARCHAR(255) NOT NULL,
+    	`slug` VARCHAR(255) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,
 		`project_id` INT(10) DEFAULT NULL,
     	`locale` VARCHAR(10) DEFAULT NULL,
     	PRIMARY KEY (`id`),
@@ -81,8 +81,8 @@ function gp_schema_get() {
 	$gp_schema['projects'] = "CREATE TABLE IF NOT EXISTS `$gpdb->projects` (
 		`id` INT(10) NOT NULL auto_increment,
 		`name` VARCHAR(255) NOT NULL,
-		`slug` VARCHAR(255) NOT NULL,
-		`path` VARCHAR(255) NOT NULL,
+		`slug` VARCHAR(255) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,,
+		`path` VARCHAR(255) NOT NULL CHARACTER SET ascii COLLATE ascii_bin,,
 		`description` TEXT NOT NULL,
 		`parent_project_id` INT(10) DEFAULT NULL,
 		`source_url_template` VARCHAR(255) DEFAULT '',

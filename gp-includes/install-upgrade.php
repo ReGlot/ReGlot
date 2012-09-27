@@ -55,8 +55,13 @@ function gp_install() {
 
 function gp_create_initial_contents($options) {	
 	global $gpdb;
-	
-	if ( !defined('CUSTOM_USER_TABLE') ) {
+
+    // set up initial values for site options
+    gp_update_option('default_format', 'po');
+    gp_update_option('user_registration', 'on');
+    gp_update_option('public_home', 'on');
+
+    if ( !defined('CUSTOM_USER_TABLE') ) {
 		$admin = GP::$user->create(array('user_login' => $options['gp_admin_username'], 'user_pass' => $options['gp_admin_password'], 'user_email' => $options['gp_admin_email'], 'display_name' => $options['display_name']));
 		GP::$permission->create(array('user_id' => $admin->id, 'action' => 'admin'));
 		return true;
@@ -68,7 +73,4 @@ function gp_create_initial_contents($options) {
 			return false;
 		}
 	}
-	gp_update_option('default_format', 'po');
-	gp_update_option('user_registration', 'on');
-	gp_update_option('public_home', 'on');
 }
