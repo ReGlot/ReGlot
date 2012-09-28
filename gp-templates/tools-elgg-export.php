@@ -7,7 +7,7 @@ $project_dropdown2 = gp_projects_dropdown('export[elgg3rdproject]', $export['elg
 $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a version &mdash;', '2' => 'Version 1.9 and later', '1' => 'Version 1.8 and earlier'), $export['version']);
 ?>
 <h2><?php _e('GlotPress Tools'); ?></h2>
-
+<?php if ( GP::$project->by_slug('elgg') ): ?>
 <form action="" method="post" class="filters-toolbar" enctype="multipart/form-data">
 <input type="hidden" name="export[gp_handle_settings]" value="on">
 <input type="hidden" name="export[cores_selection]" value="">
@@ -58,7 +58,7 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 </p><p><input type="button" id="remove_plugins" value="Remove Selected" class="elgg-button">
 </p></div></li><li>Selected for Export<br/><select id="select2_plugins" multiple="multiple" class="elgg-input-dropdown languagepacks-select">
 		<?php
-		$projects = GP::$project->by_path('elgg3rd')->sub_projects();
+		$projects = GP::$project->by_path('elgg3rd') ? GP::$project->by_path('elgg3rd')->sub_projects() : array();
 		foreach ( $projects as $project ) {
 			echo "<option value=\"$project->id\">$project->name</option>\n";
 		}
@@ -115,5 +115,8 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 	<input type="submit" name="submit" value="<?php echo esc_attr(__('Export')); ?>" id="submit" />
 </p>
 </form>
+<?php else: ?>
+    <p><?php _e('There are no Elgg projects to export from'); ?></p>
+<?php endif; ?>
 <?php
 gp_tmpl_footer();

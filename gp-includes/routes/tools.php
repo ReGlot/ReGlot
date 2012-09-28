@@ -76,9 +76,11 @@ class GP_Route_Tools extends GP_Route_Main {
 				// main import switch
 				switch ( elgglp_recurse_language_pack($newdir, $filters, $callback) ) {
 					case ELGGLP_ERR_STRUCTURE:
-						$this->elgglp_error_and_import_form(__('Could not find an Elgg language pack in the ZIP file you specified'));
+                        elgglp_deltree($newdir);
+                        $this->elgglp_error_and_import_form(__('Could not find an Elgg language pack in the ZIP file you specified'));
 					case ELGGLP_ERR_VERSION:
-						$this->elgglp_error_and_import_form(__('The version of your language pack is not supported by this plugin'));
+                        elgglp_deltree($newdir);
+                        $this->elgglp_error_and_import_form(__('The version of your language pack is not supported by this plugin'));
 					case ELGGLP_OK:
 						elgglp_deltree($newdir);
 						$all_langs = array_keys($this->translations_added);
@@ -108,7 +110,7 @@ class GP_Route_Tools extends GP_Route_Main {
 						foreach ( $this->import_errors as $error ) {
 							$message .= "\n$error<br/>";
 						}						
-						$this->elgglp_success_and_form($message);
+						$this->elgglp_success_and_import_form($message);
 						return;
 				}
 			} else {
