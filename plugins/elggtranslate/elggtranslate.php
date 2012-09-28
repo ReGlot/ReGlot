@@ -9,11 +9,24 @@ Author URI: http://URI_Of_The_Plugin_Author
 License: GPL2
 */
 
-define('ELGGTRANSLATE_DIR', 'elggtranslate');
+class ElggTranslatePlugin extends GP_Plugin {
+    var $id = 'elggtranslate';
 
-remove_all_actions('index');
-//add_action('index', 'elggtranslate_homepage');
-//add_action('gp_app_name', 'elggtranslate_app_name');
+    function __construct() {
+        parent::__construct();
+        add_action('index', 'elggtranslate_homepage');
+        add_action('gp_app_name', 'elggtranslate_app_name');
+    }
+
+    function init() {
+        if ( $this->get_option('loaded') != 'yes' ) {
+            // set up default format to Elgg
+            gp_update_option('default_format', 'elgg');
+            // flag that plugin has been loaded already
+            $this->update_option('loaded', 'yes');
+        }
+    }
+}
 
 function elggtranslate_homepage() {
 	include plugin_dir_path(__FILE__) . '/homepage.php';
@@ -22,4 +35,5 @@ function elggtranslate_homepage() {
 function elggtranslate_app_name() {
 	return 'ElggTranslate';
 }
-?>
+
+new ElggTranslatePlugin();
