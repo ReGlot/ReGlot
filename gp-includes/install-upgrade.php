@@ -60,6 +60,7 @@ function gp_create_initial_contents($options) {
     gp_update_option('default_format', 'po');
     gp_update_option('user_registration', 'on');
     gp_update_option('public_home', 'on');
+    gp_update_option('default_recursive_sets', 'on');
 
     if ( !defined('CUSTOM_USER_TABLE') ) {
 		$admin = GP::$user->create(array('user_login' => $options['gp_admin_username'], 'user_pass' => $options['gp_admin_password'], 'user_email' => $options['gp_admin_email'], 'display_name' => $options['display_name']));
