@@ -116,8 +116,8 @@ function gp_schema_get() {
 
 	// usermeta
 	$gp_schema['usermeta'] = "CREATE TABLE IF NOT EXISTS `$gpdb->usermeta` (
-		`umeta_id` bigINT(20) NOT NULL auto_increment,
-		`user_id` bigINT(20) NOT NULL default 0,
+		`umeta_id` BIGINT(20) NOT NULL auto_increment,
+		`user_id` BIGINT(20) NOT NULL default 0,
 		`meta_key` varchar(255) NOT NULL,
 		`meta_value` longTEXT NOT NULL,
 		PRIMARY KEY (`umeta_id`),
@@ -128,9 +128,9 @@ function gp_schema_get() {
 	// meta
 	$gp_schema['meta'] = "CREATE TABLE IF NOT EXISTS `$gpdb->meta` (
 		`meta_id` bigint(20) NOT NULL auto_increment,
-		`object_type` varchar(16) NOT NULL default 'gp_option',
+		`object_type` varchar(255) CHARACTER SET ascii COLLATE ascii_bin NOT NULL default 'gp_option',
 		`object_id` bigint(20) NOT NULL default 0,
-		`meta_key` varchar(255) DEFAULT NULL,
+		`meta_key` varchar(255) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
 		`meta_value` longtext DEFAULT NULL,
 		PRIMARY KEY (`meta_id`),
 		KEY `object_type__meta_key` (`object_type`, `meta_key`),
@@ -142,8 +142,8 @@ function gp_schema_get() {
 		`id` INT(10) NOT NULL AUTO_INCREMENT,
 		`user_id` INT(10) DEFAULT NULL,
 		`action` VARCHAR(255) DEFAULT NULL,
-		`object_type` VARCHAR(255) DEFAULT NULL,
-		`object_id` VARCHAR(255) DEFAULT NULL,
+		`object_type` VARCHAR(255) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
+		`object_id` VARCHAR(255) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
 		PRIMARY KEY (`id`),
 		KEY `user_id_action` (`user_id`,`action`)
 	);";
@@ -152,7 +152,7 @@ function gp_schema_get() {
 	$gp_schema['api_keys'] = "CREATE TABLE IF NOT EXISTS `$gpdb->api_keys` (
 		`id` INT(10) NOT NULL AUTO_INCREMENT,
 		`user_id` INT(10) NOT NULL,
-		`api_key` VARCHAR(16) NOT NULL,
+		`api_key` VARCHAR(255) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
 		PRIMARY KEY (`id`),
 		UNIQUE KEY `user_id` (`user_id`),
 		UNIQUE KEY `api_key` (`api_key`)
