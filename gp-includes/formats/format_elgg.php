@@ -17,6 +17,7 @@ class GP_Format_Elgg extends GP_Format {
 	function print_exported_file($project, $locale, $translation_set, $entries) {
 		$this->exported = '';
 		$this->line('<?php');
+        $this->line(' /*');
 		$this->line(" * {$project->name} ({$locale->name})");
 		$this->line(' *');
 		$this->line(" * @package {$project->slug}.{$translation_set->slug}");
@@ -109,12 +110,28 @@ class GP_Format_Elgg extends GP_Format {
 	}
 
 	function escape($string) {
-		$newstring = addcslashes($string, "\0..\37'\"\177..\377");
-		if ( $newstring != $string ) {
-			return "\"$string\"";
-		} else {
-			return "'$string'";
-		}
+        // escape all special chars, including ' and ", with a backslash
+		$newstring = addcslashes($string, "\0..\37\\'\"\177..\377");
+        // then create a version without slashes for '
+        $singlequotestring = str_replace('\\\'', '\'', $newstring);
+        $doublequotestring = str_replace('\\"', '"', $newstring);
+        // are there any escaped characters in the string?
+        if ( $newstring != $string ) {
+            // are there only escaped '?
+            if ( $singlequotestring == $string ) {
+                // if only escaped ', then use single quotes with escaped '
+                return "'$newstring'";
+            } else if ( $doublequotestring == $string ) {
+                // if only escaped ", then use single quotes with original string
+                return "'$string'";
+            } else {
+                // other escaped characters, use " but do not escape '
+                return "\"$singlequotestring\"";
+            }
+        } else {
+            // there are no escaped characters, use '
+            return "'$string'";
+        }
 	}
 }
 
