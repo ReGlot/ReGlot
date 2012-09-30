@@ -3,6 +3,8 @@
  * Functions, which deal with URLs: manipulation, generation
  */
 
+define('REGLOT_NEW_USER', 'new');
+
 /**
  * Gives the path of an URL
  *
@@ -112,12 +114,46 @@ function gp_url_by_translation($mode = 'locales', $item = '', $query = null) {
 	return gp_url( array( 'by-translation', $mode, $item ), $query );
 }
 
+function gp_url_tools() {
+    return gp_url('/tools');
+}
+
+function gp_url_settings() {
+    return gp_url('/admin/settings');
+}
+
 function gp_url_login( $redirect_to = null ) {
-	return gp_url( '/login', array( 'redirect_to' => $redirect_to? $redirect_to : gp_url_current() ) );
+	return gp_url('/login', array('redirect_to' => $redirect_to? $redirect_to : gp_url_current()));
 }
 
 function gp_url_logout() {
-	return gp_url( '/logout' );
+	return gp_url('/logout');
+}
+
+function gp_url_users() {
+    return gp_url('/admin/users');
+}
+
+function gp_url_user_profile($user_id = null) {
+    if ( $user_id == REGLOT_NEW_USER ) {
+        return gp_url_join('/admin/users/new');
+    } else if ( !$user_id && GP::$user->current() ) {
+        return gp_url_join('/admin/users/edit', GP::$user->current()->id);
+    } else if ( is_numeric($user_id) ) {
+        return gp_url_join('/admin/users/edit', $user_id);
+    } else {
+        return '';
+    }
+}
+
+function gp_url_user_translations($user_id = null) {
+    if ( !$user_id && GP::$user->current() ) {
+        return gp_url_join('/projects/~/~/~/u', GP::$user->current()->id);
+    } else if ( is_numeric($user_id) ) {
+        return gp_url_join('/projects/~/~/~/u', $user_id);
+    } else {
+        return '';
+    }
 }
 
 function gp_url_register() {

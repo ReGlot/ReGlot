@@ -5,36 +5,38 @@ gp_breadcrumb(array(__('Translations')));
 gp_tmpl_header();
 ?>
 <h2><?php _e('Translations') ?></h2>
-<p class="actionlist secondary">
-<?php	
-switch ( $kind ) {
-	case 'slugs':
-		gp_link(gp_url('/by-translation/slugs'), __('Showing by Slug'), array('style'=>'text-decoration: none;'));
-		echo ' &bull; ';
-		gp_link(gp_url('/by-translation/locales'), __('Show by Locale'));
-		echo ' &bull; ';
-		gp_link(gp_url('/by-translation/both'), __('Show by Both'));
-		break;
-	case 'locales':
-		gp_link(gp_url('/by-translation/locales'), __('Showing by Locale'), array('style'=>'text-decoration: none;'));
-		echo ' &bull; ';
-		gp_link(gp_url('/by-translation/slugs'), __('Show by Slug'));
-		echo ' &bull; ';
-		gp_link(gp_url('/by-translation/both'), __('Show by Both'));
-		break;
-	case 'both':
-		gp_link(gp_url('/by-translation/both'), __('Showing by Both'), array('style'=>'text-decoration: none;'));
-		echo ' &bull; ';
-		gp_link(gp_url('/by-translation/locales'), __('Show by Locale'));
-		echo ' &bull; ';
-		gp_link(gp_url('/by-translation/slugs'), __('Show by Slug'));
-		break;
-}
-?>
-</p>
-<?php if ( empty($projects) ): ?>
+<?php if ( empty($bundles) ): ?>
 <p><?php _e('No translations were found!'); ?></p>
 <?php else: ?>
+<p class="actionlist secondary">
+    <?php
+    switch ( $kind ) {
+        case 'slugs':
+            gp_link(gp_url_by_translation('slugs'), __('Showing by Slug'), array('style'=>'text-decoration: none;'));
+            echo ' &bull; ';
+            gp_link(gp_url_by_translation('locales'), __('Show by Locale'));
+            echo ' &bull; ';
+            gp_link(gp_url_by_translation('both'), __('Show by Both'));
+            break;
+        case 'locales':
+            gp_link(gp_url_by_translation('locales'), __('Showing by Locale'), array('style'=>'text-decoration: none;'));
+            echo ' &bull; ';
+            gp_link(gp_url_by_translation('slugs'), __('Show by Slug'));
+            echo ' &bull; ';
+            gp_link(gp_url_by_translation('both'), __('Show by Both'));
+            break;
+        case 'both':
+            gp_link(gp_url_by_translation('both'), __('Showing by Both'), array('style'=>'text-decoration: none;'));
+            echo ' &bull; ';
+            gp_link(gp_url_by_translation('locales'), __('Show by Locale'));
+            echo ' &bull; ';
+            gp_link(gp_url_by_translation('slugs'), __('Show by Slug'));
+            break;
+    }
+    ?>
+    <span style="float:right"><?php gp_link(gp_url_user_translations(), 'Show Your Own'); ?></span>
+</p>
+
 <ul>
 <?php foreach( $bundles as $bundle ): ?>
 	<li>

@@ -29,20 +29,20 @@ wp_enqueue_script( 'common' );
 
 			if ( gp_get_option('public_home') == 'on' ) {
 			?>
-				<a href="<?php echo gp_url('/projects')?>"><?php _e('Projects'); ?></a> &bull;
-				<a href="<?php echo gp_url('/by-translation/locales')?>"><?php _e('Translations'); ?></a> &bull;
-				<a href="<?php echo gp_url('/tools')?>"><?php _e('Tools'); ?></a> &bull;
+				<a href="<?php echo gp_url_project() ?>"><?php _e('Projects'); ?></a> &bull;
+				<a href="<?php echo gp_url_by_translation() ?>"><?php _e('Translations'); ?></a> &bull;
+				<a href="<?php echo gp_url_tools() ?>"><?php _e('Tools'); ?></a> &bull;
 			<?php
 			}
 			if ( GP::$user && GP::$user->logged_in() && GP::$user->admin() ) {
 			?>
-				<a href="<?php echo gp_url('/admin/settings')?>"><?php _e('Settings'); ?></a> &bull;
+				<a href="<?php echo gp_url_settings() ?>"><?php _e('Settings'); ?></a> &bull;
 			<?php
 			}
 			if ( GP::$user && GP::$user->logged_in() ) {
 			?>
-				<a href="<?php echo gp_url('/admin/users')?>"><?php _e('Users'); ?></a> &bull;
-				<a href="<?php echo gp_url('/admin/users/edit/' . GP::$user->current()->id)?>"><?php _e('Profile'); ?></a> &bull;
+				<a href="<?php echo gp_url_users() ?>"><?php _e('Users'); ?></a> &bull;
+				<a href="<?php echo gp_url_user_profile() ?>"><?php _e('Profile'); ?></a> &bull;
 				<a href="<?php echo gp_url_logout() ?>"><?php _e('Log out'); ?></a>
 			<?php
 			} else if ( GP::$user ) {

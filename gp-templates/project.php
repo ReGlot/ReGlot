@@ -6,7 +6,6 @@ wp_enqueue_script('confirm');
 $edit_link = gp_link_project_edit_get( $project, '(edit)' );
 $delete_link = gp_link_project_delete_get($project, '(del)');
 $parity = gp_parity_factory();
-if ( $project->active ) add_filter('gp_breadcrumb', lambda('$s', '$s . "<span class=\\"active bubble\\">Active</span>"'));
 gp_tmpl_header();
 ?>
 <h2><?php echo esc_html( $project->name ); ?> <?php echo $edit_link; ?> <?php echo $delete_link; ?></h2>

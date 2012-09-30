@@ -28,7 +28,7 @@ gp_tmpl_header();
 ?>
 <h3><?php _e('User List'); ?></h3>
 <p>
-	<a href="<?php echo gp_url('/admin/users/new'); ?>"><?php _e('Create a New User'); ?></a>
+	<a href="<?php echo gp_url_user_profile(REGLOT_NEW_USER); ?>"><?php _e('Create a New User'); ?></a>
 </p>
 
 <table id="translations" class="translations clear">
@@ -58,7 +58,7 @@ foreach( $users as $user ):
 		<?php echo $user->id; ?>
 	</td>
 	<td class="user_long">
-		<a href="<?php echo gp_url('/admin/users/edit/') . $user->id; ?>"><?php echo esc_html( $user->user_login ); ?></a>
+		<a href="<?php echo gp_url_user_profile($user->id); ?>"><?php echo esc_html( $user->user_login ); ?></a>
 		<?php if ( $user->admin() ) echo '<span class="active bubble">Admin</span>'; ?>
 	</td>
 	<td class="user_long">
@@ -82,7 +82,7 @@ foreach( $users as $user ):
 		$trans_count = GP::$translation->count_by_user($user->id);
 		if ( $trans_count ) {
 		?>
-		<a href="<?php echo gp_url('/projects/~/~/~/u/' . $user->id) ?>"><?php echo esc_html( GP::$translation->count_by_user($user->id) ); ?></a>
+		<a href="<?php echo gp_url_user_translations($user->id) ?>"><?php echo esc_html( GP::$translation->count_by_user($user->id) ); ?></a>
 		<?php
 		} else {
 			echo __('None');
@@ -94,7 +94,7 @@ foreach( $users as $user ):
 		<?php echo esc_html( $user->user_status ); ?>
 	</td>
 	<td class="user_actions">
-		<a href="<?php echo gp_url('/admin/users/edit/') . $user->id; ?>" class="bubble action edit"><?php _e('Edit'); ?></a> 
+		<a href="<?php echo gp_url_user_profile($user->id); ?>" class="bubble action edit"><?php _e('Edit'); ?></a>
 		<a href="<?php echo gp_url('/admin/users/admin/') . $user->id; ?>" class="bubble action edit"><?php $user->admin() ? _e('Revoke Admin') : _e('Make Admin'); ?></a> 
 		<a href="<?php echo gp_url('/admin/users/delete/') . $user->id; ?>" class="bubble action delete"><?php _e('Delete'); ?></a>
 	</td>
