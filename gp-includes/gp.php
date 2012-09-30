@@ -29,7 +29,12 @@ class GP {
 	* @var GP_Original $original
 	*/
 	static $original;
+
 	// other singletons
+
+    /**
+     * @var GP_Router $router
+     */
 	static $router;
 	static $redirect_notices = array();
 	static $translation_warnings;

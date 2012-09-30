@@ -3,18 +3,22 @@ gp_title(__('Tools'));
 gp_tmpl_header();
 ?>
 <h2><?php _e('GlotPress Tools'); ?></h2>
-<h3><?php _e('Import/Export'); ?></h3>
 
-<ul>
-	<?php if ( GP::$user->current()->admin() ) { ?>
-	<li>
-		<a href="<?php echo gp_url('/tools/elgg-import'); ?>"><?php _e('Elgg Import'); ?></a>: <?php _e('Create a set of GlotPress projects from an Elgg language pack'); ?>
-	</li>
-	<?php } ?>
-	<li>
-		<a href="<?php echo gp_url('/tools/elgg-export'); ?>"><?php _e('Elgg Export'); ?></a>: <?php _e('Create a language pack from a set of GlotPress projects for Elgg'); ?>
-	</li>
-</ul>
-
+<?php if ( empty($tools_config) ) { ?>
+    <p><?php _e('Sorry! There are no tools available to you.'); ?></p>
+<?php } else { ?>
+    <?php foreach ( $tools_config as $section => $tools ) { ?>
+        <h3><?php echo $section; ?></h3>
+        <ul>
+        <?php foreach ( $tools as $tool ) { ?>
+            <?php if ( !$tool['admin_only'] || GP::$user->current()->admin() ) { ?>
+            <li>
+                <a href="<?php echo gp_url_join('tool', $tool['link']); ?>"><?php echo $tool['title'] ?></a>: <?php echo $tool['description']; ?>
+            </li>
+            <?php } ?>
+        <?php } ?>
+        </ul>
+    <?php } ?>
+<?php } ?>
 <?php
 gp_tmpl_footer();

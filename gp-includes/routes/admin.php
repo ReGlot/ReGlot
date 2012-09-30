@@ -1,7 +1,12 @@
 <?php
 class GP_Route_Admin extends GP_Route_Main {
 
-	// this method is also invoked by ::delete(), ::admin(), and ::edit() when they complete their task
+    function tools() {
+        $tools_config = apply_filters('gp_tools', array());
+        gp_tmpl_load('tools', get_defined_vars());
+    }
+
+    // this method is also invoked by ::delete(), ::admin(), and ::edit() when they complete their task
 	function users() {
 		// only logged-in users have access to this
 		$this->logged_in_or_forbidden();

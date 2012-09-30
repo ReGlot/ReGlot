@@ -29,8 +29,12 @@ class GP_Router {
 	function add( $re, $function, $method = 'get' ) {
 		$this->urls["$method:$re"] = $function;
 	}
-	
-	function default_routes() {
+
+    function add_tool( $re, $function) {
+        $this->urls["get:/tool/$re"] = $function;
+    }
+
+    function default_routes() {
 		if ( (gp_get_option('public_home') != 'on') && (!GP::$user || !GP::$user->logged_in()) ) {
 			return apply_filters('routes', array(
 				'/' => array('GP_Route_Index', 'login_only'),
@@ -112,9 +116,7 @@ class GP_Router {
 			'/admin/users/new' => array('GP_Route_Admin', 'edit'),
 			'/register' => array('GP_Route_Admin', 'register'),
 
-			'get:/tools' => array('GP_Route_Tools', 'index'),
-			'/tools/elgg-import' => array('GP_Route_Tools', 'elgg_import'),
-			'/tools/elgg-export' => array('GP_Route_Tools', 'elgg_export'),
+			'get:/tools' => array('GP_Route_Admin', 'tools'),
 		) );
 	}
 
