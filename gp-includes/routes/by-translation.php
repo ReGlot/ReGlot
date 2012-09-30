@@ -35,6 +35,8 @@ class GP_Route_ByTranslation extends GP_Route_Main {
 				break;
 		}
 		foreach( $translation_sets as $set ) {
+            $set->project_id = $set->id;
+            $set->translation_set_id = null;
 			$set->display_name = $set->name;
 			$set->current_count = $set->current_count($locale_slug, $slug);
 			$set->untranslated_count = $set->untranslated_count($locale_slug, $slug);

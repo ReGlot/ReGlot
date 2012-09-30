@@ -154,6 +154,10 @@ $bulk_action = gp_url_join($url, '-bulk');
 				<dd><?php echo $t->translation_added; ?> GMT</dd>
 			</dl>
 			<?php endif; ?>
+            <dl>
+                <dt><?php _e('In:'); ?></dt>
+                <dd><?php echo $row_project->name; ?> / <?php echo $row_translation_set->name; ?></dd>
+            </dl>
 			<?php if ( $t->user_login ): ?>
 			<dl>
 				<dt><?php _e('Translated by:'); ?></dt>

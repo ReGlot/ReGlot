@@ -13,6 +13,8 @@ class GP_Route_Project extends GP_Route_Main {
 		$sub_projects = $project->sub_projects();
 		$translation_sets = GP::$translation_set->by_project_id( $project->id );
 		foreach( $translation_sets as $set ) {
+            $set->project_id = $project->id;
+            $set->translation_set_id = $set->id;
 			$set->path = $project_path;
 			$set->display_name = $set->name_with_locale();
 			$set->current_count = $set->current_count();
@@ -24,6 +26,7 @@ class GP_Route_Project extends GP_Route_Main {
 		usort( $translation_sets, lambda('$a, $b', '$a->current_count < $b->current_count' ) );
 		$title = sprintf( __('%s project '), esc_html( $project->name ) );
 		$can_write = $this->can( 'write', 'project', $project->id );
+        $locale_slug = null;
 		$this->tmpl( 'project', get_defined_vars() );
 	}
 	

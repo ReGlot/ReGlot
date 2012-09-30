@@ -213,12 +213,25 @@ class GP_Translation extends GP_Thing {
 		return $translations;
 	}
 
-	function count_by_user($user_id) {
-		return $this->value("
-			SELECT COUNT(*) FROM gp_originals AS o
-			LEFT JOIN gp_translations AS t ON o.id = t.original_id
-			WHERE t.user_id = %d AND o.status LIKE '+%%'", $user_id
-		);
+	function count_by_user($user_id, $project_id = null, $translation_set_id = null, $locale_slug = null) {
+        global $gpdb;
+        $sql = "SELECT COUNT(*) FROM $gpdb->originals AS o
+			LEFT JOIN $gpdb->translations AS t ON o.id = t.original_id";
+        if ( $locale_slug ) {
+            $sql .= " LEFT JOIN $gpdb->translation_sets AS ts ON ts.id = t.translation_set_id";
+        }
+        $sql .= ' WHERE t.user_id = %d';
+        if ( $project_id ) {
+            $sql .= ' AND o.project_id = ' . $gpdb->escape($project_id);
+        }
+        if ( $translation_set_id ) {
+            $sql .= ' AND t.translation_set_id = ' . $gpdb->escape($translation_set_id);
+        }
+        if ( $locale_slug ) {
+            $sql .= ' AND ts.locale = \'' . $gpdb->escape($locale_slug) . '\'';
+        }
+        $sql .= ' AND o.status LIKE \'+%%\'';
+		return $this->value($sql, $user_id);
 	}
 
 	function set_as_current() {
