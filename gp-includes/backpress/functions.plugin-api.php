@@ -600,8 +600,9 @@ function plugin_dir_path( $file ) {
  * @param string $file The filename of the plugin (__FILE__)
  * @return string the URL path of the directory that contains the plugin
  */
-function plugin_dir_url( $file ) {
-	return trailingslashit( plugins_url( '', $file ) );
+function plugin_dir_url($file) {
+    $dir = trailingslashit(str_replace(GP_PATH, '', plugin_dir_path($file)));
+	return gp_url_base_root() .  $dir;
 }
 
 /**

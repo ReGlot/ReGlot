@@ -30,8 +30,12 @@ class GP_Router {
 		$this->urls["$method:$re"] = $function;
 	}
 
-    function add_tool( $re, $function) {
-        $this->urls["get:/tool/$re"] = $function;
+    function add_tool($re, $function, $method = '') {
+        if ( !$method ) {
+            $this->urls["/tool/$re"] = $function;
+        } else {
+            $this->urls["$method:/tool/$re"] = $function;
+        }
     }
 
     function default_routes() {

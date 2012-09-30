@@ -2,7 +2,7 @@
 gp_title(__('Tools'));
 gp_tmpl_header();
 ?>
-<h2><?php _e('GlotPress Tools'); ?></h2>
+<h2><?php _e('External Tools'); ?></h2>
 
 <?php if ( empty($tools_config) ) { ?>
     <p><?php _e('Sorry! There are no tools available to you.'); ?></p>
