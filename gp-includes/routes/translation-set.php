@@ -12,16 +12,26 @@ class GP_Route_Translation_Set extends GP_Route_Main {
 		$new_set = new GP_Translation_Set( gp_post( 'set', array() ) );
 		if ( $this->cannot_edit_set_and_redirect( $new_set ) ) return;
 		if ( $this->invalid_and_redirect( $new_set ) ) return;
-		if ( gp_array_get($_POST['set'], 'recursive') ) {
-			foreach ( GP::$project->get($_POST['set']['project_id'])->sub_projects() as $subproject ) {
-				$new_set->project_id = $subproject->id;
-				$this->_create_set($new_set);
-			}
-		} else {
-			if ( $this->_create_set($new_set) ) {
-				$this->redirect( gp_url( '/sets/-new', array( 'project_id' => $new_set->project_id ) ) );
-				return;
-			}
+        $project_id = $_POST['set']['project_id'];
+        $recurse = (gp_array_get($_POST['set'], 'recursive') == 'on');
+        $has_originals = (GP::$original->count_by_project_id($project_id) > 0);
+        $created = false;
+        if ( $has_originals ) {
+            $this->_create_set($new_set);
+            $created = true;
+        } else if ( !$recurse ) {
+            $this->errors[] = __('No translation sets were created! The project you selected has no originals to translate.');
+        }
+		if ( $recurse ) {
+            $subprojects = GP::$project->get($project_id)->sub_projects();
+            foreach ( $subprojects as $subproject ) {
+                $new_set->project_id = $subproject->id;
+                $this->_create_set($new_set);
+                $created = true;
+            }
+            if ( !$created ) {
+                $this->errors[] = __('No translation sets were created! The project you selected has no originals and no subprojects.');
+            }
 		}
 		$this->redirect( gp_url_project( GP::$project->get($_POST['set']['project_id'])));
 	}
@@ -29,10 +39,10 @@ class GP_Route_Translation_Set extends GP_Route_Main {
 	function _create_set($new_set) {
 		$created_set = GP::$translation_set->create_and_select( $new_set );
 		if ( !$created_set ) {
-			$this->errors[] = __('Error in creating translation set!');
+			$this->errors[] = sprintf(__('Error in creating translation set %s for %s!'), $new_set->name, $new_set->locale);
 			return true;
 		} else {
-			$this->notices[] = __('The translation set was created!');
+			$this->notices[] = sprintf(__('The translation set %s for %s was created!'), $new_set->name, $new_set->locale);
 			return false;
 		}
 	}
