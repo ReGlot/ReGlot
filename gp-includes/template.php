@@ -240,7 +240,7 @@ function gp_projects_dropdown( $name_and_id, $selected_project_id = null, $attrs
 			$top[] = $p->id;
 		}
 	}
-	$options = array('' => $firstOption ? __("&mdash; $firstOption &mdash;") : __('&mdash; No parent &mdash;'));
+	$options = array('' => $firstOption ? '&mdash;'.__($firstOption).'&mdash;' : '&mdash;'.__('No parent').'&mdash;');
 	$stack = array();
 	foreach( $top as $top_id ) {
 		$stack = array( $top_id );
