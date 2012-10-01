@@ -23,7 +23,7 @@ if ( ($config = gp_post('config')) ) {
 			} else {
 				GP::$redirect_notices['error'] .= '<br/>';
 			}
-			GP::$redirect_notices['error'] .= sprintf(__('The database configuration field "%s" cannot be empty', 'glotpress'), $key);
+			GP::$redirect_notices['error'] .= sprintf(__('The database configuration field "%s" cannot be empty'), $key);
 		}
 	}
 
@@ -35,7 +35,7 @@ if ( ($config = gp_post('config')) ) {
 			} else {
 				GP::$redirect_notices['error'] .= '<br/>';
 			}
-			GP::$redirect_notices['error'] .= __('The authentication keys must be set. You can generate them on the WordPress API site.', 'glotpress');
+			GP::$redirect_notices['error'] .= __('The authentication keys must be set. You can generate them on the WordPress API site.');
 			break;
 		}
 	}
@@ -49,7 +49,7 @@ if ( ($config = gp_post('config')) ) {
 				} else {
 					GP::$redirect_notices['error'] .= '<br/>';
 				}
-				GP::$redirect_notices['error'] .= __('If you enable WordPress authentication, you must specify user and meta table as well as the admin user.', 'glotpress');
+				GP::$redirect_notices['error'] .= __('If you enable WordPress authentication, you must specify user and meta table as well as the admin user.');
 				break;
 			}
 		}
@@ -71,7 +71,7 @@ if ( ($config = gp_post('config')) ) {
 		}
 		$config_file = preg_replace('/<<GP_LANG>>/', $config['GP_LANG'], $config_file);
 		if ( file_put_contents(GP_PATH . 'gp-config.php', $config_file) === false ) {
-			GP::$redirect_notices['error'] .= __('Cannot save the config file. Please change the permissions on the folder or create the <i>gp-config.php</i> file with this content', 'glotpress');
+			GP::$redirect_notices['error'] .= __('Cannot save the config file. Please change the permissions on the folder or create the <i>gp-config.php</i> file with this content');
 			GP::$redirect_notices['error'] .= '<br/>' . $config_file;
 		} else {
 			$install_uri = preg_replace('|/[^/]+?$|', '/', $_SERVER['PHP_SELF']) . 'install1.php';
