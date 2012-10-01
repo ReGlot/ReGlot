@@ -4,14 +4,14 @@
 	<table class="translation-sets">
 		<thead>
 			<tr>
-				<th><?php _e( 'Language' , 'glotpress'); ?></th>
-				<th><?php echo _x( '%', 'language translation percent header' , 'glotpress'); ?></th>
-                <th><?php _e( 'All' , 'glotpress'); ?></th>
-				<th><?php _e( 'Translated (of total)' , 'glotpress'); ?></th>
-				<th><?php _e( 'Untranslated' , 'glotpress'); ?></th>
-				<th><?php _e( 'Waiting' , 'glotpress'); ?></th>
+				<th><?php _e( 'Language' ); ?></th>
+				<th><?php echo _x( '%', 'language translation percent header' ); ?></th>
+                <th><?php _e( 'All' ); ?></th>
+				<th><?php _e( 'Translated (of total)' ); ?></th>
+				<th><?php _e( 'Untranslated' ); ?></th>
+				<th><?php _e( 'Waiting' ); ?></th>
 <?php if ( GP::$user->logged_in() ) { ?>
-				<th><?php _e( 'Own (of translated)' , 'glotpress'); ?></th>
+				<th><?php _e( 'Own (of translated)' ); ?></th>
 <?php } ?>
 			</tr>
 		</thead>
@@ -93,5 +93,5 @@
 	</table>
 </div>
 <?php elseif ( !$sub_projects ): ?>
-	<p><?php _e('There are no translations of this project.', 'glotpress'); ?></p>
+	<p><?php _e('There are no translations of this project.'); ?></p>
 <?php endif; ?>

@@ -1,8 +1,8 @@
 <?php
-gp_title(__('Originals', 'glotpress'));
+gp_title(__('Originals'));
 gp_breadcrumb( array(
 	gp_project_links_from_root( $project ),
-	gp_link_get($url . '/originals', __('Originals', 'glotpress')),
+	gp_link_get($url . '/originals', __('Originals')),
 ) );
 $parity = gp_parity_factory();
 
@@ -19,9 +19,9 @@ $i = 0;
 <table id="translations" class="translations clear originals">
 	<thead>
 	<tr>
-		<th class="original"><?php _e('Context', 'glotpress'); ?></th>
-		<th class="translation"><?php _e('Original Text', 'glotpress'); ?></th>
-		<th class="comment"><?php _e('Comment', 'glotpress'); ?></th>
+		<th class="original"><?php _e('Context'); ?></th>
+		<th class="translation"><?php _e('Original Text'); ?></th>
+		<th class="comment"><?php _e('Comment'); ?></th>
 	</tr>
 	</thead>
 <?php foreach( $originals as $o ):
@@ -31,7 +31,7 @@ $i = 0;
 <?php
 	if ( !$originals ):
 ?>
-	<tr><td colspan="3"><?php _e('No originals were found!', 'glotpress'); ?></td></tr>
+	<tr><td colspan="3"><?php _e('No originals were found!'); ?></td></tr>
 <?php
 	endif;
 ?>

@@ -1,9 +1,9 @@
-<h2><?php echo sprintf($kind == 'originals'? __('Import Originals into %s', 'glotpress') : __('Import Translations for %s', 'glotpress'), $project->name); ?></h2>
+<h2><?php echo sprintf($kind == 'originals'? __('Import Originals into %s') : __('Import Translations for %s'), $project->name); ?></h2>
 <form action="" method="post" enctype="multipart/form-data">
 	<dl>
-	<dt><label for="import-file"><?php _e('Import File:', 'glotpress'); ?></label></dt>
+	<dt><label for="import-file"><?php _e('Import File:'); ?></label></dt>
 	<dd><input type="file" name="import-file" id="import-file" /></dd>
-	<dt><label for="format"><?php _e('Format:', 'glotpress'); ?></label></dt>
+	<dt><label for="format"><?php _e('Format:'); ?></label></dt>
 	<dd><?php echo gp_select_format('format'); ?></dd>
-	<dt><input type="submit" value="<?php echo esc_attr( __('Import', 'glotpress') ); ?>"></dt>
+	<dt><input type="submit" value="<?php echo esc_attr( __('Import') ); ?>"></dt>
 </form>

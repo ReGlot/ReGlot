@@ -1,7 +1,7 @@
 <?php
-gp_title(__('Login', 'glotpress'));
+gp_title(__('Login'));
 gp_breadcrumb( array(
-	__('Login', 'glotpress'),
+	__('Login'),
 ) );
 gp_tmpl_header();
 ?>
@@ -9,16 +9,16 @@ gp_tmpl_header();
 	<?php do_action( 'before_login_form' ); ?>
 	<form action="<?php echo gp_url_ssl( gp_url_current() ); ?>" method="post">
 	<dl>
-		<dt><label for="user_login"><?php _e('Username', 'glotpress'); ?></label></dt>
+		<dt><label for="user_login"><?php _e('Username'); ?></label></dt>
 		<dd><input type="text" value="" id="user_login" name="user_login" /></dd>
 		
-		<dt><label for="user_pass"><?php _e('Password', 'glotpress'); ?></label></dt>
+		<dt><label for="user_pass"><?php _e('Password'); ?></label></dt>
 		<dd><input type="password" value="" id="user_pass" name="user_pass" /></dd>
 	</dl>
 	<p>
-		<input type="submit" name="submit" value="<?php _e('Login', 'glotpress'); ?>" id="submit">
+		<input type="submit" name="submit" value="<?php _e('Login'); ?>" id="submit">
 		<?php if ( gp_get_option('user_registration') == 'on' ) { ?>
-		or <strong><a href="<?php echo gp_url_register(); ?>"><?php _e('register', 'glotpress'); ?></a></strong>
+		or <strong><a href="<?php echo gp_url_register(); ?>"><?php _e('register'); ?></a></strong>
 		if you don't have an account yet
 		<?php } ?>
 	</p>

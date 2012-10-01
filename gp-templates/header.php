@@ -15,42 +15,43 @@ wp_enqueue_script( 'common' );
 	    <div id="gp-js-message"></div>
 		<h1>
 			<a class="logo" href="<?php echo gp_url( '/' ); ?>">
-				<img alt="<?php esc_attr(__('GlotPress logo', 'glotpress')); ?>" src="<?php echo gp_url_img( 'glotpress-logo.png' ); ?>" />
+				<img alt="<?php esc_attr(__('GlotPress logo')); ?>" src="<?php echo gp_url_img( 'glotpress-logo.png' ); ?>" />
 			</a>
 			<?php echo gp_breadcrumb(); ?>
 			<span id="hello">
 			<?php
 			if ( GP::$user && GP::$user->logged_in() ) {
 				$user = GP::$user->current();
-				printf( __('Welcome %s! &nbsp; &nbsp; ', 'glotpress'), $user->display_name );
+				printf( __('Welcome %s!'), $user->display_name );
+				echo '&nbsp; &nbsp;';
 			}
 
 			do_action( 'after_hello' );
 
 			if ( gp_get_option('public_home') == 'on' ) {
 			?>
-				<a href="<?php echo gp_url_project() ?>"><?php _e('Projects', 'glotpress'); ?></a> &bull;
-				<a href="<?php echo gp_url_by_translation() ?>"><?php _e('Translations', 'glotpress'); ?></a> &bull;
-				<a href="<?php echo gp_url_tools() ?>"><?php _e('Tools', 'glotpress'); ?></a> &bull;
+				<a href="<?php echo gp_url_project() ?>"><?php _e('Projects'); ?></a> &bull;
+				<a href="<?php echo gp_url_by_translation() ?>"><?php _e('Translations'); ?></a> &bull;
+				<a href="<?php echo gp_url_tools() ?>"><?php _e('Tools'); ?></a> &bull;
 			<?php
 			}
 			if ( GP::$user && GP::$user->logged_in() && GP::$user->admin() ) {
 			?>
-				<a href="<?php echo gp_url_settings() ?>"><?php _e('Settings', 'glotpress'); ?></a> &bull;
+				<a href="<?php echo gp_url_settings() ?>"><?php _e('Settings'); ?></a> &bull;
 			<?php
 			}
 			if ( GP::$user && GP::$user->logged_in() ) {
 			?>
-				<a href="<?php echo gp_url_users() ?>"><?php _e('Users', 'glotpress'); ?></a> &bull;
-				<a href="<?php echo gp_url_user_profile() ?>"><?php _e('Profile', 'glotpress'); ?></a> &bull;
-				<a href="<?php echo gp_url_logout() ?>"><?php _e('Log out', 'glotpress'); ?></a>
+				<a href="<?php echo gp_url_users() ?>"><?php _e('Users'); ?></a> &bull;
+				<a href="<?php echo gp_url_user_profile() ?>"><?php _e('Profile'); ?></a> &bull;
+				<a href="<?php echo gp_url_logout() ?>"><?php _e('Log out'); ?></a>
 			<?php
 			} else if ( GP::$user ) {
 			?>
 				<?php if ( gp_get_option('user_registration') == 'on' ) { ?>
-				<strong><a href="<?php echo gp_url_register(); ?>"><?php _e('Register', 'glotpress'); ?></a></strong> &bull;
+				<strong><a href="<?php echo gp_url_register(); ?>"><?php _e('Register'); ?></a></strong> &bull;
 				<?php } ?>
-				<strong><a href="<?php echo gp_url_login(); ?>"><?php _e('Log in', 'glotpress'); ?></a></strong>
+				<strong><a href="<?php echo gp_url_login(); ?>"><?php _e('Log in'); ?></a></strong>
 			<?php
 			}
 			?>

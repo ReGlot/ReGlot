@@ -1,41 +1,41 @@
 <?php
-gp_title(__('Translations', 'glotpress'));
-gp_breadcrumb(array(__('Translations', 'glotpress')));
+gp_title(__('Translations'));
+gp_breadcrumb(array(__('Translations')));
 //wp_enqueue_script('confirm');
 gp_tmpl_header();
 ?>
-<h2><?php _e('Translations', 'glotpress') ?></h2>
+<h2><?php _e('Translations') ?></h2>
 <?php if ( empty($bundles) ): ?>
-<p><?php _e('No translations were found!', 'glotpress'); ?></p>
+<p><?php _e('No translations were found!'); ?></p>
 <?php else: ?>
 <p class="actionlist secondary">
     <?php
     switch ( $kind ) {
         case 'slugs':
-            gp_link(gp_url_by_translation('slugs'), __('Showing by Slug', 'glotpress'), array('style'=>'text-decoration: none;'));
+            gp_link(gp_url_by_translation('slugs'), __('Showing by Slug'), array('style'=>'text-decoration: none;'));
             echo ' &bull; ';
-            gp_link(gp_url_by_translation('locales'), __('Show by Locale', 'glotpress'));
+            gp_link(gp_url_by_translation('locales'), __('Show by Locale'));
             echo ' &bull; ';
-            gp_link(gp_url_by_translation('both'), __('Show by Both', 'glotpress'));
+            gp_link(gp_url_by_translation('both'), __('Show by Both'));
             break;
         case 'locales':
-            gp_link(gp_url_by_translation('locales'), __('Showing by Locale', 'glotpress'), array('style'=>'text-decoration: none;'));
+            gp_link(gp_url_by_translation('locales'), __('Showing by Locale'), array('style'=>'text-decoration: none;'));
             echo ' &bull; ';
-            gp_link(gp_url_by_translation('slugs'), __('Show by Slug', 'glotpress'));
+            gp_link(gp_url_by_translation('slugs'), __('Show by Slug'));
             echo ' &bull; ';
-            gp_link(gp_url_by_translation('both'), __('Show by Both', 'glotpress'));
+            gp_link(gp_url_by_translation('both'), __('Show by Both'));
             break;
         case 'both':
-            gp_link(gp_url_by_translation('both'), __('Showing by Both', 'glotpress'), array('style'=>'text-decoration: none;'));
+            gp_link(gp_url_by_translation('both'), __('Showing by Both'), array('style'=>'text-decoration: none;'));
             echo ' &bull; ';
-            gp_link(gp_url_by_translation('locales'), __('Show by Locale', 'glotpress'));
+            gp_link(gp_url_by_translation('locales'), __('Show by Locale'));
             echo ' &bull; ';
-            gp_link(gp_url_by_translation('slugs'), __('Show by Slug', 'glotpress'));
+            gp_link(gp_url_by_translation('slugs'), __('Show by Slug'));
             break;
     }
     if ( GP::$user->logged_in() ) {
     ?>
-        <span style="float:right"><?php gp_link(gp_url_user_translations(), __('Show Your Own', 'glotpress') ); ?></span>
+        <span style="float:right"><?php gp_link(gp_url_user_translations(), __('Show Your Own') ); ?></span>
     <?php
     }
     ?>
@@ -61,7 +61,7 @@ switch ( $kind ) {
 		$locale = GP_Locales::by_slug($bundle->slug);
 		echo esc_html($locale->native_name . ' / ' . $locale->english_name);
 		echo " ($locale->slug) : ";
-		gp_link("/by-translation/both/$bundle->locale/$bundle->slug", __('view', 'glotpress'));
+		gp_link("/by-translation/both/$bundle->locale/$bundle->slug", __('view'));
 		break;
 }
 ?>

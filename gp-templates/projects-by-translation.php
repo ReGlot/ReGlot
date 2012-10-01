@@ -12,7 +12,7 @@ switch ( $kind ) {
 		break;
 	case 'slug':
 		$title = "Slug $slug";
-		$headerTitle = sprintf(__('By Slug \'%s\'', 'glotpress'), $slug);
+		$headerTitle = sprintf(__('By Slug \'%s\''), $slug);
 		$descTitle .= "with slug '$slug'";
 		$url = 'by-translation/slugs';
 		$suffix = 's';
@@ -20,7 +20,7 @@ switch ( $kind ) {
 	case 'both':
 		$locale = GP_Locales::by_slug($locale_slug);
 		$title = "$locale->english_name + $slug";
-		$headerTitle = "$locale->native_name / $locale->english_name " . sprintf(__('and slug \'%s\'', 'glotpress'), $slug);
+		$headerTitle = "$locale->native_name / $locale->english_name " . sprintf(__('and slug \'%s\''), $slug);
 		$descTitle .= "in $locale->english_name with slug '$slug'";
 		$url = 'by-translation/both';
 		$suffix = 'b';
@@ -28,7 +28,7 @@ switch ( $kind ) {
 }
 gp_title(esc_html($title));
 gp_breadcrumb(array(
-	gp_link_get(gp_url($url),__('Translations', 'glotpress')),
+	gp_link_get(gp_url($url),__('Translations')),
 	$title
 	));
 wp_enqueue_script('common');
