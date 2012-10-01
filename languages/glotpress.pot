@@ -1,10 +1,10 @@
-# Copyright (C) 2012 
-# This file is distributed under the same license as the  package.
+# Copyright (C) 2012 {package-name}
+# This file is distributed under the same license as the {package-name} package.
 msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tags/glotpress\n"
-"POT-Creation-Date: 2012-10-01 11:35:14+00:00\n"
+"Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
+"POT-Creation-Date: 2012-10-01 13:37:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -199,54 +199,63 @@ msgid "BackPress &rsaquo; Error"
 msgstr ""
 
 #. translators: opening curly double quote
+
 #: gp-includes/backpress/functions.formatting.php:40
 msgctxt "opening curly double quote"
 msgid "&#8220;"
 msgstr ""
 
 #. translators: closing curly double quote
+
 #: gp-includes/backpress/functions.formatting.php:42
 msgctxt "closing curly double quote"
 msgid "&#8221;"
 msgstr ""
 
 #. translators: apostrophe, for example in 'cause or can't
+
 #: gp-includes/backpress/functions.formatting.php:45
 msgctxt "apostrophe"
 msgid "&#8217;"
 msgstr ""
 
 #. translators: prime, for example in 9' (nine feet)
+
 #: gp-includes/backpress/functions.formatting.php:48
 msgctxt "prime"
 msgid "&#8242;"
 msgstr ""
 
 #. translators: double prime, for example in 9" (nine inches)
+
 #: gp-includes/backpress/functions.formatting.php:50
 msgctxt "double prime"
 msgid "&#8243;"
 msgstr ""
 
 #. translators: opening curly single quote
+
 #: gp-includes/backpress/functions.formatting.php:53
 msgctxt "opening curly single quote"
 msgid "&#8216;"
 msgstr ""
 
 #. translators: closing curly single quote
+
 #: gp-includes/backpress/functions.formatting.php:55
 msgctxt "closing curly single quote"
 msgid "&#8217;"
 msgstr ""
 
 #. translators: en dash
+
 #: gp-includes/backpress/functions.formatting.php:58
 msgctxt "en dash"
 msgid "&#8211;"
 msgstr ""
 
 #. translators: em dash
+
 #: gp-includes/backpress/functions.formatting.php:60
 msgctxt "em dash"
 msgid "&#8212;"
@@ -262,10 +271,6 @@ msgstr ""
 
 #: gp-includes/backpress/functions.wp-cron.php:306
 msgid "Once Daily"
-msgstr ""
-
-#: gp-includes/backpress/pomo/sample/app.php:56 pomo/sample/app.php:56
-msgid "Welcome %s!"
 msgstr ""
 
 #: gp-includes/backpress/pomo/sample/app.php:60 pomo/sample/app.php:60
@@ -291,8 +296,7 @@ msgstr ""
 #: gp-includes/formats/format_android.php:48
 #: gp-includes/formats/format_elgg.php:66
 #: gp-includes/formats/format_java.php:69
-#: gp-includes/formats/format_resx.php:63
-#: gp-includes/formats/format_rrc.php:58
+#: gp-includes/formats/format_resx.php:63 gp-includes/formats/format_rrc.php:58
 #: gp-includes/formats/format_strings.php:59
 msgid "Missing context %s in project #%d"
 msgstr ""
@@ -301,8 +305,7 @@ msgstr ""
 msgid "You are not allowed to do that!"
 msgstr ""
 
-#: gp-includes/route.php:197 gp-includes/template.php:61
-#: gp-templates/404.php:2
+#: gp-includes/route.php:197 gp-includes/template.php:61 gp-templates/404.php:2
 msgid "Not Found"
 msgstr ""
 
@@ -367,7 +370,8 @@ msgstr ""
 msgid "Invalid username!"
 msgstr ""
 
-#: gp-includes/routes/login.php:26
+#: gp-includes/routes/login.php:26 pomo/sample/app.php:56
+#: gp-includes/backpress/pomo/sample/app.php:56 gp-templates/header.php:25
 msgid "Welcome, %s!"
 msgstr ""
 
@@ -375,7 +379,7 @@ msgstr ""
 msgid "Invalid password!"
 msgstr ""
 
-#: gp-includes/routes/project.php:5 gp-templates/header.php:32
+#: gp-includes/routes/project.php:5 gp-templates/header.php:33
 #: gp-templates/projects.php:2 gp-templates/projects.php:3
 #: gp-templates/projects.php:7
 msgid "Projects"
@@ -577,9 +581,7 @@ msgid "Delete"
 msgstr ""
 
 #: gp-includes/template-links.php:51
-msgid ""
-"Are you sure you want to delete the project \"%s\" and all of its "
-"subprojects?"
+msgid "Are you sure you want to delete the project \"%s\" and all of its subprojects?"
 msgstr ""
 
 #: gp-includes/template-links.php:62
@@ -591,8 +593,7 @@ msgid "Home Is Where The Heart Is"
 msgstr ""
 
 #: gp-includes/template-links.php:71 gp-templates/login.php:2
-#: gp-templates/login.php:4 gp-templates/login.php:19
-#: gp-templates/users.php:38
+#: gp-templates/login.php:4 gp-templates/login.php:19 gp-templates/users.php:38
 msgid "Login"
 msgstr ""
 
@@ -601,12 +602,11 @@ msgid "Sign into GlotPress"
 msgstr ""
 
 #: gp-includes/template-links.php:98
-msgid ""
-"Are you sure you want to delete the set \"%s\" in project \"%s\" and all of "
-"its translations?"
+msgid "Are you sure you want to delete the set \"%s\" in project \"%s\" and all of its translations?"
 msgstr ""
 
 #. translators: separates links in the navigation breadcrumb
+
 #: gp-includes/template.php:87
 msgctxt "breadcrumb"
 msgid "&rarr;"
@@ -659,37 +659,34 @@ msgid "Original and translation should both begin on newline."
 msgstr ""
 
 #: gp-load.php:8
-msgid ""
-"Your server is running PHP version %s but GlotPress requires at least 5.2.\n"
+msgid "Your server is running PHP version %s but GlotPress requires at least 5.2.\n"
 msgstr ""
 
-#: gp-settings.php:108
+#: gp-settings.php:107
 msgid "ERROR: Could not establish a database connection"
 msgstr ""
 
-#: gp-settings.php:111
+#: gp-settings.php:110
 msgid "ERROR: Can't select database."
 msgstr ""
 
-#: gp-settings.php:114
-msgid ""
-"ERROR: GlotPress database error - \"%s\" for query \"%s\" via caller \"%s\""
+#: gp-settings.php:113
+msgid "ERROR: GlotPress database error - \"%s\" for query \"%s\" via caller \"%s\""
 msgstr ""
 
-#: gp-settings.php:120
+#: gp-settings.php:119
 msgid "ERROR: GlotPress requires MySQL 4.0.0 or higher"
 msgstr ""
 
-#: gp-settings.php:123
+#: gp-settings.php:122
 msgid "ERROR: GlotPress requires The MySQL PHP extension"
 msgstr ""
 
-#: gp-settings.php:129
-msgid ""
-"You must specify a table prefix in your <code>gp-config.php</code> file."
+#: gp-settings.php:128
+msgid "You must specify a table prefix in your <code>gp-config.php</code> file."
 msgstr ""
 
-#: gp-settings.php:152
+#: gp-settings.php:151
 msgid "Your table prefix may only contain letters, numbers and underscores."
 msgstr ""
 
@@ -698,10 +695,10 @@ msgid "The resource you are looking for could not be found"
 msgstr ""
 
 #: gp-templates/by-translation.php:2 gp-templates/by-translation.php:3
-#: gp-templates/by-translation.php:7 gp-templates/header.php:33
-#: gp-templates/projects-by-translation.php:31
-#: gp-templates/translations.php:12 gp-templates/translations.php:19
-#: gp-templates/translations.php:26 gp-templates/users.php:45
+#: gp-templates/by-translation.php:7 gp-templates/header.php:34
+#: gp-templates/projects-by-translation.php:31 gp-templates/translations.php:12
+#: gp-templates/translations.php:19 gp-templates/translations.php:26
+#: gp-templates/users.php:45
 msgid "Translations"
 msgstr ""
 
@@ -742,49 +739,39 @@ msgid "view"
 msgstr ""
 
 #: gp-templates/footer.php:2
-msgid ""
-"<a href=\"https://github.com/fmestrone/ReGlot\" title=\"Found in "
-"translation, and some...\"><b>%s</b></a>, powered by <a href=\"http://"
-"glotpress.org/\" title=\"Found in translation\">GlotPress</a>, improved by "
-"<a href=\"http://www.federicomestrone.com\" title=\"Federico Mestrone"
-"\">FedMest</a> & <a href=\"http://twinpictures.de\" title=\"Twinpictures"
-"\">Twinpictures</a>."
+msgid "<a href=\"https://github.com/fmestrone/ReGlot\" title=\"Found in translation, and some...\"><b>%s</b></a>, powered by <a href=\"http://glotpress.org/\" title=\"Found in translation\">GlotPress</a>, improved by <a href=\"http://www.federicomestrone.com\" title=\"Federico Mestrone\">FedMest</a> & <a href=\"http://twinpictures.de\" title=\"Twinpictures\">Twinpictures</a>."
 msgstr ""
 
 #: gp-templates/header.php:18
 msgid "GlotPress logo"
 msgstr ""
 
-#: gp-templates/header.php:25
-msgid "Welcome %s! &nbsp; &nbsp; "
-msgstr ""
-
-#: gp-templates/header.php:34 gp-templates/tools.php:2
+#: gp-templates/header.php:35 gp-templates/tools.php:2
 msgid "Tools"
 msgstr ""
 
-#: gp-templates/header.php:39 gp-templates/settings.php:2
+#: gp-templates/header.php:40 gp-templates/settings.php:2
 msgid "Settings"
 msgstr ""
 
-#: gp-templates/header.php:44 gp-templates/translations.php:33
+#: gp-templates/header.php:45 gp-templates/translations.php:33
 #: gp-templates/users.php:3
 msgid "Users"
 msgstr ""
 
-#: gp-templates/header.php:45
+#: gp-templates/header.php:46
 msgid "Profile"
 msgstr ""
 
-#: gp-templates/header.php:46
+#: gp-templates/header.php:47
 msgid "Log out"
 msgstr ""
 
-#: gp-templates/header.php:51
+#: gp-templates/header.php:52
 msgid "Register"
 msgstr ""
 
-#: gp-templates/header.php:53
+#: gp-templates/header.php:54
 msgid "Log in"
 msgstr ""
 
@@ -845,17 +832,11 @@ msgid "user (the translation column in the <a href=\"%s\">users list page</a>)"
 msgstr ""
 
 #: gp-templates/index.php:21
-msgid ""
-"As a logged in user, you may suggest or modify existing translations from "
-"any of the above links.<br/>You may also <a href=\"%s\">edit your profile</"
-"a> or view and work on the <a href=\"%s\">translation entries contributed by "
-"yourself</a>."
+msgid "As a logged in user, you may suggest or modify existing translations from any of the above links.<br/>You may also <a href=\"%s\">edit your profile</a> or view and work on the <a href=\"%s\">translation entries contributed by yourself</a>."
 msgstr ""
 
 #: gp-templates/index.php:25
-msgid ""
-"If you want to help translating instead, please <a href=\"%s\">log in</a> to "
-"%s or <a href=\"%s\">register</a> if you don't have an account yet."
+msgid "If you want to help translating instead, please <a href=\"%s\">log in</a> to %s or <a href=\"%s\">register</a> if you don't have an account yet."
 msgstr ""
 
 #: gp-templates/install.php:2 gp-templates/install.php:3
@@ -908,9 +889,7 @@ msgid "Authentication Unique Keys"
 msgstr ""
 
 #: gp-templates/install.php:70
-msgid ""
-"You can generate these using the <a href=\"https://api.wordpress.org/secret-"
-"key/1.1/\" target=\"_blank\">WordPress.org secret-key service</a> page"
+msgid "You can generate these using the <a href=\"https://api.wordpress.org/secret-key/1.1/\" target=\"_blank\">WordPress.org secret-key service</a> page"
 msgstr ""
 
 #: gp-templates/install.php:75
@@ -926,9 +905,7 @@ msgid "GlotPress Language"
 msgstr ""
 
 #: gp-templates/install.php:88
-msgid ""
-"A corresponding MO file for the chosen language must be installed to "
-"<i>languages/</i>. Leave blank for English."
+msgid "A corresponding MO file for the chosen language must be installed to <i>languages/</i>. Leave blank for English."
 msgstr ""
 
 #: gp-templates/install1.php:4 gp-templates/install2.php:4
@@ -940,8 +917,7 @@ msgid "Configure Administrator Options"
 msgstr ""
 
 #: gp-templates/install1.php:27
-msgid ""
-"Select the WordPress user that will have administrator's rights in GlotPress"
+msgid "Select the WordPress user that will have administrator's rights in GlotPress"
 msgstr ""
 
 #: gp-templates/install1.php:29
@@ -986,9 +962,7 @@ msgid "The %s installation may be <a href=\"%s\">accessed here</a>"
 msgstr ""
 
 #: gp-templates/install2.php:24
-msgid ""
-"Or you may <a href=\"%s\">log in</a> to GlotPress straightaway with the "
-"username and password you have just created"
+msgid "Or you may <a href=\"%s\">log in</a> to GlotPress straightaway with the username and password you have just created"
 msgstr ""
 
 #: gp-templates/login.php:21
@@ -1054,10 +1028,7 @@ msgid "Source file URL"
 msgstr ""
 
 #: gp-templates/project-form.php:18
-msgid ""
-"Public URL to a source file in the project. You can use <code>%file%</code> "
-"and <code>%line%</code>. Ex. <code>http://trac.example.org/browser/%file%#L%"
-"line%</code>"
+msgid "Public URL to a source file in the project. You can use <code>%file%</code> and <code>%line%</code>. Ex. <code>http://trac.example.org/browser/%file%#L%line%</code>"
 msgstr ""
 
 #: gp-templates/project-form.php:21
@@ -1103,8 +1074,7 @@ msgstr ""
 #: gp-templates/project-mass-create-sets.php:12
 msgid ""
 "Here you can mass-create translation sets in this project.\n"
-"The list of translation sets will be mirrored with the sets of a project you "
-"choose.\n"
+"The list of translation sets will be mirrored with the sets of a project you choose.\n"
 "Usually this is one of the parent projects."
 msgstr ""
 
@@ -1162,8 +1132,7 @@ msgstr ""
 msgid "Add a validator for this project"
 msgstr ""
 
-#: gp-templates/project-permissions.php:54
-#: gp-templates/translation-row.php:166
+#: gp-templates/project-permissions.php:54 gp-templates/translation-row.php:166
 msgid "Username:"
 msgstr ""
 
@@ -1200,10 +1169,7 @@ msgid "Personal project options &darr;"
 msgstr ""
 
 #: gp-templates/project.php:36
-msgid ""
-"URL to a source file in the project. You can use <code>%file%</code> and "
-"<code>%line%</code>. Ex. <code>http://trac.example.org/browser/%file%#L%line%"
-"</code>"
+msgid "URL to a source file in the project. You can use <code>%file%</code> and <code>%line%</code>. Ex. <code>http://trac.example.org/browser/%file%#L%line%</code>"
 msgstr ""
 
 #: gp-templates/project.php:40
@@ -1259,9 +1225,7 @@ msgid "Recursively create translation sets in subprojects by default"
 msgstr ""
 
 #: gp-templates/settings.php:19
-msgid ""
-"You can still change this option before every individual translation set "
-"creation"
+msgid "You can still change this option before every individual translation set creation"
 msgstr ""
 
 #: gp-templates/tools-elgg-export.php:3
@@ -1278,15 +1242,9 @@ msgstr ""
 
 #: gp-templates/tools-elgg-export.php:19 gp-templates/tools-elgg-import.php:14
 msgid ""
-"Import all language data for an Elgg installation. The ZIP file should "
-"contain a folder name elgg-&lt;version&gt; and the whole Elgg installation "
-"or just the language data below it.\n"
-"\t\t\tThe mod folders should include the manifest.xml file, used to get data "
-"about each plugin. The core plugins are imported as subprojects into an Elgg "
-"v&lt;version&gt; project, while all other\n"
-"\t\t\tplugins are imported into a top level Third Party Elgg Plugins "
-"project. The en locale is used for originals, any other locale is imported "
-"as translations."
+"Import all language data for an Elgg installation. The ZIP file should contain a folder name elgg-&lt;version&gt; and the whole Elgg installation or just the language data below it.\n"
+"\t\t\tThe mod folders should include the manifest.xml file, used to get data about each plugin. The core plugins are imported as subprojects into an Elgg v&lt;version&gt; project, while all other\n"
+"\t\t\tplugins are imported into a top level Third Party Elgg Plugins project. The en locale is used for originals, any other locale is imported as translations."
 msgstr ""
 
 #: gp-templates/tools-elgg-export.php:23
@@ -1314,9 +1272,7 @@ msgid "Type the name for the file to download"
 msgstr ""
 
 #: gp-templates/tools-elgg-export.php:101
-msgid ""
-"You can leave this blank and the file will be called <i>elgg-languages.zip</"
-"i>."
+msgid "You can leave this blank and the file will be called <i>elgg-languages.zip</i>."
 msgstr ""
 
 #: gp-templates/tools-elgg-export.php:115 gp-templates/translations.php:202
@@ -1348,9 +1304,7 @@ msgid "Select the Elgg install zip file"
 msgstr ""
 
 #: gp-templates/tools-elgg-import.php:30
-msgid ""
-"You can get this file from <a href=\"http://www.elgg.org/download.php\" "
-"target=\"_blank\">the Elgg web site</a>. Make sure the file is in ZIP format."
+msgid "You can get this file from <a href=\"http://www.elgg.org/download.php\" target=\"_blank\">the Elgg web site</a>. Make sure the file is in ZIP format."
 msgstr ""
 
 #: gp-templates/tools-elgg-import.php:43
@@ -1668,6 +1622,7 @@ msgstr ""
 
 #. translators: 1: export 2: what to export dropdown (all/filtered) 3: export
 #. format
+
 #: gp-templates/translations.php:206
 msgid "%1$s %2$s as %3$s"
 msgstr ""
@@ -1777,21 +1732,15 @@ msgid "The database configuration field \"%s\" cannot be empty"
 msgstr ""
 
 #: install.php:38
-msgid ""
-"The authentication keys must be set. You can generate them on the WordPress "
-"API site."
+msgid "The authentication keys must be set. You can generate them on the WordPress API site."
 msgstr ""
 
 #: install.php:52
-msgid ""
-"If you enable WordPress authentication, you must specify user and meta table "
-"as well as the admin user."
+msgid "If you enable WordPress authentication, you must specify user and meta table as well as the admin user."
 msgstr ""
 
 #: install.php:74
-msgid ""
-"Cannot save the config file. Please change the permissions on the folder or "
-"create the <i>gp-config.php</i> file with this content"
+msgid "Cannot save the config file. Please change the permissions on the folder or create the <i>gp-config.php</i> file with this content"
 msgstr ""
 
 #: install1.php:18
@@ -1819,18 +1768,15 @@ msgid "GlotPress database and config were successully installed!"
 msgstr ""
 
 #: install2.php:28
-msgid ""
-"The <i>.htaccess</i> file already exists and has been left untouched. Make "
-"sure it contains the correct <i>mod_rewrite</i> configuration"
+msgid "The <i>.htaccess</i> file already exists and has been left untouched. Make sure it contains the correct <i>mod_rewrite</i> configuration"
 msgstr ""
 
 #: install2.php:34
-msgid ""
-"Could not create the <i>.htaccess</i> file for you. Make sure you create one "
-"with the following content"
+msgid "Could not create the <i>.htaccess</i> file for you. Make sure you create one with the following content"
 msgstr ""
 
 #. translators: combined name for locales: 1: name in English, 2: native name
+
 #: locales/locales.php:29
 msgctxt "locales"
 msgid "%1$s/%2$s"

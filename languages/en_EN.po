@@ -1,18 +1,19 @@
-# Copyright (C) 2012 
-# This file is distributed under the same license as the  package.
+# Copyright (C) 2012 {package-name}
+# This file is distributed under the same license as the {package-name} package.
 msgid ""
 msgstr ""
 "Project-Id-Version: GlotPress\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tags/glotpress\n"
-"POT-Creation-Date: 2012-10-01 11:35:14+00:00\n"
+"Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
+"POT-Creation-Date: 2012-10-01 13:37:08+00:00\n"
+"PO-Revision-Date: 2012-10-01 15:54+0100\n"
+"Last-Translator: Baden Coleman <baden@twinpictures.de>\n"
+"Language-Team: Twinpictures <info@twinpictures>\n"
+"Language: English\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2012-10-01 13:39+0100\n"
-"Last-Translator: Baden Coleman <baden@twinpictures.de>\n"
-"Language-Team: Twinpictures <info@twinpictures>\n"
 "X-Generator: Poedit 1.5.3\n"
-"Language: English\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: gp-includes/backpress/class.bp-sql-schema-parser.php:317
@@ -267,10 +268,6 @@ msgstr ""
 msgid "Once Daily"
 msgstr ""
 
-#: gp-includes/backpress/pomo/sample/app.php:56 pomo/sample/app.php:56
-msgid "Welcome %s!"
-msgstr ""
-
 #: gp-includes/backpress/pomo/sample/app.php:60 pomo/sample/app.php:60
 msgid "A string with low priority!"
 msgstr ""
@@ -370,7 +367,8 @@ msgstr ""
 msgid "Invalid username!"
 msgstr ""
 
-#: gp-includes/routes/login.php:26
+#: gp-includes/routes/login.php:26 pomo/sample/app.php:56
+#: gp-includes/backpress/pomo/sample/app.php:56 gp-templates/header.php:25
 msgid "Welcome, %s!"
 msgstr ""
 
@@ -378,7 +376,7 @@ msgstr ""
 msgid "Invalid password!"
 msgstr ""
 
-#: gp-includes/routes/project.php:5 gp-templates/header.php:32
+#: gp-includes/routes/project.php:5 gp-templates/header.php:33
 #: gp-templates/projects.php:2 gp-templates/projects.php:3
 #: gp-templates/projects.php:7
 msgid "Projects"
@@ -666,33 +664,33 @@ msgid ""
 "Your server is running PHP version %s but GlotPress requires at least 5.2.\n"
 msgstr ""
 
-#: gp-settings.php:108
+#: gp-settings.php:107
 msgid "ERROR: Could not establish a database connection"
 msgstr ""
 
-#: gp-settings.php:111
+#: gp-settings.php:110
 msgid "ERROR: Can't select database."
 msgstr ""
 
-#: gp-settings.php:114
+#: gp-settings.php:113
 msgid ""
 "ERROR: GlotPress database error - \"%s\" for query \"%s\" via caller \"%s\""
 msgstr ""
 
-#: gp-settings.php:120
+#: gp-settings.php:119
 msgid "ERROR: GlotPress requires MySQL 4.0.0 or higher"
 msgstr ""
 
-#: gp-settings.php:123
+#: gp-settings.php:122
 msgid "ERROR: GlotPress requires The MySQL PHP extension"
 msgstr ""
 
-#: gp-settings.php:129
+#: gp-settings.php:128
 msgid ""
 "You must specify a table prefix in your <code>gp-config.php</code> file."
 msgstr ""
 
-#: gp-settings.php:152
+#: gp-settings.php:151
 msgid "Your table prefix may only contain letters, numbers and underscores."
 msgstr ""
 
@@ -701,7 +699,7 @@ msgid "The resource you are looking for could not be found"
 msgstr ""
 
 #: gp-templates/by-translation.php:2 gp-templates/by-translation.php:3
-#: gp-templates/by-translation.php:7 gp-templates/header.php:33
+#: gp-templates/by-translation.php:7 gp-templates/header.php:34
 #: gp-templates/projects-by-translation.php:31
 #: gp-templates/translations.php:12 gp-templates/translations.php:19
 #: gp-templates/translations.php:26 gp-templates/users.php:45
@@ -758,36 +756,32 @@ msgstr ""
 msgid "GlotPress logo"
 msgstr ""
 
-#: gp-templates/header.php:25
-msgid "Welcome %s! &nbsp; &nbsp; "
-msgstr ""
-
-#: gp-templates/header.php:34 gp-templates/tools.php:2
+#: gp-templates/header.php:35 gp-templates/tools.php:2
 msgid "Tools"
 msgstr ""
 
-#: gp-templates/header.php:39 gp-templates/settings.php:2
+#: gp-templates/header.php:40 gp-templates/settings.php:2
 msgid "Settings"
 msgstr ""
 
-#: gp-templates/header.php:44 gp-templates/translations.php:33
+#: gp-templates/header.php:45 gp-templates/translations.php:33
 #: gp-templates/users.php:3
 msgid "Users"
 msgstr ""
 
-#: gp-templates/header.php:45
+#: gp-templates/header.php:46
 msgid "Profile"
 msgstr ""
 
-#: gp-templates/header.php:46
+#: gp-templates/header.php:47
 msgid "Log out"
 msgstr ""
 
-#: gp-templates/header.php:51
+#: gp-templates/header.php:52
 msgid "Register"
 msgstr ""
 
-#: gp-templates/header.php:53
+#: gp-templates/header.php:54
 msgid "Log in"
 msgstr ""
 
