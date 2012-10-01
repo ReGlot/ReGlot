@@ -25,13 +25,13 @@ EOS;
 
 // .htaccess included in distribution or needs to be created
 if ( file_exists(GP_PATH . '.htaccess') ) {
-	GP::$redirect_notices['notice'] = __('The <i>.htaccess</i> file already exists and has been left untouched. Make sure it contains the correct <i>mod_rewrite</i> configuration');
+	GP::$redirect_notices['notice'] = __('The <i>.htaccess</i> file already exists and has been left untouched. Make sure it contains the correct <i>mod_rewrite</i> configuration', 'glotpress');
 	GP::$redirect_notices['notice'] .= '<br/><pre>';
 	GP::$redirect_notices['notice'] .= $htaccess;
 	GP::$redirect_notices['notice'] .= '</pre>';
 } else {
 	if ( file_put_contents(GP_PATH . '.htaccess', $htaccess) === false ) {
-		GP::$redirect_notices['error'] = __('Could not create the <i>.htaccess</i> file for you. Make sure you create one with the following content');
+		GP::$redirect_notices['error'] = __('Could not create the <i>.htaccess</i> file for you. Make sure you create one with the following content', 'glotpress');
 		GP::$redirect_notices['error'] .= '<br/><pre>';
 		GP::$redirect_notices['error'] .= $htaccess;
 		GP::$redirect_notices['error'] .= '</pre>';

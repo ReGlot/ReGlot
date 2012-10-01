@@ -15,7 +15,7 @@ if ( ($config = gp_post('config')) ) {
 	$first = true;
 	if ( defined('CUSTOM_USER_TABLE') ) {
 		if ( empty($config['gp_wp_admin_user']) ) {
-			GP::$redirect_notices['error'] = __('You must select a WordPress user as an administrator');
+			GP::$redirect_notices['error'] = __('You must select a WordPress user as an administrator', 'glotpress');
 			$first = false;
 		}
 	} else {
@@ -27,7 +27,7 @@ if ( ($config = gp_post('config')) ) {
 				} else {
 					GP::$redirect_notices['error'] .= '<br/>';
 				}
-				GP::$redirect_notices['error'] .= sprintf(__('The configuration option "%s" cannot be empty'), $key);
+				GP::$redirect_notices['error'] .= sprintf(__('The configuration option "%s" cannot be empty', 'glotpress'), $key);
 			}
 		}
 		if ( $config['gp_admin_password'] !== $config['gp_admin_password2'] ) {
@@ -45,23 +45,23 @@ if ( ($config = gp_post('config')) ) {
 			header('Location: ' . $install_uri);
 			die();
 		} else {
-			GP::$redirect_notices['error'] .= __('Could not create the admin user or assign admin privileges');
+			GP::$redirect_notices['error'] .= __('Could not create the admin user or assign admin privileges', 'glotpress');
 		}
 	}
 } else {
 	$config = array();
 	if ( gp_get_option('gp_db_version') <= gp_get_option_from_db('gp_db_version') && !isset($_GET['force']) ) {
-		GP::$redirect_notices['notice'] = __( 'You already have the latest version, no need to upgrade!' );
+		GP::$redirect_notices['notice'] = __( 'You already have the latest version, no need to upgrade!' , 'glotpress');
 	} else {
 		if ( gp_get( 'action', 'install' )  == 'upgrade' ) {
 			$errors = gp_upgrade();
 			if ( empty($errors) ) {
-				GP::$redirect_notices['notice'] = __( 'GlotPress was successully upgraded!' );
+				GP::$redirect_notices['notice'] = __( 'GlotPress was successully upgraded!' , 'glotpress');
 			}
 		} else {
 			$errors = gp_install();
 			if ( empty($errors) ) {
-				GP::$redirect_notices['notice'] = __('GlotPress database and config were successully installed!');
+				GP::$redirect_notices['notice'] = __('GlotPress database and config were successully installed!', 'glotpress');
 			}
 		}
 		if ( !empty($errors) ) {
