@@ -234,7 +234,11 @@ if ( defined('GP_INSTALLING') && GP_INSTALLING ) {
 	}
 	unset($auth_file);
 } else {
-	$auth = 'wordpress';
+    if ( defined('GP_AUTH') ) {
+        $auth = GP_AUTH;
+    } else {
+        $auth = 'wordpress';
+    }
 	require_once(GP_PATH . GP_INC . 'class.gp-userauth.php');
 	require_once(GP_PATH . GP_INC . "authentication/userauth_$auth.php");
 	$wp_user_auth = GP::$userauths[$auth];

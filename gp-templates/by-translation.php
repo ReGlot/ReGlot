@@ -33,8 +33,12 @@ gp_tmpl_header();
             gp_link(gp_url_by_translation('slugs'), __('Show by Slug'));
             break;
     }
+    if ( GP::$user->logged_in() ) {
     ?>
-    <span style="float:right"><?php gp_link(gp_url_user_translations(), 'Show Your Own'); ?></span>
+        <span style="float:right"><?php gp_link(gp_url_user_translations(), 'Show Your Own'); ?></span>
+    <?php
+    }
+    ?>
 </p>
 
 <ul>
