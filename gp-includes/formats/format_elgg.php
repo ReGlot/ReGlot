@@ -33,7 +33,11 @@ class GP_Format_Elgg extends GP_Format {
 			if ( !empty($entry->extracted_comments) ) {
 				$this->line('/// ' . $this->escape($entry->extracted_comments), 1);
 			}
-			$this->line('\'' . $entry->context . '\' => ' . $this->escape($entry->translations[0]) . ',', 1);
+            if ( empty($entry->translations[0]) ) {
+                $this->line('\'' . $entry->context . '\' => null,', 1);
+            } else {
+                $this->line('\'' . $entry->context . '\' => ' . $this->escape($entry->translations[0]) . ',', 1);
+            }
 		}
 		$this->line(');');
 		$this->line();
