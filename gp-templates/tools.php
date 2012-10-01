@@ -1,11 +1,11 @@
 <?php
-gp_title(__('Tools'));
+gp_title(__('Tools', 'glotpress'));
 gp_tmpl_header();
 ?>
-<h2><?php _e('External Tools'); ?></h2>
+<h2><?php _e('External Tools', 'glotpress'); ?></h2>
 
 <?php if ( empty($tools_config) ) { ?>
-    <p><?php _e('Sorry! There are no tools available to you.'); ?></p>
+    <p><?php _e('Sorry! There are no tools available to you.', 'glotpress'); ?></p>
 <?php } else { ?>
     <?php foreach ( $tools_config as $section => $tools ) { ?>
         <h3><?php echo $section; ?></h3>

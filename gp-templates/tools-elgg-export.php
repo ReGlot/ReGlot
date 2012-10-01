@@ -1,12 +1,12 @@
 <?php
 wp_enqueue_script('elgg_import_export');
-gp_title(__('Elgg Export'));
+gp_title(__('Elgg Export', 'glotpress'));
 gp_tmpl_header();
 $project_dropdown1 = gp_projects_dropdown('export[elggcoreproject]', $export['elggcoreproject'], array(), 'Select an Elgg project', true);
 $project_dropdown2 = gp_projects_dropdown('export[elgg3rdproject]', $export['elgg3rdproject'], array(), 'No 3rd Party project', true);
 $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a version &mdash;', '2' => 'Version 1.9 and later', '1' => 'Version 1.8 and earlier'), $export['version']);
 ?>
-<h2><?php _e('GlotPress Tools'); ?></h2>
+<h2><?php _e('GlotPress Tools', 'glotpress'); ?></h2>
 <?php if ( GP::$project->by_slug('elgg') ): ?>
 <form action="" method="post" class="filters-toolbar" enctype="multipart/form-data">
 <input type="hidden" name="export[gp_handle_settings]" value="on">
@@ -14,15 +14,15 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 <input type="hidden" name="export[plugins_selection]" value="">
 <input type="hidden" name="export[locales_selection]" value="">
 <dl>
-	<dt><h3><?php _e('Elgg Package Export'); ?></h3></dt>
+	<dt><h3><?php _e('Elgg Package Export', 'glotpress'); ?></h3></dt>
 	<dd>
 		<p><?php _e('Import all language data for an Elgg installation. The ZIP file should contain a folder name elgg-&lt;version&gt; and the whole Elgg installation or just the language data below it.
 			The mod folders should include the manifest.xml file, used to get data about each plugin. The core plugins are imported as subprojects into an Elgg v&lt;version&gt; project, while all other
-			plugins are imported into a top level Third Party Elgg Plugins project. The en locale is used for originals, any other locale is imported as translations.'); ?></p>
+			plugins are imported into a top level Third Party Elgg Plugins project. The en locale is used for originals, any other locale is imported as translations.', 'glotpress'); ?></p>
 	<div>
-	<a href="#" class="revealing cores"><?php _e('Core &amp; Bundled &darr;'); ?></a> <span class="separator">&bull;</span>
-	<a href="#" class="revealing plugins"><?php _e('Extra Plugins &darr;'); ?></a> <span class="separator">&bull;</span>
-	<a href="#" class="revealing locales"><?php _e('Locales &darr;'); ?></a> <strong class="separator"></strong>
+	<a href="#" class="revealing cores"><?php _e('Core &amp; Bundled &darr;', 'glotpress'); ?></a> <span class="separator">&bull;</span>
+	<a href="#" class="revealing plugins"><?php _e('Extra Plugins &darr;', 'glotpress'); ?></a> <span class="separator">&bull;</span>
+	<a href="#" class="revealing locales"><?php _e('Locales &darr;', 'glotpress'); ?></a> <strong class="separator"></strong>
 	</div>
 
 	<div class="cores hidden clearfix">
@@ -73,7 +73,7 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 				</select>
 		<br/>
 		<input type="checkbox" name="export[empty]" value="on">
-		<label for="export[empty]"><?php _e('Create empty language files'); ?></label><br/>
+		<label for="export[empty]"><?php _e('Create empty language files', 'glotpress'); ?></label><br/>
 				</li>
 				<li><div class="languagepacks-buttons">
 <p><input type="button" id="add_locales" value="Add Selected" class="elgg-button">
@@ -91,14 +91,14 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 </select>
 		<br/>
 		<input type="checkbox" name="export[originals]" value="on">
-		<label for="export[originals]"><?php _e('Also export original English texts'); ?></label><br/>
+		<label for="export[originals]"><?php _e('Also export original English texts', 'glotpress'); ?></label><br/>
 </li></ul>
 	</div>
 
 		<p>
-		<label for="export[elggpath]"><?php _e('Type the name for the file to download'); ?></label><br/>
+		<label for="export[elggpath]"><?php _e('Type the name for the file to download', 'glotpress'); ?></label><br/>
 		<input type="text" name="export[elggpath]" id="elggpath" style="width:400px" value="<?php echo $export['elggpath']; ?>"><br/>
-		<small><?php _e('You can leave this blank and the file will be called <i>elgg-languages.zip</i>.'); ?></small>
+		<small><?php _e('You can leave this blank and the file will be called <i>elgg-languages.zip</i>.', 'glotpress'); ?></small>
 		</p>
 <?php
 /**
@@ -112,11 +112,11 @@ $version_dropdown = gp_select('export[version]', array('' => '&mdash; Choose a v
 </dl>
 
 <p>
-	<input type="submit" name="submit" value="<?php echo esc_attr(__('Export')); ?>" id="submit" />
+	<input type="submit" name="submit" value="<?php echo esc_attr(__('Export', 'glotpress')); ?>" id="submit" />
 </p>
 </form>
 <?php else: ?>
-    <p><?php _e('There are no Elgg projects to export from'); ?></p>
+    <p><?php _e('There are no Elgg projects to export from', 'glotpress'); ?></p>
 <?php endif; ?>
 <?php
 gp_tmpl_footer();

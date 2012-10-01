@@ -16,29 +16,29 @@ gp_tmpl_header();
 <?php if ( $can_write ): ?>
 
 <div class="actionlist">
-	<a href="#" class="project-actions" id="project-actions-toggle"><?php _e('Project actions &darr;'); ?></a>
+	<a href="#" class="project-actions" id="project-actions-toggle"><?php _e('Project actions &darr;', 'glotpress'); ?></a>
 	<div class="project-actions hide-if-js">
 		<ul>
-			<li><?php gp_link( gp_url_project( $project, '-originals' ), __( 'View/Import Originals' ) ); ?></li>
-			<li><?php gp_link( gp_url_project( $project, array( '-permissions' ) ), __('Permissions') ); ?></li>
-			<li><?php gp_link( gp_url_project( '', '-new', array('parent_project_id' => $project->id) ), __('New Sub-Project') ); ?></li>
-			<li><?php gp_link( gp_url( '/sets/-new', array( 'project_id' => $project->id ) ), __('New Translation Set') ); ?></li>
-			<li><?php gp_link( gp_url_project( $project, array( '-mass-create-sets' ) ), __('Mass-create Translation Sets') ); ?></li>
+			<li><?php gp_link( gp_url_project( $project, '-originals' ), __( 'View/Import Originals' , 'glotpress') ); ?></li>
+			<li><?php gp_link( gp_url_project( $project, array( '-permissions' ) ), __('Permissions', 'glotpress') ); ?></li>
+			<li><?php gp_link( gp_url_project( '', '-new', array('parent_project_id' => $project->id) ), __('New Sub-Project', 'glotpress') ); ?></li>
+			<li><?php gp_link( gp_url( '/sets/-new', array( 'project_id' => $project->id ) ), __('New Translation Set', 'glotpress') ); ?></li>
+			<li><?php gp_link( gp_url_project( $project, array( '-mass-create-sets' ) ), __('Mass-create Translation Sets', 'glotpress') ); ?></li>
 			<?php if ( $translation_sets ): ?>
 			<li>
-				<a href="#" class="personal-options" id="personal-options-toggle"><?php _e('Personal project options &darr;'); ?></a>
+				<a href="#" class="personal-options" id="personal-options-toggle"><?php _e('Personal project options &darr;', 'glotpress'); ?></a>
 				<div class="personal-options">
 					<form action="<?php echo gp_url_project( $project, '-personal' ); ?>" method="post">
 					<dl>
-						<dt><label for="source-url-template"><?php _e('Source file URL');  ?></label></dt>
+						<dt><label for="source-url-template"><?php _e('Source file URL', 'glotpress');  ?></label></dt>
 						<dd>
 							<input type="text" value="<?php echo esc_html( $project->source_url_template() ); ?>" name="source-url-template" id="source-url-template" />
-							<small><?php _e('URL to a source file in the project. You can use <code>%file%</code> and <code>%line%</code>. Ex. <code>http://trac.example.org/browser/%file%#L%line%</code>'); ?></small>
+							<small><?php _e('URL to a source file in the project. You can use <code>%file%</code> and <code>%line%</code>. Ex. <code>http://trac.example.org/browser/%file%#L%line%</code>', 'glotpress'); ?></small>
 						</dd>
 					</dl>
 					<p>
-						<input type="submit" name="submit" value="<?php echo esc_attr(__('Save &rarr;')); ?>" id="save" />
-						<a class="ternary" href="#" onclick="jQuery('#personal-options-toggle').click();return false;"><?php _e('Cancel'); ?></a>
+						<input type="submit" name="submit" value="<?php echo esc_attr(__('Save &rarr;', 'glotpress')); ?>" id="save" />
+						<a class="ternary" href="#" onclick="jQuery('#personal-options-toggle').click();return false;"><?php _e('Cancel', 'glotpress'); ?></a>
 					</p>		
 					</form>
 				</div>
@@ -52,7 +52,7 @@ gp_tmpl_header();
 
 <?php if ($sub_projects): ?>
 <div id="sub-projects"  style="width:<?php echo $translation_sets ? 20 : 100; ?>%;">
-<h3><?php _e('Sub-projects'); ?></h3>
+<h3><?php _e('Sub-projects', 'glotpress'); ?></h3>
 <dl>
 <?php foreach($sub_projects as $sub_project): ?>
 	<dt>

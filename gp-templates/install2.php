@@ -1,7 +1,7 @@
 <?php
-gp_title(__('Install'));
+gp_title(__('Install', 'glotpress'));
 gp_breadcrumb( array(
-	'install' == $action? __('Install') : __('Upgrade'),
+	'install' == $action? __('Install', 'glotpress') : __('Upgrade', 'glotpress'),
 ) );
 
 $config_defaults = array(
@@ -14,14 +14,14 @@ $config = array_merge($config_defaults, $config);
 
 gp_tmpl_header();
 ?>
-<h2><?php echo wptexturize(sprintf(__('Installation Process (phase %d of %d)'), 3, GP_TOT_INSTALL_PAGES)); ?></h2>
+<h2><?php echo wptexturize(sprintf(__('Installation Process (phase %d of %d)', 'glotpress'), 3, GP_TOT_INSTALL_PAGES)); ?></h2>
 
 <dl>
-	<dt><h3><?php echo __('Product installed successfully'); ?></h3></dt>
+	<dt><h3><?php echo __('GlotPress installed successfully', 'glotpress'); ?></h3></dt>
 	<dd>
-		<span><?php echo __('You can access your ' . gp_app_name() . ' installation <a href="' . gp_url_base() . '">from here</a>'); ?></span>
+		<span><?php printf( __('The %s installation may be <a href="%s">accessed here</a>', 'glotpress'), gp_app_name(), gp_url_base() ); ?></span>
 		<br/>
-		<small><?php _e('Or you can <a href="' . gp_url_login() . '">log in</a> to the product straightaway with the username and password you have just created'); ?></small>
+		<small><?php printf( __('Or you may <a href="%s">log in</a> to GlotPress straightaway with the username and password you have just created', 'glotpress'), gp_url_login() ); ?></small>
 	</dd>
 </dl>
 	

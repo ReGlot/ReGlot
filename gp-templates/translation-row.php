@@ -49,13 +49,13 @@ $bulk_action = gp_url_join($url, '-bulk');
 	<td class="original">
 		<?php echo prepare_original( esc_translation( $t->singular ) ); ?>
 		<?php if ( $t->context ): ?>
-		<span class="context bubble" title="<?php printf( __('Context: %s'), esc_html($t->context) ); ?>"><?php echo esc_html($t->context); ?></span>
+		<span class="context bubble" title="<?php printf( __('Context: %s', 'glotpress'), esc_html($t->context) ); ?>"><?php echo esc_html($t->context); ?></span>
 		<?php endif; ?>
 	
 	</td>
 	<td class="translation foreign-text">
 	<?php
-		$edit_text = $can_edit? __('Double-click to add') : sprintf(__('You <a href="%s">have to login</a> to add a translation.'), gp_url_login());
+		$edit_text = $can_edit? __('Double-click to add', 'glotpress') : sprintf(__('You <a href="%s">have to login</a> to add a translation.', 'glotpress'), gp_url_login());
 		$missing_text = "<span class='missing'>$edit_text</span>";
 		if ( !count( array_filter( $t->translations ) ) ):
 			echo $missing_text;
@@ -76,7 +76,7 @@ $bulk_action = gp_url_join($url, '-bulk');
 	?>
 	</td>
 	<td class="actions">
-		<a href="#" row="<?php echo $t->row_id; ?>" class="action edit bubble"><?php _e('Details'); ?></a>
+		<a href="#" row="<?php echo $t->row_id; ?>" class="action edit bubble"><?php _e('Details', 'glotpress'); ?></a>
 	</td>
 </tr>
 <tr class="editor <?php echo $warning_class; ?>" id="editor-<?php echo $t->row_id; ?>" row="<?php echo $t->row_id; ?>">
@@ -87,23 +87,23 @@ $bulk_action = gp_url_join($url, '-bulk');
 		<?php textareas( $t, array( $can_edit, $can_approve ) ); ?>
 		<?php else: ?>
 			<?php if ( $row_locale->nplurals == 2 && $row_locale->plural_expression == 'n != 1'): ?>
-				<p><?php printf(__('Singular: %s'), '<span class="original">'.esc_translation($t->singular).'</span>'); ?></p>
+				<p><?php printf(__('Singular: %s', 'glotpress'), '<span class="original">'.esc_translation($t->singular).'</span>'); ?></p>
 				<?php textareas( $t, array( $can_edit, $can_approve ), 0 ); ?>
 				<p class="clear">
-					<?php printf(__('Plural: %s'), '<span class="original">'.esc_translation($t->plural).'</span>'); ?>
+					<?php printf(__('Plural: %s', 'glotpress'), '<span class="original">'.esc_translation($t->plural).'</span>'); ?>
 				</p>
 				<?php textareas( $t, array( $can_edit, $can_approve ), 1 ); ?>
 			<?php else: ?>
 				<!--
 				TODO: labels for each plural textarea and a sample number
 				-->
-				<p><?php printf(__('Singular: %s'), '<span class="original">'.esc_translation($t->singular).'</span>'); ?></p>
+				<p><?php printf(__('Singular: %s', 'glotpress'), '<span class="original">'.esc_translation($t->singular).'</span>'); ?></p>
 				<p class="clear">
-					<?php printf(__('Plural: %s'), '<span class="original">'.esc_translation($t->plural).'</span>'); ?>
+					<?php printf(__('Plural: %s', 'glotpress'), '<span class="original">'.esc_translation($t->plural).'</span>'); ?>
 				</p>
 				<?php foreach( range( 0, $row_locale->nplurals - 1 ) as $plural_index ): ?>
 					<?php if ( $row_locale->nplurals > 1 ): ?>
-					<p class="plural-numbers"><?php printf(__('This plural form is used for numbers like: %s'),
+					<p class="plural-numbers"><?php printf(__('This plural form is used for numbers like: %s', 'glotpress'),
 							'<span class="numbers">'.implode(', ', $row_locale->numbers_for_index( $plural_index ) ).'</span>' ); ?></p>
 					<?php endif; ?>
 					<?php textareas( $t, array( $can_edit, $can_approve ), $plural_index ); ?>
@@ -113,9 +113,9 @@ $bulk_action = gp_url_join($url, '-bulk');
 		</div>
 		
 		<div class="meta">
-			<h3><?php _e('Meta'); ?></h3>
+			<h3><?php _e('Meta', 'glotpress'); ?></h3>
 			<dl>
-				<dt><?php _e('Status:'); ?></dt>
+				<dt><?php _e('Status:', 'glotpress'); ?></dt>
 				<dd>
 					<?php echo display_status( $t->translation_status ); ?>
 					<?php if ( $can_approve && $t->translation_status ): ?>
@@ -131,54 +131,54 @@ $bulk_action = gp_url_join($url, '-bulk');
 			</dl>
 			<!--
 			<dl>
-				<dt><?php _e('Priority:'); ?></dt>
+				<dt><?php _e('Priority:', 'glotpress'); ?></dt>
 				<dd><?php echo esc_html($t->priority); ?></dd>
 			</dl>
 			-->
 			
 			<?php if ( $t->context ): ?>
 			<dl>
-				<dt><?php _e('Context:'); ?></dt>
+				<dt><?php _e('Context:', 'glotpress'); ?></dt>
 				<dd><span class="context bubble"><?php echo esc_translation($t->context); ?></span></dd>
 			</dl>
 			<?php endif; ?>
 			<?php if ( $t->extracted_comment ): ?>
 			<dl>
-				<dt><?php _e('Comment:'); ?></dt>
+				<dt><?php _e('Comment:', 'glotpress'); ?></dt>
 				<dd><?php echo make_clickable( esc_translation($t->extracted_comment) ); ?></dd>
 			</dl>
 			<?php endif; ?>
 			<?php if ( $t->translation_added && $t->translation_added != '0000-00-00 00:00:00' ): ?>
 			<dl>
-				<dt><?php _e('Date added:'); ?></dt>
+				<dt><?php _e('Date added:', 'glotpress'); ?></dt>
 				<dd><?php echo $t->translation_added; ?> GMT</dd>
 			</dl>
 			<?php endif; ?>
             <dl>
-                <dt><?php _e('In:'); ?></dt>
+                <dt><?php _e('In:', 'glotpress'); ?></dt>
                 <dd><?php echo $row_project->name; ?> / <?php echo $row_translation_set->name; ?></dd>
             </dl>
 			<?php if ( $t->user_login ): ?>
 			<dl>
-				<dt><?php _e('Translated by:'); ?></dt>
+				<dt><?php _e('Translated by:', 'glotpress'); ?></dt>
 				<dd><?php echo $row_user->display_name; ?></dd>
 				&nbsp;&nbsp;&bull;&nbsp;&nbsp;
-				<dt><?php _e('Username:'); ?></dt>
+				<dt><?php _e('Username:', 'glotpress'); ?></dt>
 				<dd><?php echo $row_user->user_login; ?></dd>
 			</dl>
 			<?php endif; ?>
 			<dl>
-				<dt><?php _e('Translated into:'); ?></dt>
+				<dt><?php _e('Translated into:', 'glotpress'); ?></dt>
 				<dd><?php echo $row_locale->english_name; ?></dd>
 				&nbsp;&nbsp;&bull;&nbsp;&nbsp;
-				<dt><?php _e('Code:'); ?></dt>
+				<dt><?php _e('Code:', 'glotpress'); ?></dt>
 				<dd><?php echo $row_locale->slug; ?></dd>
 			</dl>
 
 			<?php references( $row_project, $t ); ?>
 			
 			<dl>
-			    <dt><?php _e('Priority of the original:'); ?></dt>
+			    <dt><?php _e('Priority of the original:', 'glotpress'); ?></dt>
 			<?php if ( $can_write ): ?>
 			    <dd><?php echo gp_select( 'priority-'.$t->original_id, GP::$original->get_static( 'priorities' ), $t->priority, array('class' => 'priority', 'tabindex' => '-1') ); ?></dd>
 			<?php else: ?>
@@ -206,10 +206,10 @@ $bulk_action = gp_url_join($url, '-bulk');
 		<div class="actions">
 		<?php if ( $can_edit ): ?>
 			<button class="ok" data-url="<?php echo $editorUrl ?>">
-				<?php echo $can_approve? __('Add translation &rarr;') : __('Suggest new translation &rarr;'); ?>
+				<?php echo $can_approve? __('Add translation &rarr;', 'glotpress') : __('Suggest new translation &rarr;', 'glotpress'); ?>
 			</button>
 		<?php endif; ?>
-			or <a href="#" class="close"><?php _e('Cancel'); ?></a>
+			or <a href="#" class="close"><?php _e('Cancel', 'glotpress'); ?></a>
 		</div>
 	</td>
 </tr>
