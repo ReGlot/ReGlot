@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: GlotPress\n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
 "POT-Creation-Date: 2012-10-01 13:37:08+00:00\n"
-"PO-Revision-Date: 2012-10-01 15:54+0100\n"
+"PO-Revision-Date: 2012-10-02 10:59+0100\n"
 "Last-Translator: Baden Coleman <baden@twinpictures.de>\n"
 "Language-Team: Twinpictures <info@twinpictures>\n"
 "Language: English\n"
@@ -369,7 +369,7 @@ msgstr ""
 
 #: gp-includes/routes/login.php:26 pomo/sample/app.php:56
 #: gp-includes/backpress/pomo/sample/app.php:56 gp-templates/header.php:25
-msgid "Welcome, %s!"
+msgid "Welcome %s!"
 msgstr ""
 
 #: gp-includes/routes/login.php:30
@@ -740,16 +740,6 @@ msgstr ""
 
 #: gp-templates/by-translation.php:64
 msgid "view"
-msgstr ""
-
-#: gp-templates/footer.php:2
-msgid ""
-"<a href=\"https://github.com/fmestrone/ReGlot\" title=\"Found in "
-"translation, and some...\"><b>%s</b></a>, powered by <a href=\"http://"
-"glotpress.org/\" title=\"Found in translation\">GlotPress</a>, improved by "
-"<a href=\"http://www.federicomestrone.com\" title=\"Federico Mestrone"
-"\">FedMest</a> & <a href=\"http://twinpictures.de\" title=\"Twinpictures"
-"\">Twinpictures</a>."
 msgstr ""
 
 #: gp-templates/header.php:18

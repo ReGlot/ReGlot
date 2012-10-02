@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the GlotPress package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2012-10-01 23:20+0100\n"
+"PO-Revision-Date: 2012-10-02 11:05+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,13 +11,9 @@ msgstr ""
 "Project-Id-Version: GlotPress\n"
 "POT-Creation-Date: \n"
 "Last-Translator: Baden Coleman <baden@twinpictures.de>\n"
-"Language-Team: twinpictures <info@twinpictures>\n"
+"Language-Team: Twinpictures <info@twinpictuers>\n"
 "Language: German\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-
-#: gp-includes/template.php:243
-msgid "No parent"
-msgstr "Kein Eltern"
 
 #: gp-includes/warnings.php:123
 msgid "Extra %s placeholder in translation."
@@ -201,16 +197,6 @@ msgid "%s translation were added\n"
 msgid_plural "%s translations were added\n"
 msgstr[0] "%s Übersetzung wurde hinzugefügt\n"
 msgstr[1] "%s Übersetzungen wurden hinzugefügt\n"
-
-#: gp-templates/footer.php:2
-msgid ""
-"<a href=\"https://github.com/fmestrone/ReGlot\" title=\"Found in "
-"translation, and some...\"><b>%s</b></a>, powered by <a href=\"http://"
-"glotpress.org/\" title=\"Found in translation\">GlotPress</a>, improved by "
-"<a href=\"http://www.federicomestrone.com\" title=\"Federico Mestrone"
-"\">FedMest</a> & <a href=\"http://twinpictures.de\" title=\"Twinpictures"
-"\">Twinpictures</a>."
-msgstr ""
 
 #: scripts/recheck-warnings.php:13
 msgid "Updating warnings for %s"
@@ -757,7 +743,7 @@ msgstr ""
 
 #: gp-includes/backpress/class.bp-sql-schema-parser.php:605
 msgid "Done"
-msgstr ""
+msgstr "fertig"
 
 #: gp-templates/projects.php:9
 msgid "No projects were found!"
@@ -1114,7 +1100,7 @@ msgstr "Meta"
 
 #: gp-includes/backpress/pomo/sample/app.php:62 pomo/sample/app.php:62
 msgid "Bye\n"
-msgstr ""
+msgstr "Tschüs\n"
 
 #: gp-templates/translation-row.php:118 gp-templates/translations.php:110
 msgid "Status:"
@@ -1305,7 +1291,7 @@ msgstr "Willkommen, %s!"
 
 #: gp-templates/translation-sets.php:11 gp-templates/translations.php:84
 msgid "Untranslated"
-msgstr ""
+msgstr "unübersetzt"
 
 #: gp-includes/routes/login.php:30
 msgid "Invalid password!"
@@ -1529,7 +1515,7 @@ msgstr ""
 
 #: gp-includes/routes/translation-set.php:57
 msgid "Error in deleting the set!"
-msgstr ""
+msgstr "Fehler beim Löschen der Satz!"
 
 #: gp-templates/translations.php:140 gp-templates/translations.php:165
 msgid "Translation"
@@ -1769,6 +1755,10 @@ msgstr ""
 #: gp-templates/users.php:47
 msgid "Status"
 msgstr "Status"
+
+#: gp-includes/template.php:243
+msgid "&mdash; No parent &mdash;"
+msgstr ""
 
 #: gp-templates/users.php:48
 msgid "Actions"
