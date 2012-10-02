@@ -1,0 +1,1840 @@
+# Translation of GlotPress in German
+# This file is distributed under the same license as the GlotPress package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2012-10-01 23:20+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.3\n"
+"Project-Id-Version: GlotPress\n"
+"POT-Creation-Date: \n"
+"Last-Translator: Baden Coleman <baden@twinpictures.de>\n"
+"Language-Team: twinpictures <info@twinpictures>\n"
+"Language: German\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: gp-includes/template.php:243
+msgid "No parent"
+msgstr "Kein Eltern"
+
+#: gp-includes/warnings.php:123
+msgid "Extra %s placeholder in translation."
+msgstr "Zusätzliche %s Platzhalter in der Übersetzung."
+
+#: gp-templates/users_edit.php:7
+msgid "User #%d"
+msgstr "Benutzer #%d"
+
+#: gp-includes/warnings.php:140
+msgid "Original and translation should both end on newline."
+msgstr "Original und Übersetzung sollten beide am Zeilenende enden."
+
+#: gp-templates/users_edit.php:7
+msgid "New User"
+msgstr "Neu Benutzer"
+
+#: gp-includes/warnings.php:143
+msgid "Original and translation should both begin on newline."
+msgstr "Original und Übersetzung sollte sowohl auf newline beginnen."
+
+#: gp-templates/users_edit.php:12
+msgid "Basic Information"
+msgstr "Basic Informationen"
+
+#: gp-templates/users_edit.php:14
+msgid "Login Username"
+msgstr "Login Benutzername"
+
+#: gp-settings.php:107
+msgid "ERROR: Could not establish a database connection"
+msgstr "ERROR: Datenbankverbindung konnte nicht hergestellt werden"
+
+#: gp-templates/users_edit.php:24
+msgid "Leave both password fields blank to leave password unchanged"
+msgstr ""
+
+#: gp-settings.php:110
+msgid "ERROR: Can't select database."
+msgstr "ERROR: Datenbank kann nicht ausgewählt werden,"
+
+#: gp-templates/users_edit.php:28
+msgid "Website URL (if any)"
+msgstr "Webseiten-URL (falls vorhanden)"
+
+#: gp-settings.php:113
+msgid ""
+"ERROR: GlotPress database error - \"%s\" for query \"%s\" via caller \"%s\""
+msgstr ""
+
+#: gp-templates/users_edit.php:38
+msgid "go back"
+msgstr "zurück"
+
+#: gp-settings.php:119
+msgid "ERROR: GlotPress requires MySQL 4.0.0 or higher"
+msgstr "ERROR: GlotPress benötigt MySQL 4.0.0 oder höher"
+
+#: install.php:38
+msgid ""
+"The authentication keys must be set. You can generate them on the WordPress "
+"API site."
+msgstr ""
+
+#: gp-settings.php:128
+msgid ""
+"You must specify a table prefix in your <code>gp-config.php</code> file."
+msgstr ""
+
+#: install.php:52
+msgid ""
+"If you enable WordPress authentication, you must specify user and meta table "
+"as well as the admin user."
+msgstr ""
+
+#: gp-settings.php:151
+msgid "Your table prefix may only contain letters, numbers and underscores."
+msgstr ""
+
+#: install.php:74
+msgid ""
+"Cannot save the config file. Please change the permissions on the folder or "
+"create the <i>gp-config.php</i> file with this content"
+msgstr ""
+
+#: gp-templates/404.php:5
+msgid "The resource you are looking for could not be found"
+msgstr ""
+
+#: install1.php:18
+msgid "You must select a WordPress user as an administrator"
+msgstr ""
+
+#: gp-templates/by-translation.php:2 gp-templates/by-translation.php:3
+#: gp-templates/by-translation.php:7 gp-templates/header.php:34
+#: gp-templates/projects-by-translation.php:31
+#: gp-templates/translations.php:12 gp-templates/translations.php:19
+#: gp-templates/translations.php:26 gp-templates/users.php:45
+msgid "Translations"
+msgstr "Übersetzungen"
+
+#: install1.php:30
+msgid "The configuration option \"%s\" cannot be empty"
+msgstr ""
+
+#: gp-templates/by-translation.php:9
+msgid "No translations were found!"
+msgstr "Keine Übersetzungen wurden gefunden!"
+
+#: install1.php:48
+msgid "Could not create the admin user or assign admin privileges"
+msgstr ""
+
+#: gp-templates/by-translation.php:15
+msgid "Showing by Slug"
+msgstr ""
+
+#: install1.php:54
+msgid "You already have the latest version, no need to upgrade!"
+msgstr ""
+
+#: gp-templates/by-translation.php:17 gp-templates/by-translation.php:31
+msgid "Show by Locale"
+msgstr ""
+
+#: install1.php:59
+msgid "GlotPress was successully upgraded!"
+msgstr "GlotPress erfolgreich upgedatet."
+
+#: gp-templates/by-translation.php:19 gp-templates/by-translation.php:26
+msgid "Show by Both"
+msgstr ""
+
+#: install1.php:64
+msgid "GlotPress database and config were successully installed!"
+msgstr "GlotPress Datenbank und Konfiguration wurden erfolgreich installiert!"
+
+#: gp-templates/by-translation.php:22
+msgid "Showing by Locale"
+msgstr ""
+
+#: install2.php:28
+msgid ""
+"The <i>.htaccess</i> file already exists and has been left untouched. Make "
+"sure it contains the correct <i>mod_rewrite</i> configuration"
+msgstr ""
+
+#: gp-templates/by-translation.php:24 gp-templates/by-translation.php:33
+msgid "Show by Slug"
+msgstr ""
+
+#: install2.php:34
+msgid ""
+"Could not create the <i>.htaccess</i> file for you. Make sure you create one "
+"with the following content"
+msgstr ""
+
+#: gp-templates/by-translation.php:29
+msgid "Showing by Both"
+msgstr ""
+
+#: locales/locales.php:29
+msgctxt "locales"
+msgid "%1$s/%2$s"
+msgstr "%1$s/%2$s"
+
+#: gp-templates/by-translation.php:38
+msgid "Show Your Own"
+msgstr ""
+
+#: scripts/import-originals.php:22
+msgid "Couldn't load translations from file!"
+msgstr ""
+
+#: gp-templates/by-translation.php:64
+msgid "view"
+msgstr ""
+
+#: scripts/import.php:16
+msgid "%s translation were added\n"
+msgid_plural "%s translations were added\n"
+msgstr[0] "%s Übersetzung wurde hinzugefügt\n"
+msgstr[1] "%s Übersetzungen wurden hinzugefügt\n"
+
+#: gp-templates/footer.php:2
+msgid ""
+"<a href=\"https://github.com/fmestrone/ReGlot\" title=\"Found in "
+"translation, and some...\"><b>%s</b></a>, powered by <a href=\"http://"
+"glotpress.org/\" title=\"Found in translation\">GlotPress</a>, improved by "
+"<a href=\"http://www.federicomestrone.com\" title=\"Federico Mestrone"
+"\">FedMest</a> & <a href=\"http://twinpictures.de\" title=\"Twinpictures"
+"\">Twinpictures</a>."
+msgstr ""
+
+#: scripts/recheck-warnings.php:13
+msgid "Updating warnings for %s"
+msgstr ""
+
+#: gp-templates/header.php:18
+msgid "GlotPress logo"
+msgstr "GlotPress Logo"
+
+#: gp-templates/header.php:35 gp-templates/tools.php:2
+msgid "Tools"
+msgstr "Werkzeuge"
+
+#: gp-templates/header.php:40 gp-templates/settings.php:2
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: gp-templates/header.php:45 gp-templates/translations.php:33
+#: gp-templates/users.php:3
+msgid "Users"
+msgstr "Benutzer"
+
+#: gp-templates/header.php:46
+msgid "Profile"
+msgstr "Profil"
+
+#: gp-templates/header.php:47
+msgid "Log out"
+msgstr "Abmelden"
+
+#: gp-templates/header.php:52
+msgid "Register"
+msgstr "registrieren"
+
+#: gp-templates/header.php:54
+msgid "Log in"
+msgstr "Login"
+
+#: gp-templates/helper-functions.php:3
+msgid "New line"
+msgstr ""
+
+#: gp-templates/helper-functions.php:4
+msgid "Tab character"
+msgstr ""
+
+#: gp-templates/helper-functions.php:19
+msgid "<strong>Warning:</strong> %s"
+msgstr "<strong>Warnung:</strong> %s"
+
+#: gp-templates/helper-functions.php:22
+msgid "Discard"
+msgstr ""
+
+#: gp-templates/helper-functions.php:30
+msgid "Copy from original"
+msgstr "Original übernehmen"
+
+#: gp-templates/helper-functions.php:31
+msgid "Translation from Google"
+msgstr ""
+
+#: gp-templates/helper-functions.php:35
+msgid "You <a href=\"%s\">have to log in</a> to edit this translation."
+msgstr ""
+"Du musst dich <a href=\"%s\">einloggen</a> um diese Übersetzung zu "
+"bearbeiten."
+
+#: gp-templates/helper-functions.php:57
+msgid "References:"
+msgstr "Referenzen:"
+
+#: gp-templates/index.php:2 gp-templates/index.php:5
+msgid "Welcome"
+msgstr "Willkommen"
+
+#: gp-templates/index.php:7
+msgid "Welcome to %s, based on GlotPress."
+msgstr "Willkommen zu %s, auf GlotPress basiert."
+
+#: gp-templates/index.php:10
+msgid "Translations may be browsed by:"
+msgstr ""
+
+#: gp-templates/index.php:12
+msgid "project"
+msgstr "Projekt"
+
+#: gp-templates/index.php:13
+msgid "language or translation set"
+msgstr "Sprache oder Übersetzung set"
+
+#: gp-templates/index.php:15
+msgid "user (the translation column in the <a href=\"%s\">users list page</a>)"
+msgstr ""
+"Benutzer (die Übersetzung Spalte in der <a href=\"%s\">Benutzerliste</a>)"
+
+#: gp-templates/index.php:21
+msgid ""
+"As a logged in user, you may suggest or modify existing translations from "
+"any of the above links.<br/>You may also <a href=\"%s\">edit your profile</"
+"a> or view and work on the <a href=\"%s\">translation entries contributed by "
+"yourself</a>."
+msgstr ""
+
+#: gp-templates/index.php:25
+msgid ""
+"If you want to help translating instead, please <a href=\"%s\">log in</a> to "
+"%s or <a href=\"%s\">register</a> if you don't have an account yet."
+msgstr ""
+
+#: gp-templates/install.php:2 gp-templates/install.php:3
+#: gp-templates/install.php:95 gp-templates/install1.php:2
+#: gp-templates/install1.php:4 gp-templates/install2.php:2
+#: gp-templates/install2.php:4
+msgid "Install"
+msgstr ""
+
+#: gp-templates/install.php:38 gp-templates/install1.php:18
+#: gp-templates/install2.php:17
+msgid "Installation Process (phase %d of %d)"
+msgstr "Installationsfortschritt (Phase %d von %d)"
+
+#: gp-templates/install.php:42
+msgid "Database Configuration"
+msgstr "Datenbank-Konfiguration"
+
+#: gp-templates/install.php:44
+msgid "Database Name"
+msgstr "Datenbankname"
+
+#: gp-templates/install.php:46 gp-templates/login.php:12
+msgid "Username"
+msgstr "Benutzername"
+
+#: gp-templates/install.php:48 gp-templates/login.php:15
+#: gp-templates/users_edit.php:19
+msgid "Password"
+msgstr "Passwort"
+
+#: gp-templates/install.php:50
+msgid "Server Host"
+msgstr ""
+
+#: gp-templates/install.php:52
+msgid "Default Character Set"
+msgstr "Standard Zeichensatz"
+
+#: gp-templates/install.php:54
+msgid "Default Collation"
+msgstr "Standard Kollation (Sortierfolge)"
+
+#: gp-templates/install.php:56
+msgid "GlotPress Table Prefix"
+msgstr ""
+
+#: gp-templates/install.php:60
+msgid "Authentication Unique Keys"
+msgstr ""
+
+#: gp-templates/install.php:70
+msgid ""
+"You can generate these using the <a href=\"https://api.wordpress.org/secret-"
+"key/1.1/\" target=\"_blank\">WordPress.org secret-key service</a> page"
+msgstr ""
+
+#: gp-templates/install.php:75
+msgid "Enable WordPress User Base Integration"
+msgstr ""
+
+#: gp-templates/install.php:84
+msgid "Other Options"
+msgstr "Weitere Optionen"
+
+#: gp-templates/install.php:86
+msgid "GlotPress Language"
+msgstr "GlotPress Sprache"
+
+#: gp-templates/install.php:88
+msgid ""
+"A corresponding MO file for the chosen language must be installed to "
+"<i>languages/</i>. Leave blank for English."
+msgstr ""
+
+#: gp-templates/install1.php:4 gp-templates/install2.php:4
+msgid "Upgrade"
+msgstr ""
+
+#: gp-templates/install1.php:22
+msgid "Configure Administrator Options"
+msgstr ""
+
+#: gp-templates/install1.php:27
+msgid ""
+"Select the WordPress user that will have administrator's rights in GlotPress"
+msgstr ""
+
+#: gp-templates/install1.php:29
+msgid "Admin Username"
+msgstr ""
+
+#: gp-templates/install1.php:31 gp-templates/users.php:39
+#: gp-templates/users_edit.php:16
+msgid "Display Name"
+msgstr ""
+
+#: gp-templates/install1.php:33 gp-templates/users_edit.php:18
+msgid "The name that will be used for display on the website"
+msgstr ""
+
+#: gp-templates/install1.php:34
+msgid "Admin Password"
+msgstr "Admin-Passwort"
+
+#: gp-templates/install1.php:36 gp-templates/users_edit.php:21
+msgid "Confirm Password"
+msgstr "Passwort bestätigen"
+
+#: gp-templates/install1.php:38 gp-templates/users_edit.php:26
+msgid "Email Address"
+msgstr "E-Mail-Adresse"
+
+#: gp-templates/install1.php:40
+msgid "The default username is \"admin\", with a password of \"a\"."
+msgstr ""
+
+#: gp-templates/install1.php:48
+msgid "Finish"
+msgstr "Abschließen"
+
+#: gp-templates/install2.php:20
+msgid "GlotPress installed successfully"
+msgstr "GlotPress erfolgreich installiert"
+
+#: gp-templates/install2.php:22
+msgid "The %s installation may be <a href=\"%s\">accessed here</a>"
+msgstr ""
+
+#: gp-templates/install2.php:24
+msgid ""
+"Or you may <a href=\"%s\">log in</a> to GlotPress straightaway with the "
+"username and password you have just created"
+msgstr ""
+
+#: gp-templates/login.php:21
+msgid "register"
+msgstr "anmelden"
+
+#: gp-templates/original-row.php:4 gp-templates/translation-row.php:52
+msgid "Context: %s"
+msgstr "Kontext: %s"
+
+#: gp-templates/originals.php:2 gp-templates/originals.php:5
+msgid "Originals"
+msgstr "Originale"
+
+#: gp-templates/originals.php:22
+msgid "Context"
+msgstr "Kontext"
+
+#: gp-templates/originals.php:23
+msgid "Original Text"
+msgstr ""
+
+#: gp-templates/originals.php:24
+msgid "Comment"
+msgstr "Kommentar"
+
+#: gp-templates/originals.php:34
+msgid "No originals were found!"
+msgstr "Keine Originale wurden gefunden!"
+
+#: gp-templates/project-edit.php:2
+msgid "Edit Project"
+msgstr "Projekt bearbeiten"
+
+#: gp-templates/project-edit.php:6
+msgid "Edit project \"%s\""
+msgstr "Projekt \"%s\" bearbeiten"
+
+#: gp-templates/project-edit.php:10 gp-templates/settings.php:24
+#: gp-templates/translation-set-edit.php:13 gp-templates/users.php:23
+#: gp-templates/users_edit.php:36
+msgid "Save"
+msgstr "Speichern"
+
+#: gp-templates/project-form.php:2 gp-templates/translation-set-form.php:8
+msgid "Name"
+msgstr "Name"
+
+#: gp-templates/project-form.php:6 gp-templates/translation-set-form.php:12
+msgid "Slug"
+msgstr ""
+
+#: gp-templates/project-form.php:9
+msgid "If you leave the slug empty, it will be derived from the name."
+msgstr ""
+
+#: gp-templates/project-form.php:12
+msgid "Description"
+msgstr "Beschreibung"
+
+#: gp-templates/project-form.php:15 gp-templates/project.php:33
+msgid "Source file URL"
+msgstr ""
+
+#: gp-templates/project-form.php:18
+msgid ""
+"Public URL to a source file in the project. You can use <code>%file%</code> "
+"and <code>%line%</code>. Ex. <code>http://trac.example.org/browser/%file%#L"
+"%line%</code>"
+msgstr ""
+
+#: gp-templates/project-form.php:21
+msgid "Parent Project"
+msgstr ""
+
+#: gp-templates/project-form.php:24 gp-templates/projects.php:13
+msgid "Active"
+msgstr "Aktiv"
+
+#: gp-templates/project-import.php:1
+msgid "Import Originals into %s"
+msgstr ""
+
+#: gp-templates/project-import.php:1
+msgid "Import Translations for %s"
+msgstr ""
+
+#: gp-templates/project-import.php:4
+msgid "Import File:"
+msgstr ""
+
+#: gp-templates/project-import.php:6
+msgid "Format:"
+msgstr "Format:"
+
+#: gp-templates/project-import.php:8 gp-templates/tools-elgg-import.php:52
+msgid "Import"
+msgstr "Import"
+
+#: gp-templates/project-mass-create-sets.php:2
+msgid "Mass-create Translation Sets &lt; %s &lt; GlotPress"
+msgstr ""
+
+#: gp-templates/project-mass-create-sets.php:7
+msgid "Loading translation sets to create&hellip;"
+msgstr ""
+
+#: gp-templates/project-mass-create-sets.php:11 gp-templates/project.php:26
+msgid "Mass-create Translation Sets"
+msgstr ""
+
+#: gp-templates/project-mass-create-sets.php:12
+msgid ""
+"Here you can mass-create translation sets in this project.\n"
+"The list of translation sets will be mirrored with the sets of a project you "
+"choose.\n"
+"Usually this is one of the parent projects."
+msgstr ""
+
+#: gp-templates/project-mass-create-sets.php:17
+msgid "Project to take translation sets from:"
+msgstr ""
+
+#: gp-templates/project-mass-create-sets.php:21
+msgid "Create Translation Sets"
+msgstr ""
+
+#: gp-templates/project-new.php:2 gp-templates/project-new.php:8
+msgid "Create New Project"
+msgstr "Neues Projekt anlegen"
+
+#: gp-templates/project-new.php:4
+msgid "New Project"
+msgstr "Neues Projekt"
+
+#: gp-templates/project-new.php:12 gp-templates/translation-set-new.php:15
+msgid "Create"
+msgstr ""
+
+#: gp-templates/project-permissions.php:2
+#: gp-templates/project-permissions.php:6 gp-templates/project.php:23
+msgid "Permissions"
+msgstr "Rechte"
+
+#: gp-templates/project-permissions.php:8
+msgid "Validators"
+msgstr ""
+
+#: gp-templates/project-permissions.php:15
+msgid "Validators for this project"
+msgstr ""
+
+#: gp-templates/project-permissions.php:20
+#: gp-templates/project-permissions.php:36
+msgid "user"
+msgstr "Benutzer"
+
+#: gp-templates/project-permissions.php:26
+msgid "Remove"
+msgstr "Löschen"
+
+#: gp-templates/project-permissions.php:32
+msgid "Validators for parent projects"
+msgstr ""
+
+#: gp-templates/project-permissions.php:49
+msgid "No validators defined for this project."
+msgstr ""
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:317
+msgid "Passed variable is not a BackPress database object."
+msgstr ""
+
+#: gp-templates/project-permissions.php:52
+msgid "Add a validator for this project"
+msgstr ""
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:321
+msgid "No schema available."
+msgstr ""
+
+#: gp-templates/project-permissions.php:54
+#: gp-templates/translation-row.php:166
+msgid "Username:"
+msgstr "Benutzername:"
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:387
+msgid "Creating table"
+msgstr ""
+
+#: gp-templates/project-permissions.php:56
+msgid "Locale:"
+msgstr ""
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:416
+msgid "Adding column: %s"
+msgstr ""
+
+#: gp-templates/project-permissions.php:58
+msgid "Translation set slug:"
+msgstr ""
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:435
+msgid "Setting default on column: %s"
+msgstr ""
+
+#: gp-templates/project-permissions.php:62
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:453
+msgid "Changing column: %s"
+msgstr ""
+
+#: gp-templates/project.php:19
+msgid "Project actions &darr;"
+msgstr ""
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:496
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:519
+msgid "Adding index: %s"
+msgstr ""
+
+#: gp-templates/project.php:22
+msgid "View/Import Originals"
+msgstr "Anzeigen/Importieren von Originalen"
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:512
+msgid "Dropping index: %s"
+msgstr ""
+
+#: gp-templates/project.php:24
+msgid "New Sub-Project"
+msgstr "Neues Unter-Projekt"
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:540
+msgid "Inserting data"
+msgstr ""
+
+#: gp-templates/project.php:25 gp-templates/translation-set-new.php:3
+msgid "New Translation Set"
+msgstr ""
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:553
+msgid "Updating data"
+msgstr ""
+
+#: gp-templates/project.php:29
+msgid "Personal project options &darr;"
+msgstr ""
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:571
+msgid "Modifying database: %s (%s)"
+msgstr ""
+
+#: gp-templates/project.php:36
+msgid ""
+"URL to a source file in the project. You can use <code>%file%</code> and "
+"<code>%line%</code>. Ex. <code>http://trac.example.org/browser/%file%#L%line"
+"%</code>"
+msgstr ""
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:575
+msgid "Table: %s"
+msgstr "Tabelle: %s"
+
+#: gp-templates/project.php:40
+msgid "Save &rarr;"
+msgstr "Speichern &rarr;"
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:587
+msgid "Skipped"
+msgstr ""
+
+#: gp-templates/project.php:41 gp-templates/translation-row.php:212
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:599
+msgid "SQL ERROR! See the error log for more detail"
+msgstr "SQL ERROR! Weitere Details findest du im error log"
+
+#: gp-templates/project.php:55
+msgid "Sub-projects"
+msgstr ""
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:600
+msgid "SQL ERROR!"
+msgstr "SQL ERROR!"
+
+#: gp-templates/projects-by-translation.php:15
+msgid "By Slug '%s'"
+msgstr ""
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:601
+msgid "Database: %s (%s)"
+msgstr "Datenbank: %s (%s)"
+
+#: gp-templates/projects-by-translation.php:23
+msgid "and slug '%s'"
+msgstr ""
+
+#: gp-includes/backpress/class.bp-sql-schema-parser.php:605
+msgid "Done"
+msgstr ""
+
+#: gp-templates/projects.php:9
+msgid "No projects were found!"
+msgstr "Keine Projekte vorhanden!"
+
+#: gp-includes/backpress/class.wp-http.php:723
+#: gp-includes/backpress/class.wp-http.php:1341
+msgid "Too many redirects."
+msgstr "Zu viele Weiterleitungen."
+
+#: gp-templates/projects.php:18
+msgid "Create a New Project"
+msgstr "Neues Projekt anlegen"
+
+#: gp-includes/backpress/class.wp-http.php:803
+#: gp-includes/backpress/class.wp-http.php:930
+msgid "Malformed URL: %s"
+msgstr ""
+
+#: gp-templates/redirect.php:1
+msgid "Redirecting to: %s..."
+msgstr "Weiterleiten nach: %s"
+
+#: gp-includes/backpress/class.wp-http.php:814
+#: gp-includes/backpress/class.wp-http.php:987
+msgid "Could not open handle for fopen() to %s"
+msgstr ""
+
+#: gp-templates/settings.php:5
+msgid "Site Settings"
+msgstr "Site-Einstellungen"
+
+#: gp-includes/backpress/class.wp-taxonomy.php:226
+#: gp-includes/backpress/class.wp-taxonomy.php:299
+#: gp-includes/backpress/class.wp-taxonomy.php:408
+#: gp-includes/backpress/class.wp-taxonomy.php:586
+#: gp-includes/backpress/class.wp-taxonomy.php:1171
+#: gp-includes/backpress/class.wp-taxonomy.php:1405
+msgid "Invalid Taxonomy"
+msgstr "Ungültige Taxonomy"
+
+#: gp-templates/settings.php:9
+msgid "Import/Export"
+msgstr "Import/Export"
+
+#: gp-includes/backpress/class.wp-taxonomy.php:294
+msgid "Empty Term"
+msgstr "Leerer Ausdruck"
+
+#: gp-templates/settings.php:11
+msgid "Default Format"
+msgstr "Standard-Format"
+
+#: gp-includes/backpress/class.wp-taxonomy.php:1305
+#: gp-includes/backpress/class.wp-taxonomy.php:1554
+msgid "Invalid taxonomy"
+msgstr "Ungültige Taxonomy"
+
+#: gp-templates/settings.php:14
+msgid "Project Management"
+msgstr "Projektverwaltung"
+
+#: gp-includes/backpress/class.wp-taxonomy.php:1308
+msgid "Invalid term ID"
+msgstr "Ungültige Begriff ID"
+
+#: gp-templates/settings.php:18
+msgid "Recursively create translation sets in subprojects by default"
+msgstr ""
+
+#: gp-includes/backpress/class.wp-taxonomy.php:1311
+#: gp-includes/backpress/class.wp-taxonomy.php:1577
+msgid "A name is required for this term"
+msgstr ""
+
+#: gp-templates/settings.php:19
+msgid ""
+"You can still change this option before every individual translation set "
+"creation"
+msgstr ""
+
+#: gp-includes/backpress/class.wp-taxonomy.php:1342
+#: gp-includes/backpress/class.wp-taxonomy.php:1349
+msgid "Could not insert term into the database"
+msgstr ""
+
+#: gp-templates/tools-elgg-export.php:3
+msgid "Elgg Export"
+msgstr "Elgg Export"
+
+#: gp-includes/backpress/class.wp-taxonomy.php:1605
+msgid "The slug &#8220;%s&#8221; is already in use by another term"
+msgstr ""
+
+#: gp-templates/tools-elgg-export.php:9 gp-templates/tools-elgg-import.php:7
+msgid "GlotPress Tools"
+msgstr "GlotPress Tools"
+
+#: gp-includes/backpress/class.wp-taxonomy.php:2047
+msgid "Invalid object ID"
+msgstr "Ungültige Objekt ID"
+
+#: gp-templates/tools-elgg-export.php:17
+msgid "Elgg Package Export"
+msgstr ""
+
+#: gp-includes/backpress/class.wp-users.php:51
+msgid "Invalid login name"
+msgstr "Ungültiger Loginname"
+
+#: gp-templates/tools-elgg-export.php:19 gp-templates/tools-elgg-import.php:14
+msgid ""
+"Import all language data for an Elgg installation. The ZIP file should "
+"contain a folder name elgg-&lt;version&gt; and the whole Elgg installation "
+"or just the language data below it.\n"
+"\t\t\tThe mod folders should include the manifest.xml file, used to get data "
+"about each plugin. The core plugins are imported as subprojects into an Elgg "
+"v&lt;version&gt; project, while all other\n"
+"\t\t\tplugins are imported into a top level Third Party Elgg Plugins "
+"project. The en locale is used for originals, any other locale is imported "
+"as translations."
+msgstr ""
+
+#: gp-includes/backpress/class.wp-users.php:53
+msgid "Name already exists"
+msgstr "Name bereits vorhanden"
+
+#: gp-templates/tools-elgg-export.php:23
+msgid "Core &amp; Bundled &darr;"
+msgstr ""
+
+#: gp-includes/backpress/class.wp-users.php:58
+msgid "Invalid nicename"
+msgstr ""
+
+#: gp-templates/tools-elgg-export.php:24
+msgid "Extra Plugins &darr;"
+msgstr ""
+
+#: gp-includes/backpress/class.wp-users.php:60
+msgid "Nicename already exists"
+msgstr ""
+
+#: gp-templates/tools-elgg-export.php:25
+msgid "Locales &darr;"
+msgstr ""
+
+#: gp-includes/backpress/class.wp-users.php:65
+msgid "Invalid email address"
+msgstr "Ungültige E-Mail-Adresse"
+
+#: gp-templates/tools-elgg-export.php:76
+msgid "Create empty language files"
+msgstr ""
+
+#: gp-includes/backpress/class.wp-users.php:70
+msgid "Email already exists"
+msgstr "E-Mail-Adresse bereits vorhanden"
+
+#: gp-templates/tools-elgg-export.php:94
+msgid "Also export original English texts"
+msgstr ""
+
+#: gp-includes/backpress/class.wp-users.php:90
+msgid "Invalid registration time"
+msgstr ""
+
+#: gp-templates/tools-elgg-export.php:99
+msgid "Type the name for the file to download"
+msgstr ""
+
+#: gp-includes/backpress/class.wp-users.php:93
+msgid "Invalid registration timestamp"
+msgstr ""
+
+#: gp-templates/tools-elgg-export.php:101
+msgid ""
+"You can leave this blank and the file will be called <i>elgg-languages.zip</"
+"i>."
+msgstr ""
+
+#: gp-includes/backpress/class.wp-users.php:110
+msgid "Query failed"
+msgstr ""
+
+#: gp-templates/tools-elgg-export.php:115 gp-templates/translations.php:202
+msgid "Export"
+msgstr "Export"
+
+#: gp-includes/backpress/class.wp-users.php:298
+#: gp-includes/backpress/class.wp-users.php:344
+msgid "Multiple email matches.  Log in with your username."
+msgstr ""
+
+#: gp-templates/tools-elgg-export.php:119
+msgid "There are no Elgg projects to export from"
+msgstr ""
+
+#: gp-includes/backpress/class.wp-users.php:300
+#: gp-includes/backpress/class.wp-users.php:346
+msgid "Multiple %s matches"
+msgstr ""
+
+#: gp-templates/tools-elgg-import.php:2
+msgid "Elgg Import"
+msgstr "Elgg Import"
+
+#: gp-includes/backpress/functions.core.php:957
+msgid "Select a city"
+msgstr "Wähle eine Stadt"
+
+#: gp-templates/tools-elgg-import.php:12
+msgid "Elgg Package Import"
+msgstr ""
+
+#: gp-includes/backpress/functions.core.php:972
+msgid "Manual offsets"
+msgstr ""
+
+#: gp-templates/tools-elgg-import.php:18
+msgid "Project to import Elgg cores into"
+msgstr ""
+
+#: gp-includes/backpress/functions.core.php:985
+msgid "UTC %s"
+msgstr "UTC %s"
+
+#: gp-templates/tools-elgg-import.php:22
+msgid "Project to import third party plugins into"
+msgstr ""
+
+#: gp-includes/backpress/functions.core.php:1203
+msgid "BackPress &rsaquo; Error"
+msgstr "BackPress &rsaquo; Error"
+
+#: gp-templates/tools-elgg-import.php:28
+msgid "Select the Elgg install zip file"
+msgstr ""
+
+#: gp-includes/backpress/functions.formatting.php:40
+msgctxt "opening curly double quote"
+msgid "&#8220;"
+msgstr "&#8220;"
+
+#: gp-templates/tools-elgg-import.php:30
+msgid ""
+"You can get this file from <a href=\"http://www.elgg.org/download.php\" "
+"target=\"_blank\">the Elgg web site</a>. Make sure the file is in ZIP format."
+msgstr ""
+
+#: gp-includes/backpress/functions.formatting.php:42
+msgctxt "closing curly double quote"
+msgid "&#8221;"
+msgstr "&#8221;"
+
+#: gp-templates/tools-elgg-import.php:43
+msgid "Also import original English texts"
+msgstr ""
+
+#: gp-includes/backpress/functions.formatting.php:45
+msgctxt "apostrophe"
+msgid "&#8217;"
+msgstr "&#8217;"
+
+#: gp-templates/tools-elgg-import.php:47
+msgid "Do not overwrite exisiting translation sets"
+msgstr ""
+
+#: gp-includes/backpress/functions.formatting.php:48
+msgctxt "prime"
+msgid "&#8242;"
+msgstr "&#8242;"
+
+#: gp-templates/tools.php:5
+msgid "External Tools"
+msgstr ""
+
+#: gp-includes/backpress/functions.formatting.php:50
+msgctxt "double prime"
+msgid "&#8243;"
+msgstr "&#8243;"
+
+#: gp-templates/tools.php:8
+msgid "Sorry! There are no tools available to you."
+msgstr "Sorry! Es sind keine Tools für dich verfügbar."
+
+#: gp-includes/backpress/functions.formatting.php:53
+msgctxt "opening curly single quote"
+msgid "&#8216;"
+msgstr "&#8216;"
+
+#: gp-templates/translation-import.php:2
+msgid "Import Translations"
+msgstr "Übersetzungen importieren"
+
+#: gp-includes/backpress/functions.formatting.php:55
+msgctxt "closing curly single quote"
+msgid "&#8217;"
+msgstr "&#8217;"
+
+#: gp-templates/translation-row.php:58
+msgid "Double-click to add"
+msgstr ""
+
+#: gp-includes/backpress/functions.formatting.php:58
+msgctxt "en dash"
+msgid "&#8211;"
+msgstr "&#8211;"
+
+#: gp-templates/translation-row.php:58
+msgid "You <a href=\"%s\">have to login</a> to add a translation."
+msgstr ""
+
+#: gp-includes/backpress/functions.formatting.php:60
+msgctxt "em dash"
+msgid "&#8212;"
+msgstr "&#8212;"
+
+#: gp-templates/translation-row.php:79
+msgid "Details"
+msgstr "Details"
+
+#: gp-includes/backpress/functions.wp-cron.php:304
+msgid "Once Hourly"
+msgstr "Stündlich"
+
+#: gp-templates/translation-row.php:90 gp-templates/translation-row.php:100
+msgid "Singular: %s"
+msgstr "Singular: %s"
+
+#: gp-includes/backpress/functions.wp-cron.php:305
+msgid "Twice Daily"
+msgstr ""
+
+#: gp-templates/translation-row.php:93 gp-templates/translation-row.php:102
+msgid "Plural: %s"
+msgstr "Plural: %s"
+
+#: gp-includes/backpress/functions.wp-cron.php:306
+msgid "Once Daily"
+msgstr "Einmal täglich"
+
+#: gp-templates/translation-row.php:106
+msgid "This plural form is used for numbers like: %s"
+msgstr ""
+
+#: gp-includes/backpress/pomo/sample/app.php:60 pomo/sample/app.php:60
+msgid "A string with low priority!"
+msgstr ""
+
+#: gp-templates/translation-row.php:116
+msgid "Meta"
+msgstr "Meta"
+
+#: gp-includes/backpress/pomo/sample/app.php:62 pomo/sample/app.php:62
+msgid "Bye\n"
+msgstr ""
+
+#: gp-templates/translation-row.php:118 gp-templates/translations.php:110
+msgid "Status:"
+msgstr "Status:"
+
+#: gp-includes/cli.php:49 scripts/import-originals.php:15
+msgid "Project not found!"
+msgstr "Projekt nicht gefunden!"
+
+#: gp-templates/translation-row.php:134
+msgid "Priority:"
+msgstr "Priorität:"
+
+#: gp-includes/cli.php:52
+msgid "Locale not found!"
+msgstr ""
+
+#: gp-templates/translation-row.php:141
+msgid "Context:"
+msgstr "Kontext:"
+
+#: gp-includes/cli.php:57
+msgid "Translation set not found!"
+msgstr ""
+
+#: gp-templates/translation-row.php:147
+msgid "Comment:"
+msgstr "Kommentar:"
+
+#: gp-includes/formats/format_android.php:48
+#: gp-includes/formats/format_elgg.php:66
+#: gp-includes/formats/format_java.php:69
+#: gp-includes/formats/format_resx.php:63
+#: gp-includes/formats/format_rrc.php:58
+#: gp-includes/formats/format_strings.php:59
+msgid "Missing context %s in project #%d"
+msgstr ""
+
+#: gp-templates/translation-row.php:153
+msgid "Date added:"
+msgstr "Hinzugefügt am:"
+
+#: gp-includes/route.php:94
+msgid "You are not allowed to do that!"
+msgstr ""
+
+#: gp-templates/translation-row.php:158
+msgid "In:"
+msgstr ""
+
+#: gp-includes/route.php:197 gp-includes/template.php:61
+#: gp-templates/404.php:2
+msgid "Not Found"
+msgstr "Nicht gefunden"
+
+#: gp-templates/translation-row.php:163
+msgid "Translated by:"
+msgstr "Übersetzt von:"
+
+#: gp-includes/routes/admin.php:64 gp-includes/routes/admin.php:85
+msgid "There must be at least one admin for this site"
+msgstr ""
+
+#: gp-templates/translation-row.php:171
+msgid "Translated into:"
+msgstr ""
+
+#: gp-includes/routes/admin.php:67
+msgid "The user has been deleted from the system"
+msgstr ""
+
+#: gp-templates/translation-row.php:174
+msgid "Code:"
+msgstr "Code:"
+
+#: gp-includes/routes/admin.php:69
+msgid "<br/>You won't be able to log back in to the site once you log out"
+msgstr ""
+
+#: gp-templates/translation-row.php:181
+msgid "Priority of the original:"
+msgstr ""
+
+#: gp-includes/routes/admin.php:73 gp-includes/routes/admin.php:106
+#: gp-includes/routes/admin.php:146
+msgid "Cannot find the user specified"
+msgstr ""
+
+#: gp-templates/translation-row.php:209
+msgid "Add translation &rarr;"
+msgstr "Übersetzung hinzufügen &rarr;"
+
+#: gp-includes/routes/admin.php:90
+msgid "Admin privileges for the user have been revoked"
+msgstr ""
+
+#: gp-templates/translation-row.php:209
+msgid "Suggest new translation &rarr;"
+msgstr "Neue Übersetzung vorschlagen &rarr;"
+
+#: gp-includes/routes/admin.php:92
+msgid "<br/>You don't have admin privileges anymore as of this moment"
+msgstr "<br/>Du hast ab sofort keine Adminrechte mehr."
+
+#: gp-templates/translation-set-edit.php:2
+#: gp-templates/translation-set-edit.php:9
+msgid "Edit Translation Set"
+msgstr ""
+
+#: gp-includes/routes/admin.php:103
+msgid "The user has been made an admin of this site"
+msgstr ""
+
+#: gp-templates/translation-set-form.php:2
+msgid "Locale"
+msgstr ""
+
+#: gp-includes/routes/admin.php:127
+msgid "Your settings have been saved"
+msgstr "Deine Einstellungen wurden gespeichert"
+
+#: gp-templates/translation-set-form.php:5
+msgid "Use as name"
+msgstr ""
+
+#: gp-includes/routes/admin.php:154 gp-includes/routes/admin.php:168
+msgid "Password confirmation does not match"
+msgstr "Passwörter stimmen nicht überein"
+
+#: gp-templates/translation-set-form.php:15
+msgid "Project"
+msgstr "Projekt"
+
+#: gp-includes/routes/admin.php:164
+msgid "User profile successfully updated"
+msgstr "Benutzerprofil erfolgreich aktualisiert"
+
+#: gp-templates/translation-set-new.php:2
+#: gp-templates/translation-set-new.php:6
+msgid "Create New Translation Set"
+msgstr ""
+
+#: gp-includes/routes/admin.php:172
+msgid "You must provide username and email, please"
+msgstr ""
+
+#: gp-templates/translation-set-new.php:11
+msgid "Recursively create sets in subprojects"
+msgstr ""
+
+#: gp-includes/routes/admin.php:183
+msgid "User profile successfully created"
+msgstr "Benutzerprofil erfolgreich erstellt"
+
+#: gp-templates/translation-sets.php:7
+msgid "Language"
+msgstr "Sprache"
+
+#: gp-includes/routes/admin.php:186
+msgid "User profile could not be created"
+msgstr "Benutzerprofil konnte nicht erstellt werden"
+
+#: gp-templates/translation-sets.php:8
+msgctxt "language translation percent header"
+msgid "%"
+msgstr "%"
+
+#: gp-includes/routes/index.php:4
+msgid "You need to be logged in to access this site"
+msgstr "Du musst eingeloggt sein um Zugriff auf diese Seite zu bekommen."
+
+#: gp-templates/translation-sets.php:9 gp-templates/translations.php:83
+msgid "All"
+msgstr "Alle"
+
+#: gp-includes/routes/login.php:17
+msgid "Invalid username!"
+msgstr "Ungültiger Benutzername!"
+
+#: gp-templates/translation-sets.php:10
+msgid "Translated (of total)"
+msgstr "Übersetzt (Gesamt)"
+
+#: gp-includes/routes/login.php:26 pomo/sample/app.php:56
+#: gp-includes/backpress/pomo/sample/app.php:56 gp-templates/header.php:25
+msgid "Welcome, %s!"
+msgstr "Willkommen, %s!"
+
+#: gp-templates/translation-sets.php:11 gp-templates/translations.php:84
+msgid "Untranslated"
+msgstr ""
+
+#: gp-includes/routes/login.php:30
+msgid "Invalid password!"
+msgstr "Passwort ungültig!"
+
+#: gp-templates/translation-sets.php:12 gp-templates/translations.php:89
+msgid "Waiting"
+msgstr ""
+
+#: gp-includes/routes/project.php:5 gp-templates/header.php:33
+#: gp-templates/projects.php:2 gp-templates/projects.php:3
+#: gp-templates/projects.php:7
+msgid "Projects"
+msgstr "Projekte"
+
+#: gp-templates/translation-sets.php:14
+msgid "Own (of translated)"
+msgstr ""
+
+#: gp-includes/routes/project.php:27
+msgid "%s project "
+msgstr "%s Projekt"
+
+#: gp-templates/translation-sets.php:96
+msgid "There are no translations of this project."
+msgstr ""
+
+#: gp-includes/routes/project.php:76 gp-includes/routes/translation.php:22
+#: scripts/export.php:21 scripts/import-originals.php:18
+msgid "No such format."
+msgstr ""
+
+#: gp-templates/translations.php:2
+msgid "Translation Entries"
+msgstr ""
+
+#: gp-includes/routes/project.php:83 gp-includes/routes/translation.php:27
+msgid "Error uploading the file."
+msgstr "Fehler beim uploaden der Datei."
+
+#: gp-templates/translations.php:34
+msgid "Translations by %s"
+msgstr "Übersetzungen von %s"
+
+#: gp-includes/routes/project.php:89 gp-includes/routes/translation.php:33
+msgid "Couldn&#8217;t load translations from file!"
+msgstr ""
+
+#: gp-templates/translations.php:72
+msgid "Apply"
+msgstr "Bestätigen"
+
+#: gp-includes/routes/project.php:93 scripts/import-originals.php:26
+msgid "%s new strings were added, %s existing were updated."
+msgstr ""
+"%s neue Strings wurden hinzugefügt, %s vorhandene Strings wurden upgedatet."
+
+#: gp-templates/translations.php:79
+msgid "Filter &darr;"
+msgstr "Filter &darr;"
+
+#: gp-includes/routes/project.php:113
+msgid "The project cannot be parent of itself!"
+msgstr "Das Projekt kann nicht sich selbst untergeordnet werden!"
+
+#: gp-templates/translations.php:80
+msgid "Sort &darr;"
+msgstr ""
+
+#: gp-includes/routes/project.php:115
+msgid "The project was saved."
+msgstr "Das Projekt wurde gespeichert."
+
+#: gp-templates/translations.php:85
+msgid "random"
+msgstr "zufällig"
+
+#: gp-includes/routes/project.php:117
+msgid "Error in saving project!"
+msgstr ""
+
+#: gp-templates/translations.php:91
+msgid "Fuzzy"
+msgstr "Ungenau"
+
+#: gp-includes/routes/project.php:131
+msgid "The project was deleted."
+msgstr "Das Projekt wurde gelöscht."
+
+#: gp-templates/translations.php:93
+msgid "Warnings"
+msgstr "Warnungen"
+
+#: gp-includes/routes/project.php:133
+msgid "Error in deleting project!"
+msgstr "Fehler beim Löschen des Projekts!"
+
+#: gp-templates/translations.php:103
+msgid "Term:"
+msgstr "Begriff:"
+
+#: gp-includes/routes/project.php:154
+msgid "Error in creating project!"
+msgstr "Fehler beim erstellen des Projekts!"
+
+#: gp-templates/translations.php:104
+msgid "User:"
+msgstr "Benutzer:"
+
+#: gp-includes/routes/project.php:157
+msgid "The project was created!"
+msgstr "Das Projekt wurde angelegt!"
+
+#: gp-templates/translations.php:114
+msgid "Current/waiting/fuzzy + untranslated (All)"
+msgstr ""
+
+#: gp-includes/routes/project.php:193
+msgid "User wasn&#8217;t found!"
+msgstr "Benutzer wurde nicht gefunden!"
+
+#: gp-templates/translations.php:115
+msgid "Current only"
+msgstr ""
+
+#: gp-includes/routes/project.php:206
+msgid "Validator was added."
+msgstr ""
+
+#: gp-templates/translations.php:116
+msgid "Approved, but obsoleted by another string"
+msgstr ""
+
+#: gp-includes/routes/project.php:206
+msgid "Error in adding validator."
+msgstr ""
+
+#: gp-templates/translations.php:117
+msgid "Waiting approval"
+msgstr ""
+
+#: gp-includes/routes/project.php:218
+msgid "Permission was deleted."
+msgstr "Zugriffsrecht wurde gelöscht."
+
+#: gp-templates/translations.php:118
+msgid "Rejected"
+msgstr "zurückweisen"
+
+#: gp-includes/routes/project.php:220
+msgid "Error in deleting permission!"
+msgstr "Fehler beim Löschen der Berechtigung!"
+
+#: gp-templates/translations.php:119
+msgid "Without current translation"
+msgstr ""
+
+#: gp-includes/routes/project.php:223
+msgid "Permission wasn&#8217;t found!"
+msgstr "Berechtigung wurde nicht gefunden!"
+
+#: gp-templates/translations.php:120
+msgid "Any"
+msgstr ""
+
+#: gp-includes/routes/project.php:241 gp-includes/routes/project.php:265
+msgid "Project wasn&#8217;found"
+msgstr "Projekt nicht gefunden"
+
+#: gp-templates/translations.php:125
+msgid "With comment"
+msgstr ""
+
+#: gp-includes/routes/project.php:247
+msgid "Couldn&#8217;t add translation set named %s"
+msgstr ""
+
+#: gp-templates/translations.php:126
+msgid "With context"
+msgstr ""
+
+#: gp-includes/routes/project.php:252
+msgid "Couldn&#8217;t delete translation set named %s"
+msgstr ""
+
+#: gp-templates/translations.php:130
+msgid "Filter"
+msgstr "Filter"
+
+#: gp-includes/routes/project.php:255
+msgid "Translation sets were added and removed successfully"
+msgstr ""
+
+#: gp-templates/translations.php:133
+msgid "By:"
+msgstr "Von:"
+
+#: gp-includes/routes/translation-set.php:32
+msgid "Error in creating translation set!"
+msgstr ""
+
+#: gp-templates/translations.php:137
+msgid "Date added (original)"
+msgstr "Hinzugefügt am (Original)"
+
+#: gp-includes/routes/translation-set.php:35
+msgid "The translation set was created!"
+msgstr ""
+
+#: gp-templates/translations.php:138
+msgid "Date added (translation)"
+msgstr "Hinzugefügt am (Übersetzung)"
+
+#: gp-includes/routes/translation-set.php:55
+msgid "The set was deleted."
+msgstr ""
+
+#: gp-templates/translations.php:139 gp-templates/translations.php:164
+msgid "Original string"
+msgstr ""
+
+#: gp-includes/routes/translation-set.php:57
+msgid "Error in deleting the set!"
+msgstr ""
+
+#: gp-templates/translations.php:140 gp-templates/translations.php:165
+msgid "Translation"
+msgstr "Übersetzung"
+
+#: gp-includes/routes/translation-set.php:78
+msgid "Error in updating translation set!"
+msgstr ""
+
+#: gp-templates/translations.php:141
+msgid "Priority"
+msgstr "Priorität"
+
+#: gp-includes/routes/translation-set.php:83
+msgid "The translation set was updated!"
+msgstr ""
+
+#: gp-templates/translations.php:142
+msgid "Filename in source"
+msgstr ""
+
+#: gp-includes/routes/translation.php:38
+msgid "%s translations were added"
+msgstr "%s Übersetzungen wurden hinzugefügt"
+
+#: gp-templates/translations.php:143
+msgid "Random"
+msgstr "Zufällig"
+
+#: gp-includes/routes/translation.php:182
+msgid "One translation approved."
+msgid_plural "%d translations approved."
+msgstr[0] ""
+msgstr[1] ""
+
+#: gp-templates/translations.php:147
+msgid "How:"
+msgstr ""
+
+#: gp-includes/routes/translation.php:183
+msgid "One translation rejected."
+msgid_plural "%d translations rejected."
+msgstr[0] "Eine Übersetzung abgelehnt."
+msgstr[1] "%d Übersetzungen abgelehnt."
+
+#: gp-templates/translations.php:151
+msgid "Ascending"
+msgstr ""
+
+#: gp-includes/routes/translation.php:187
+msgid "Error with approving one translation."
+msgid_plural "Error with approving %s translations."
+msgstr[0] ""
+msgstr[1] ""
+
+#: gp-templates/translations.php:152
+msgid "Descending"
+msgstr ""
+
+#: gp-includes/routes/translation.php:188
+msgid "Error with rejecting one translation."
+msgid_plural "Error with rejecting %s translations."
+msgstr[0] ""
+msgstr[1] ""
+
+#: gp-templates/translations.php:156
+msgid "Sort"
+msgstr "Sortieren"
+
+#: gp-includes/routes/translation.php:191
+msgid "The remaining translation was approved successfully."
+msgid_plural "The remaining %s translations were approved successfully."
+msgstr[0] ""
+msgstr[1] ""
+
+#: gp-templates/translations.php:163
+msgid "Prio"
+msgstr "Prio"
+
+#: gp-includes/routes/translation.php:194
+msgid "The remaining translation was rejected successfully."
+msgid_plural "The remaining %s translations were rejected successfully."
+msgstr[0] ""
+msgstr[1] ""
+
+#: gp-templates/translations.php:176
+msgid "No translation entries were found!"
+msgstr ""
+
+#: gp-includes/routes/translation.php:200
+msgid "Error with approving the translation."
+msgid_plural "Error with approving all %s translation."
+msgstr[0] ""
+msgstr[1] ""
+
+#: gp-templates/translations.php:183
+msgid "Legend:"
+msgstr ""
+
+#: gp-includes/routes/translation.php:203
+msgid "Error with rejecting the translation."
+msgid_plural "Error with rejecting all %s translation."
+msgstr[0] ""
+msgstr[1] ""
+
+#: gp-templates/translations.php:192
+msgid "with warnings"
+msgstr ""
+
+#: gp-includes/routes/translation.php:256
+msgid "Added: %d."
+msgstr "Hinzugefügt: %d."
+
+#: gp-templates/translations.php:199
+msgid "Import translations"
+msgstr "Übersetzung importieren"
+
+#: gp-includes/routes/translation.php:257
+msgid "Error from Google Translate: %d."
+msgstr ""
+
+#: gp-templates/translations.php:203
+msgctxt "export choice"
+msgid "all current"
+msgstr ""
+
+#: gp-includes/routes/translation.php:258
+msgid "Error adding: %d."
+msgstr ""
+
+#: gp-templates/translations.php:203
+msgctxt "export choice"
+msgid "only matching the filter"
+msgstr ""
+
+#: gp-includes/routes/translation.php:259
+msgid "Skipped: %d."
+msgstr "Übersprungen: %d."
+
+#: gp-templates/translations.php:206
+msgid "%1$s %2$s as %3$s"
+msgstr ""
+
+#: gp-includes/routes/translation.php:262
+msgid "%d fuzzy translation from Google Translate were added."
+msgstr ""
+
+#: gp-templates/users.php:7
+msgid "User Management"
+msgstr "Benutzerverwaltung"
+
+#: gp-includes/template-links.php:36 gp-includes/template-links.php:83
+#: gp-templates/users.php:97
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: gp-templates/users.php:11
+msgid "Options"
+msgstr "Optionen"
+
+#: gp-includes/template-links.php:49 gp-includes/template-links.php:96
+#: gp-templates/users.php:99
+msgid "Delete"
+msgstr "Löschen"
+
+#: gp-templates/users.php:16
+msgid "Make home page visible to everyone"
+msgstr ""
+
+#: gp-includes/template-links.php:51
+msgid ""
+"Are you sure you want to delete the project \"%s\" and all of its "
+"subprojects?"
+msgstr ""
+
+#: gp-templates/users.php:20
+msgid "Enable User Self-Registration"
+msgstr ""
+
+#: gp-includes/template-links.php:62
+msgid "Home"
+msgstr "Home"
+
+#: gp-templates/users.php:29
+msgid "User List"
+msgstr ""
+
+#: gp-includes/template-links.php:62
+msgid "Home Is Where The Heart Is"
+msgstr ""
+
+#: gp-templates/users.php:31
+msgid "Create a New User"
+msgstr "Neuen Benutzer anlegen"
+
+#: gp-includes/template-links.php:71 gp-templates/login.php:2
+#: gp-templates/login.php:4 gp-templates/login.php:19
+#: gp-templates/users.php:38
+msgid "Login"
+msgstr "Login"
+
+#: gp-templates/users.php:37
+msgid "ID"
+msgstr "ID"
+
+#: gp-includes/template-links.php:71
+msgid "Sign into GlotPress"
+msgstr ""
+
+#: gp-templates/users.php:41
+msgid "Email"
+msgstr "E-Mail"
+
+#: gp-includes/template-links.php:98
+msgid ""
+"Are you sure you want to delete the set \"%s\" in project \"%s\" and all of "
+"its translations?"
+msgstr ""
+
+#: gp-templates/users.php:42
+msgid "Nice Name"
+msgstr ""
+
+#: gp-includes/template.php:87
+msgctxt "breadcrumb"
+msgid "&rarr;"
+msgstr "&rarr;"
+
+#: gp-templates/users.php:44
+msgid "URL"
+msgstr "URL"
+
+#: gp-includes/template.php:223
+msgid "&mdash; Locale &mdash;"
+msgstr ""
+
+#: gp-templates/users.php:47
+msgid "Status"
+msgstr "Status"
+
+#: gp-templates/users.php:48
+msgid "Actions"
+msgstr ""
+
+#: gp-includes/things/project.php:248
+#: gp-includes/things/translation-set.php:183
+msgctxt "language translation percent"
+msgid "%d%%"
+msgstr "%d%%"
+
+#: gp-templates/users.php:88
+msgid "None"
+msgstr ""
+
+#: gp-includes/validation.php:83
+msgid "The field <strong>%s</strong> has invalid value!"
+msgstr "Das Feld <strong>%s</strong> enthält einen ungültigen Wert!"
+
+#: gp-templates/users.php:98
+msgid "Revoke Admin"
+msgstr ""
+
+#: gp-includes/warnings.php:74
+msgid "Lengths of source and translation differ too much."
+msgstr ""
+
+#: gp-templates/users.php:98
+msgid "Make Admin"
+msgstr ""
+
+#: gp-includes/warnings.php:85
+msgid "Missing tags from translation."
+msgstr ""
+
+#: gp-templates/users.php:107
+msgid "No users were found!"
+msgstr "Keine Benutzer gefunden!"
+
+#: gp-includes/warnings.php:88
+msgid "Too many tags in translation."
+msgstr ""
+
+#: gp-templates/users_edit.php:3
+msgid "Edit User"
+msgstr "Benutzer bearbeiten"
+
+#: gp-includes/warnings.php:120
+msgid "Missing %s placeholder in translation."
+msgstr ""
+
+#: gp-templates/users_edit.php:3
+msgid "Create User"
+msgstr "Benutzer anlegen"
+
+#: gp-load.php:8
+msgid ""
+"Your server is running PHP version %s but GlotPress requires at least 5.2.\n"
+msgstr ""
+"Auf diesem Server läuft PHP Version %s aber GlotPress benötigt 5.2 oder "
+"höher.\n"
+
+#: install.php:26
+msgid "The database configuration field \"%s\" cannot be empty"
+msgstr ""
+
+#: gp-settings.php:122
+msgid "ERROR: GlotPress requires The MySQL PHP extension"
+msgstr "ERROR: GlotPress benötigt das php-mysql Modul"
