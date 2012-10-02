@@ -23,7 +23,7 @@ class GP_Route_Login extends GP_Route_Main {
 			if ( gp_post( 'redirect_to' ) ) {
 				$this->redirect( gp_post( 'redirect_to' ) );
 			} else {
-				$this->notices[] = sprintf( __("Welcome, %s!"), $_POST['user_login'] );
+				$this->notices[] = sprintf( __("Welcome %s!"), $_POST['user_login'] );
 				$this->redirect( gp_url_public_root() );
 			}
 		} else {
