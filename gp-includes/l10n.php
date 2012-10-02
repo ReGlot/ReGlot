@@ -3,7 +3,6 @@
  * Localization. Loading and using translations.
  */
 
-
 function get_locale() {
 	global $locale;
 
@@ -20,7 +19,6 @@ function get_locale() {
 		$locale = 'en_US';
 
 	$locale = apply_filters('locale', $locale);
-
 	return $locale;
 }
 
@@ -103,8 +101,7 @@ function load_textdomain( $domain, $mofile ) {
 function load_default_textdomain() {
 	$locale = get_locale();
 
-	$mofile = GP_LANG_PATH . "/$locale.mo";
-
+	$mofile = GP_LANG_PATH . "$locale.mo";
 	load_textdomain('default', $mofile);
 }
 

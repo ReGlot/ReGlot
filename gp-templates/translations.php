@@ -62,10 +62,10 @@ $i = 0;
 <form id="bulk-actions-toolbar" class="filters-toolbar bulk-actions" action="<?php echo $bulk_action; ?>" method="post">
 	<div>
 	<select name="bulk[action]">
-		<option value="" selected="selected">Bulk Actions</option>
-		<option value="approve">Approve</option>
-		<option value="reject">Reject</option>
-		<option value="gtranslate">Translate via Google</option>
+		<option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
+		<option value="approve"><?php _e('Approve'); ?></option>
+		<option value="reject"><?php _e('Reject'); ?></option>
+		<option value="gtranslate"><?php _e('Translate via Google'); ?></option>
 	</select>
 	<input type="hidden" name="bulk[redirect_to]" value="<?php echo esc_attr(gp_url_current()); ?>" id="bulk[redirect_to]" />
 	<input type="hidden" name="bulk[row-ids]" value="" id="bulk[row-ids]" />

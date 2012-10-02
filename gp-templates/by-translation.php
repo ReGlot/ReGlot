@@ -35,7 +35,7 @@ gp_tmpl_header();
     }
     if ( GP::$user->logged_in() ) {
     ?>
-        <span style="float:right"><?php gp_link(gp_url_user_translations(), 'Show Your Own'); ?></span>
+        <span style="float:right"><?php gp_link(gp_url_user_translations(), __('Show Your Own') ); ?></span>
     <?php
     }
     ?>

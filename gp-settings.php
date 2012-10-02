@@ -4,6 +4,7 @@
  * edit this file. Everything should be configurable from the outside. Starts the
  * routing logic in the end.
  */
+// Load the default text localization domain.
 
 if ( defined( 'GP_DEBUG' ) && GP_DEBUG ) {
 	error_reporting( E_ALL );
@@ -30,7 +31,6 @@ if ( !defined( 'GP_LOCALES_PATH' ) ) {
 	define( 'GP_LOCALES_PATH', GP_PATH . 'locales/' );
 }
 
-
 if ( !defined( 'GP_LANG_PATH' ) ) {
 	define( 'GP_LANG_PATH', GP_PATH . 'languages/' );
 }
@@ -46,7 +46,6 @@ if ( !defined( 'DATE_MYSQL' ) ) {
 if ( !defined( 'GP_TESTS_PATH' ) ) {
 	define( 'GP_TESTS_PATH', GP_PATH . 't/' );
 }
-
 
 require_once( GP_PATH . GP_INC . 'gp.php');
 
@@ -105,28 +104,28 @@ if ( !defined('GP_INSTALLING') || !GP_INSTALLING ) {
 		 * Define BackPress Database errors if not already done - no localisation at this stage
 		 */
 		if ( !defined( 'BPDB__CONNECT_ERROR_MESSAGE' ) ) {
-			define( 'BPDB__CONNECT_ERROR_MESSAGE', 'ERROR: Could not establish a database connection' );
+			define( 'BPDB__CONNECT_ERROR_MESSAGE', __('ERROR: Could not establish a database connection') );
 		}
 		if ( !defined( 'BPDB__CONNECT_ERROR_MESSAGE' ) ) {
-			define( 'BPDB__SELECT_ERROR_MESSAGE', 'ERROR: Can\'t select database.' );
+			define( 'BPDB__SELECT_ERROR_MESSAGE', __('ERROR: Can\'t select database.') );
 		}
 		if ( !defined( 'BPDB__ERROR_STRING' ) ) {
-			define( 'BPDB__ERROR_STRING', 'ERROR: GlotPress database error - "%s" for query "%s" via caller "%s"' );
+			define( 'BPDB__ERROR_STRING', __('ERROR: GlotPress database error - "%s" for query "%s" via caller "%s"') );
 		}
 		if ( !defined( 'BPDB__ERROR_HTML' ) ) {
 			define( 'BPDB__ERROR_HTML', '<div id="error"><p class="bpdberror"><strong>Database error:</strong> [%s]<br /><code>%s</code><br />Caller: %s</p></div>' );
 		}
 		if ( !defined( 'BPDB__DB_VERSION_ERROR' ) ) {
-			define( 'BPDB__DB_VERSION_ERROR', 'ERROR: GlotPress requires MySQL 4.0.0 or higher' );
+			define( 'BPDB__DB_VERSION_ERROR', __('ERROR: GlotPress requires MySQL 4.0.0 or higher') );
 		}
 		if ( !defined( 'BPDB__PHP_EXTENSION_MISSING' ) ) {
-			define( 'BPDB__PHP_EXTENSION_MISSING', 'ERROR: GlotPress requires The MySQL PHP extension' );
+			define( 'BPDB__PHP_EXTENSION_MISSING', __('ERROR: GlotPress requires The MySQL PHP extension') );
 		}
 	}
 
 	// Die if there is no database table prefix
 	if ( !$gp_table_prefix ) {
-		die( 'You must specify a table prefix in your <code>gp-config.php</code> file.' );
+		die( __('You must specify a table prefix in your <code>gp-config.php</code> file.') );
 	}
 
 	// Setup the global database connection
@@ -149,7 +148,7 @@ if ( !defined('GP_INSTALLING') || !GP_INSTALLING ) {
 
 	// Set the prefix on the tables
 	if ( is_wp_error( $gpdb->set_prefix( $gp_table_prefix ) ) ) {
-		die( 'Your table prefix may only contain letters, numbers and underscores.' );
+		die( __('Your table prefix may only contain letters, numbers and underscores.') );
 	}
 
 	if ( defined( 'CUSTOM_USER_TABLE' ) )
@@ -224,6 +223,8 @@ require_once( GP_POMO_PATH . 'mo.php' );
 require_once( GP_POMO_PATH . 'po.php' );
 require_once( GP_PATH . GP_INC . 'l10n.php' );
 
+// Load the default text localization domain.
+load_default_textdomain();
 require_once( GP_LOCALES_PATH . 'locales.php' );
 
 if ( defined('GP_INSTALLING') && GP_INSTALLING ) {

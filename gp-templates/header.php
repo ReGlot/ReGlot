@@ -22,7 +22,8 @@ wp_enqueue_script( 'common' );
 			<?php
 			if ( GP::$user && GP::$user->logged_in() ) {
 				$user = GP::$user->current();
-				printf( __('Welcome %s! &nbsp; &nbsp; '), $user->display_name );
+				printf( __('Welcome %s!'), $user->display_name );
+				echo '&nbsp; &nbsp;';
 			}
 
 			do_action( 'after_hello' );

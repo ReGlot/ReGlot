@@ -55,7 +55,8 @@ class GP_Route_Translation extends GP_Route_Main {
 		$this->headers_for_download( $filename );		
 		echo $format->print_exported_file( $project, $locale, $translation_set, $entries );
 	}
-
+	
+	/*
 	function translations_get($project_path, $locale_slug, $translation_set_slug, $kind = 'p', $user_id = null) {
 		if ( $project_path != '~' ) $project = GP::$project->by_path( $project_path );
 		if ( $locale_slug != '~' ) $locale = GP_Locales::by_slug( $locale_slug );
@@ -86,6 +87,32 @@ class GP_Route_Translation extends GP_Route_Main {
 			$set_status_url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug, '-set-status' ) );
 			$bulk_action = gp_url_join( $url, '-bulk' );
 		}
+		$this->tmpl( 'translations', get_defined_vars() );
+	}
+	*/
+	
+	function translations_get( $project_path, $locale_slug, $translation_set_slug ) {
+		$project = GP::$project->by_path( $project_path );
+		$locale = GP_Locales::by_slug( $locale_slug );
+		$translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $translation_set_slug, $locale_slug );
+		if ( !$project || !$locale || !$translation_set ) gp_tmpl_404();
+		$page = gp_get( 'page', 1 );
+		$filters = gp_get( 'filters', array() );
+		$sort = gp_get( 'sort', array() );
+		if ( 'random' == gp_array_get( $sort, 'by') ) {
+			add_filter( 'gp_pagination', create_function( '$html', 'return "";' ) );
+		}
+		$translations = GP::$translation->for_translation( $project, $translation_set, $page, $filters, $sort );
+		$total_translations_count = GP::$translation->found_rows;
+		$per_page = GP::$translation->per_page;
+		$can_edit = GP::$user->logged_in();
+		$can_write = $this->can( 'write', 'project', $project->id );
+		$can_approve = $this->can( 'approve', 'translation-set', $translation_set->id );
+		$url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug ) );
+		$set_priority_url = gp_url( '/originals/%original-id%/set_priority');
+		$discard_warning_url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug, '-discard-warning' ) );
+		$set_status_url = gp_url_project( $project, gp_url_join( $locale->slug, $translation_set->slug, '-set-status' ) );
+		$bulk_action = gp_url_join( $url, '-bulk' );
 		$this->tmpl( 'translations', get_defined_vars() );
 	}
 
