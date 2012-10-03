@@ -11,7 +11,7 @@ $config_defaults = array(
 	'GPDB_HOST' => defined('GPDB_HOST') ? GPDB_HOST : 'localhost',
 	'GPDB_CHARSET' => defined('GPDB_CHARSET') ? GPDB_CHARSET : 'utf8',
 	'GPDB_COLLATE' => defined('GPDB_COLLATE') ? GPDB_COLLATE : 'utf8_unicode_ci',
-	'gp_table_prefix' => isset($gp_table_prefix) ? $gp_table_prefix : 'gp_',
+	'gp_table_prefix' => isset($gp_table_prefix) ? $gp_table_prefix : 'rg_',
 	'CUSTOM_USER_TABLE' => defined('CUSTOM_USER_TABLE') ? CUSTOM_USER_TABLE : 'wp_users',
 	'CUSTOM_USER_META_TABLE' => defined('CUSTOM_USER_META_TABLE') ? CUSTOM_USER_META_TABLE : 'wp_usermeta'
 );

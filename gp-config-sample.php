@@ -28,10 +28,10 @@ define('GPDB_COLLATE', '<<GPDB_COLLATE>>');
  *
  * @since 0.1
  */
-define('GP_AUTH_KEY', '<<GP_AUTH_KEY>>');
-define('GP_SECURE_AUTH_KEY', '<<GP_SECURE_AUTH_KEY>>');
-define('GP_LOGGED_IN_KEY', '<<GP_LOGGED_IN_KEY>>');
-define('GP_NONCE_KEY', '<<GP_NONCE_KEY>>');
+define('GP_AUTH_KEY',         '<<GP_AUTH_KEY>>');
+define('GP_SECURE_AUTH_KEY',  '<<GP_SECURE_AUTH_KEY>>');
+define('GP_LOGGED_IN_KEY',    '<<GP_LOGGED_IN_KEY>>');
+define('GP_NONCE_KEY',        '<<GP_NONCE_KEY>>');
 /**#@-*/
 
 /**
