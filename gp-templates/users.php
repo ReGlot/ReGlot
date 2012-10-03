@@ -58,7 +58,11 @@ foreach( $users as $user ):
 		<?php echo $user->id; ?>
 	</td>
 	<td class="user_long">
-		<a href="<?php echo gp_url_user_profile($user->id); ?>"><?php echo esc_html( $user->user_login ); ?></a>
+    <?php if ( GP::$user->logged_in() && (GP::$user->current()->admin() || GP::$user->current()->id == $user->id) ) { ?>
+        <a href="<?php echo gp_url_user_profile($user->id); ?>"><?php echo esc_html( $user->user_login ); ?></a>
+    <?php } else { ?>
+        <?php echo esc_html( $user->user_login ); ?>
+    <?php } ?>
 		<?php if ( $user->admin() ) echo '<span class="active bubble">Admin</span>'; ?>
 	</td>
 	<td class="user_long">
