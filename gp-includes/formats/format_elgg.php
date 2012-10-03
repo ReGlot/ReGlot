@@ -31,7 +31,7 @@ class GP_Format_Elgg extends GP_Format {
 				continue;
 			}
 			if ( !empty($entry->extracted_comments) ) {
-				$this->line('/// ' . $this->escape($entry->extracted_comments), 1);
+				$this->line('/// ' . $this->escape_comment($entry->extracted_comments), 1);
 			}
             if ( empty($entry->translations[0]) ) {
                 $this->line('\'' . $entry->context . '\' => null,', 1);
@@ -115,7 +115,7 @@ class GP_Format_Elgg extends GP_Format {
 
 	function escape($string) {
         // escape all special chars, including ' and ", with a backslash
-		$newstring = addcslashes($string, "\0..\37\\'\"\177..\377");
+		$newstring = addcslashes($string, "\0..\37\\'\"");
         // then create a version without slashes for '
         $singlequotestring = str_replace('\\\'', '\'', $newstring);
         $doublequotestring = str_replace('\\"', '"', $newstring);
@@ -137,6 +137,11 @@ class GP_Format_Elgg extends GP_Format {
             return "'$string'";
         }
 	}
+
+    function escape_comment($string) {
+        // escape all unprintable chars
+        return addcslashes($string, "\0..\37");
+    }
 }
 
 GP::$formats['elgg'] = new GP_Format_Elgg();
