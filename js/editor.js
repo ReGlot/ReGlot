@@ -99,13 +99,14 @@ $gp.editor = function($){ return {
 		select.prop('disabled', true);
 		$gp.notices.notice('Setting priority&hellip;');
 		data = {priority: $('option:selected', select).attr('value')};
-		$.ajax({type: "POST", url: $gp_editor_options.set_priority_url.replace('%original-id%', editor.original_id), data: data,
+		$.ajax({type: "POST", url: select.data('url'), data: data,
 			success: function(data){
 				select.prop('disabled', false);
 				$gp.notices.success('Priority set!');
 				var new_priority_class = 'priority-'+$('option:selected', select).text();
-				$gp.editor.current.addClass(new_priority_class);
-				$gp.editor.current.preview.addClass(new_priority_class);
+				//$gp.editor.current.addClass(new_priority_class);
+				//$gp.editor.current.preview.addClass(new_priority_class);
+                $('#priority-cell-' + editor.original_id, editor.preview).html($gp_editor_options['priority-char' + $('option:selected', select).val()]);
 			},
 			error: function(xhr, msg, error) {
 				msg = xhr.responseText? 'Error: '+ xhr.responseText : 'Error setting the priority!';
@@ -120,7 +121,7 @@ $gp.editor = function($){ return {
 		button.prop('disabled', true);
 		$gp.notices.notice('Setting status to &#8220;'+status+'&#8221;&hellip;');
 		var data = {translation_id: editor.translation_id, status: status};
-		$.ajax({type: "POST", url: $gp_editor_options.set_status_url, data: data,
+		$.ajax({type: "POST", url: button.data('url'), data: data,
 			success: function(data){
 				button.prop('disabled', false);
 				$gp.notices.success('Status set!');
@@ -136,8 +137,8 @@ $gp.editor = function($){ return {
 	discard_warning: function(link) {
 		if (!$gp.editor.current) return;
 		$gp.notices.notice('Discarding&hellip;');
-		data = {translation_id: $gp.editor.current.translation_id, key: link.attr('key'), index: link.attr('index')};
-		$.ajax({type: "POST", url: $gp_editor_options.discard_warning_url, data: data,
+		data = {translation_id: $gp.editor.current.translation_id, key: link.data('key'), index: link.data('index')};
+		$.ajax({type: "POST", url: link.data('url'), data: data,
 			success: function(data) {
 				$gp.notices.success('Saved!');
 				$gp.editor.replace_current(data);

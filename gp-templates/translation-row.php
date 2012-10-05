@@ -2,12 +2,6 @@
 $status_class = $t->translation_status? 'status-'.$t->translation_status : 'untranslated';
 $warning_class = $t->warnings? 'has-warnings' : 'no-warnings';
 $priority_class = 'priority-'.gp_array_get( GP::$original->get_static( 'priorities' ), $t->priority );
-$priority_char = array(
-    '-2' => array('&times;', 'transparent', '#ccc'),
-    '-1' => array('&darr;', 'transparent', 'blue'),
-    '0' => array('', 'transparent', 'white'),
-    '1' => array('&uarr;', 'transparent', 'green'),
-);
 if ( $project ) {
 	$row_project = $project;
 } else {
@@ -31,19 +25,20 @@ if ( $user ) {
 	$row_user = GP::$user->by_login($t->user_login);
 }
 
-$url = gp_url_project($row_project, gp_url_join($locale_slug, $translation_set_slug, $kind));
+$url = gp_url_project($row_project, gp_url_join($row_locale->slug, $row_translation_set->slug, $kind));
 $editorUrl = gp_url_project($row_project, gp_url_join($row_locale->slug, $row_translation_set->slug));
-$set_priority_url = gp_url( '/originals/%original-id%/set_priority');
+$set_priority_url = gp_url("/originals/$t->original_id/set_priority");
 $discard_warning_url = gp_url_project($row_project, gp_url_join($row_locale->slug, $row_translation_set->slug, '-discard-warning'));
 $set_status_url = gp_url_project($row_project, gp_url_join($row_locale->slug, $row_translation_set->slug, '-set-status'));
 $bulk_action = gp_url_join($url, '-bulk');
+$can_approve = GP::$user->can_approve($row_translation_set);
 ?>
 <tr class="preview <?php echo $parity().' '.$status_class.' '.$warning_class.' '.$priority_class ?>" id="preview-<?php echo $t->row_id ?>" row="<?php echo $t->row_id; ?>">
-	<th scope="row" class="checkbox"><?php if ( $can_approve && $kind != 'u' ) : ?><input type="checkbox" name="selected-row[]" /><?php else: echo '&nbsp;'; endif; ?></th>
+	<th scope="row" class="checkbox"><?php if ( $can_approve ) : ?><input type="checkbox" name="selected-row[]" /><?php else: echo '&nbsp;'; endif; ?></th>
 	<?php /*
 	<td class="priority" style="background-color: <?php echo $priority_char[$t->priority][1] ?>; color: <?php echo $priority_char[$t->priority][2] ?>; text-align: center; font-size: 1.2em;" title="<?php echo esc_attr('Priority: '.gp_array_get( GP::$original->get_static( 'priorities' ), $t->priority )); ?>">
 	*/ ?>
-	<td class="priority" title="<?php echo esc_attr('Priority: '.gp_array_get( GP::$original->get_static( 'priorities' ), $t->priority )); ?>">
+	<td class="priority" id="<?php echo "priority-cell-$t->original_id"; ?>" title="<?php echo esc_attr('Priority: '.gp_array_get( GP::$original->get_static( 'priorities' ), $t->priority )); ?>">
 	   <?php echo $priority_char[$t->priority][0] ?>
 	</td>
 	<td class="original">
@@ -51,7 +46,6 @@ $bulk_action = gp_url_join($url, '-bulk');
 		<?php if ( $t->context ): ?>
 		<span class="context bubble" title="<?php printf( __('Context: %s'), esc_html($t->context) ); ?>"><?php echo esc_html($t->context); ?></span>
 		<?php endif; ?>
-	
 	</td>
 	<td class="translation foreign-text">
 	<?php
@@ -121,10 +115,10 @@ $bulk_action = gp_url_join($url, '-bulk');
 					<?php if ( $can_approve && $t->translation_status ): ?>
 					
 						<?php if ( $t->translation_status != 'current' ): ?>
-						<button class="approve" tabindex="-1"><strong>+</strong> Approve</button>
+						<button class="approve" tabindex="-1" data-url="<?php echo $set_status_url ?>"><strong>+</strong> Approve</button>
 						<?php endif; ?>
 						<?php if ( $t->translation_status != 'rejected' ): ?>
-						<button class="reject" tabindex="-1"><strong>&minus;</strong> Reject</button>
+						<button class="reject" tabindex="-1" data-url="<?php echo $set_status_url ?>"><strong>&minus;</strong> Reject</button>
 						<?php endif; ?>
 					<?php endif; ?>
 				</dd>
@@ -180,7 +174,9 @@ $bulk_action = gp_url_join($url, '-bulk');
 			<dl>
 			    <dt><?php _e('Priority of the original:'); ?></dt>
 			<?php if ( $can_write ): ?>
-			    <dd><?php echo gp_select( 'priority-'.$t->original_id, GP::$original->get_static( 'priorities' ), $t->priority, array('class' => 'priority', 'tabindex' => '-1') ); ?></dd>
+			    <dd>
+                    <?php echo gp_select("priority-$t->original_id", GP::$original->get_static('priorities'), $t->priority, array('class' => 'priority', 'tabindex' => '-1', 'data-url' => $set_priority_url)); ?>
+                </dd>
 			<?php else: ?>
 			    <dd><?php echo gp_array_get( GP::$original->get_static( 'priorities' ), $t->priority, 'unknown' ); ?></dd>
 			<?php endif; ?>

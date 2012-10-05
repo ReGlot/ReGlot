@@ -94,7 +94,7 @@ class GP_Route_Translation extends GP_Route_Main {
 		$project = GP::$project->by_path( $project_path );
 		$locale = GP_Locales::by_slug( $locale_slug );
 		$translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $translation_set_slug, $locale_slug );
-		if ( !$project || !$locale || !$translation_set ) gp_tmpl_404();
+		if ( !$project || !$locale || !$translation_set ) $this->die_with_error('Cannot find resource!', 404);
 		
 		$output = array();
 		foreach( gp_post( 'translation', array() ) as $original_id => $translations) {
@@ -275,9 +275,9 @@ class GP_Route_Translation extends GP_Route_Main {
 		$project = GP::$project->by_path( $project_path );
 		$locale = GP_Locales::by_slug( $locale_slug );
 		$translation_set = GP::$translation_set->by_project_id_slug_and_locale( $project->id, $translation_set_slug, $locale_slug );
-		if ( !$project || !$locale || !$translation_set ) gp_tmpl_404();
+		if ( !$project || !$locale || !$translation_set ) $this->die_with_error('Cannot find resource!', 404);
 		if ( !GP::$user->can_approve($translation_set) ) {
-			$this->die_with_error('You are not allowed to do that!', 403 );
+			$this->die_with_error('You are not allowed to do that!', 403);
 		}
 		$translation = GP::$translation->get( gp_post( 'translation_id' ) );
 		if ( !$translation ) {

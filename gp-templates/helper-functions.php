@@ -19,7 +19,7 @@ function textareas( $entry, $permissions, $index = 0 ) {
 				<?php printf( __('<strong>Warning:</strong> %s'), esc_html( $warning['value'] ) ); ?>
 				
 				<?php if( $can_approve ): ?>
-					<a href="#" class="discard-warning" key="<?php echo $warning['key'] ?>" index="<?php echo $index; ?>"><?php _e('Discard'); ?></a>
+					<a href="#" class="discard-warning" data-url="<?php echo $discard_warning_url ?>" data-key="<?php echo $warning['key'] ?>" data-index="<?php echo $index; ?>"><?php _e('Discard'); ?></a>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>

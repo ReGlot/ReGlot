@@ -131,6 +131,9 @@ class GP_User extends GP_Thing {
 			$user = GP::$user->current();
 		else
 			return false;
+        if ( $user->admin() ) {
+            return true;
+        }
 		if ( $user->can('approve', 'translation-set', $translation_set->id) ) {
 			return true;
 		}

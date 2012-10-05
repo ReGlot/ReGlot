@@ -38,11 +38,24 @@ switch ( $kind ) {
 wp_enqueue_script( 'editor' );
 wp_enqueue_script('confirm');
 wp_enqueue_script( 'translations-page' );
+$priority_char = array(
+    '-2' => array('&times;', 'transparent', '#ccc'),
+    '-1' => array('&darr;', 'transparent', 'blue'),
+    '0' => array('', 'transparent', 'white'),
+    '1' => array('&uarr;', 'transparent', 'green'),
+);
 // localizer adds var in front of the variable name, so we can't use $gp.editor.options
 $editor_options = compact('can_approve', 'can_write', 'discard_warning_url', 'set_priority_url', 'set_status_url');
 $editor_options['google_translate_language'] = $locale->google_code;
 $editor_options['url'] = $editorUrl;
-wp_localize_script( 'editor', '$gp_editor_options', $editor_options );
+$all_priorities = GP::$original->get_static('priorities');
+foreach ( $priority_char as $key => $char ) {
+    $editor_options["'priority-text$key'"] = $all_priorities[$key];
+    $editor_options["'priority-char$key'"] = $char[0];
+    $editor_options["'priority-bkg$key'"] = $char[1];
+    $editor_options["'priority-col$key'"] = $char[2];
+}
+wp_localize_script('editor', '$gp_editor_options', $editor_options);
 $parity = gp_parity_factory();
 add_action( 'gp_head', lambda( '', 'gp_preferred_sans_serif_style_tag($locale);', compact( 'locale' ) ) );
 
@@ -58,11 +71,11 @@ $i = 0;
 	<?php gp_link_set_delete( $translation_set, $project, '(del)' ); ?>
 <?php } ?>
 </h2>
-<?php if ( $can_approve ): ?>
+<?php //if ( $can_approve ): ?>
 <form id="bulk-actions-toolbar" class="filters-toolbar bulk-actions" action="<?php echo $bulk_action; ?>" method="post">
 	<div>
 	<select name="bulk[action]">
-		<option value="" selected="selected">Bulk Actions</option>
+		<option value="" selected="selected"> - Bulk Actions - </option>
 		<option value="approve">Approve</option>
 		<option value="reject">Reject</option>
 		<option value="gtranslate">Translate via Google</option>
@@ -72,7 +85,7 @@ $i = 0;
 	<input type="submit" class="button" value="<?php esc_attr_e( 'Apply' ); ?>" />
 	</div>
 </form>
-<?php endif; ?>
+<?php //endif; ?>
 <?php echo gp_pagination( $page, $per_page, $total_translations_count ); ?>
 <form id="upper-filters-toolbar" class="filters-toolbar" action="" method="get" accept-charset="utf-8">
 	<div>
@@ -159,7 +172,7 @@ $i = 0;
 <table id="translations" class="translations clear">
 	<thead>
 	<tr>
-		<th class="checkbox"><?php if ( $can_approve && $kind != 'u' ) : ?><input type="checkbox" /><?php else: echo '&nbsp;'; endif; ?></th>
+		<th class="checkbox"><input type="checkbox" /></th>
 		<th><?php /* Translators: Priority */ _e('Prio'); ?></th>
 		<th class="original"><?php _e('Original string'); ?></th>
 		<th class="translation"><?php _e('Translation'); ?></th>

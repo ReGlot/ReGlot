@@ -7,8 +7,8 @@
 				<th><?php _e( 'Language' ); ?></th>
 				<th><?php echo _x( '%', 'language translation percent header' ); ?></th>
                 <th><?php _e( 'All' ); ?></th>
+                <th><?php _e( 'Untranslated' ); ?></th>
 				<th><?php _e( 'Translated (of total)' ); ?></th>
-				<th><?php _e( 'Untranslated' ); ?></th>
 				<th><?php _e( 'Waiting' ); ?></th>
 <?php if ( GP::$user->logged_in() ) { ?>
 				<th><?php _e( 'Own (of translated)' ); ?></th>
@@ -52,6 +52,14 @@
                     <?php
                     gp_link(gp_url_project($set->path, $row_url_join_base), $set->all_count);
                     ?></td>
+                <td class="stats untranslated" title="untranslated" width="12%">
+                    <?php
+                    if ( $set->untranslated_count ) {
+                        gp_link(gp_url_project($set->path, $row_url_join_base, array('filters[status]' => 'untranslated')), $set->untranslated_count);
+                    } else {
+                        echo '0';
+                    }
+                    ?></td>
 				<td class="stats translated" title="translated" width="12%">
                     <?php
                     if ( $set->current_count ) {
@@ -60,14 +68,6 @@
                         echo "0 of $set->all_count";
                     }
                 ?></td>
-				<td class="stats untranslated" title="untranslated" width="12%">
-                    <?php
-                    if ( $set->untranslated_count ) {
-                        gp_link(gp_url_project($set->path, $row_url_join_base, array('filters[status]' => 'untranslated')), $set->untranslated_count);
-                    } else {
-                        echo '0';
-                    }
-                    ?></td>
 				<td class="stats waiting" title="waiting" width="12%">
                     <?php
                     if ( $set->waiting_count ) {
@@ -81,9 +81,9 @@
                     <?php
                     $by_you = GP::$translation->count_by_user(GP::$user->current()->id, $set->project_id, $set->translation_set_id, $locale_slug);
                     if ( $by_you ) {
-                        gp_link(gp_url_project($set->path, $row_url_join_base, array('filters[translated]' => 'yes', 'filters[status]' => 'waiting')), "$by_you of $set->current_count");
+                        gp_link(gp_url_project($set->path, $row_url_join_base, array('filters[translated]' => 'yes', 'filters[status]' => 'waiting')), "$by_you of " . ($set->current_count + $set->waiting_count));
                     } else {
-                        echo '0';
+                        echo '0 of ' . ($set->current_count + $set->waiting_count);
                     }
                     ?></td>
 <?php } ?>
