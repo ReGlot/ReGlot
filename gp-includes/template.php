@@ -63,11 +63,7 @@ function gp_tmpl_404( $args = array()) {
 }
 
 function gp_app_name() {
-	if ( has_filter('gp_app_name') ) {
-		return apply_filters('gp_app_name');
-	} else {
-		return 'Re&sdot;Glot';
-	}
+	return apply_filters('gp_app_name', 'Re&sdot;Glot');
 }
 
 function gp_title( $title = null ) {
