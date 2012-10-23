@@ -3,3 +3,4 @@ gp-config.php
 .htaccess
 .idea
 plugins
+/nbproject/

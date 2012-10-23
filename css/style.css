@@ -84,18 +84,73 @@ input.button {
 	background-image: linear-gradient(bottom, #ededed, #fff); /* proposed W3C Markup */
 	text-shadow: #fff 0 1px 0;
 }
+.align-left {
+        float: left;
+        text-align: left;
+}
+.align-right {
+        float: right;
+        text-align: right;
+}
+.align-center {
+    float: none;
+    text-align: center;
+}
 .breadcrumb a {
     color: #3A7399;
     text-decoration: none;
 }
-#hello {
+#menu {
 	font-family: "Helvetica", "Arial", sans-serif;
-	color: #333;
+	color: #555;
 	font-weight: normal;
-	float: right;
 	font-size: 0.75em;
 	letter-spacing: 0;
-	margin-right: 1em;
+        position: absolute;
+        right: 0.5em;
+        top: 0.5em;
+}
+#menu ul {
+        display: inline;
+        list-style: none outside none;
+        margin: 0;
+        padding: 0;
+}
+#menu li {
+        border-left: 1px dotted #888888;
+        display: block;
+        float: left;
+        height: 1.4em;
+        padding: 0 2px;
+}
+#menu li.first {
+        border-left: none;
+}
+#menu a {
+        color: #555;
+        padding: 3px 7px;
+        text-decoration: none;
+}
+#menu a:hover {
+        background: #EEE;
+        border-radius: 7px;
+}
+section#content {  
+}
+article {
+        margin: 0 15px;
+}
+#translation-sets.with-subprojects {
+    width: 70%;
+}
+#translation-sets.no-subprojects {
+    width: 100%;
+}
+#sub-projects.with-translation-sets {
+    width: 20%;
+}
+#sub-projects.no-translation-sets {
+    width: 100%;
 }
 textarea {
 	font-size: 100%;
@@ -207,11 +262,13 @@ table.translations a.action {
     font-size: 100%;
     font-style: normal;
 }
-#footer {
+footer {
+        height: 20px;
 	text-align: center;
 	font-size: 85%;
 	background-color: #ddd;
 	padding: 0.5em;
+        margin: 15px 0;
 }
 .separator {
 	font-size: 80%;
