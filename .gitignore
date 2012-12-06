@@ -4,3 +4,4 @@ gp-config.php
 .idea
 plugins
 /nbproject/
+/gp-templates/bootstrap/less/tests/
