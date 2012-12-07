@@ -16,7 +16,7 @@ wp_enqueue_script('common');
             <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         
-        <!-- Le fav and touch icons -->
+        <!-- favicon.ico and touch icons -->
         <link rel="shortcut icon" href="wp-templates/bootstrap/ico/favicon.ico">
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="wp-templates/bootstrap/ico/apple-touch-icon-144-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="wp-templates/bootstrap/ico/apple-touch-icon-114-precomposed.png">
