@@ -18,14 +18,14 @@ wp_enqueue_script('common');
         
         <!-- favicon.ico and touch icons -->
         <link rel="shortcut icon" href="wp-templates/bootstrap/ico/favicon.ico">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="wp-templates/bootstrap/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="wp-templates/bootstrap/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="wp-templates/bootstrap/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="wp-templates/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="gp-templates/bootstrap/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="gp-templates/bootstrap/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="gp-templates/bootstrap/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="gp-templates/bootstrap/ico/apple-touch-icon-57-precomposed.png">
     
-        <link rel="stylesheet" href="wp-templates/bootstrap/css/bootstrap.css" type="text/css" media="all" />
-        <link rel="stylesheet" href="wp-templates/bootstrap/css/bootstrap-responsive.css" type="text/css" media="all" />
-        <script type="text/javascript" src="wp-templates/bootstrap/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="gp-templates/bootstrap/css/bootstrap.css" type="text/css" media="all" />
+        <link rel="stylesheet" href="gp-templates/bootstrap/css/bootstrap-responsive.css" type="text/css" media="all" />
+        <script type="text/javascript" src="gp-templates/bootstrap/js/bootstrap.js"></script>
         <?php gp_head(); ?>
     </head>
     <body class="no-js">
