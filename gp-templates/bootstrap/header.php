@@ -82,12 +82,14 @@ wp_enqueue_script('common');
             <?php echo gp_breadcrumb(); ?>
             <div id="gp-js-message"></div>
             <?php if (gp_notice('error')): ?>
-                <div class="error">
+                <div class="alert alert-error">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
                     <?php echo gp_notice('error'); //TODO: run kses on notices  ?>
                 </div>
             <?php endif; ?>
             <?php if (gp_notice()): ?>
-                <div class="notice">
+                <div class="alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
                     <?php echo gp_notice(); ?>
                 </div>
             <?php endif; ?>

@@ -2,9 +2,9 @@ var $gp = function($) { return {
 	messages: {
 		fadeTimeout: 7500,
 		fadeSpeed: 2500,
-		fadeAndRemove: function(notice, speed) {
+		fadeAndRemove: function(alert, speed) {
 			if ( !speed ) speed = $gp.messages.fadeSpeed;
-			notice.fadeOut(speed, function() {
+			alert.fadeOut(speed, function() {
 				$(this).remove();
 			});
 		}
@@ -78,7 +78,7 @@ $gp.showhide = function($) { return function(link, container, options) {
 $gp.showhide.registry = {};
 
 $(function() {
-	errors = $('.error');
+	errors = $('.alert');
 	if ( errors ) {
 		errors.on('click', function() {
 			$gp.messages.fadeAndRemove(errors, 1000);
@@ -87,7 +87,7 @@ $(function() {
 //			$gp.messages.fadeAndRemove(errors);
 //		}, $gp.messages.fadeTimeout);
 	}
-	notices = $('.notice');
+	notices = $('.alert');
 	if ( notices ) {
 	notices.on('click', function() {
 		$gp.messages.fadeAndRemove(notices, 1000);
