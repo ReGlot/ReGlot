@@ -84,8 +84,8 @@ function gp_title( $title = null ) {
 function gp_breadcrumb( $breadcrumb = null, $args = array() ) {
 	$defaults = array(
 		/* translators: separates links in the navigation breadcrumb */
-		'separator' => '<span class="separator">'._x('&rarr;', 'breadcrumb').'</span>',
-		'breadcrumb-template' => '<span class="breadcrumb">{separator}{breadcrumb}</span>',
+		'separator' => '<span class="divider">/</span>',
+		'breadcrumb-template' => '<ul class="breadcrumb">'. gp_app_name() .'{separator}{breadcrumb}</ul>',
 	);
 	$args = array_merge( $defaults, $args );
 	if ( !is_null( $breadcrumb ) ) {
