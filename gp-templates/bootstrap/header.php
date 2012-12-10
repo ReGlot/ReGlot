@@ -226,7 +226,7 @@ wp_enqueue_script('common');
                 float: left;
             }
             .project-list > li.new-project:hover {
-                background-color: none; 
+                background: none;
             }
             .project-list > li:hover {
                 background-color: #EEEEEE;
@@ -257,31 +257,51 @@ wp_enqueue_script('common');
                                 <?php
                                 if (GP::$user && GP::$user->logged_in()) {
                                     ?>
+                                    <?php if (GP::$user && GP::$user->logged_in() && GP::$user->admin()) { ?>
+                                    <a href="<?php echo gp_url_settings() ?>" class="navbar-link"><i class="icon-cog icon-white"></i> <?php _e('Settings'); ?></a> |
+                                    <?php } ?>
+                                    <a href="<?php echo gp_url_user_profile() ?>" class="navbar-link"><i class="icon-edit icon-white"></i> <?php _e('Profile'); ?></a> |
                                     <a href="<?php echo gp_url_users() ?>" class="navbar-link"><i class="icon-user icon-white"></i> <?php _e('Users'); ?></a> |
-                                    <a href="<?php echo gp_url_user_profile() ?>" class="navbar-link"><?php _e('Profile'); ?></a> |
-                                    <a href="<?php echo gp_url_logout() ?>" class="navbar-link"><i class="icon-off icon-white"></i> <?php _e('Log out'); ?>
+                                    <a href="<?php echo gp_url_logout() ?>" class="navbar-link"><i class="icon-off icon-white"></i> <?php _e('Log out'); ?></a>
                                         <?php
                                     } else if (GP::$user) {
                                         ?>
                                         <?php if (gp_get_option('user_registration') == 'on') { ?>
-                                            <strong><a href="<?php echo gp_url_register(); ?>" class="navbar-link"><?php _e('Register'); ?></a></strong> | 
+                                            <strong><a href="<?php echo gp_url_register(); ?>" class="navbar-link"><i class="icon-plus-sign icon-white"></i> <?php _e('Register'); ?></a></strong> |
                                         <?php } ?>
-                                        <strong><a href="<?php echo gp_url_login(); ?>" class="navbar-link"><?php _e('Log in'); ?></a></strong>
+                                        <strong><a href="<?php echo gp_url_login(); ?>" class="navbar-link"><i class="icon-check icon-white"></i> <?php _e('Log in'); ?></a></strong>
                                     <?php } ?>
                             </p>
                             <ul class="nav">
                                 <?php
                                 if (gp_get_option('public_home') == 'on') {
                                     ?>
-                                    <li><a href="<?php echo gp_url_project() ?>"><?php _e('Projects'); ?></a></li>
-                                    <li><a href="<?php echo gp_url_by_translation() ?>"><?php _e('Translations'); ?></a></li>
-                                    <li><a href="<?php echo gp_url_tools() ?>"><?php _e('Tools'); ?></a></li>
-                                    <?php
+                                    <li><a href="<?php echo gp_url_project() ?>"><i class="icon-folder-open icon-white"></i> <?php _e('Projects'); ?></a></li>
+                                    <li><a href="<?php echo gp_url_by_translation() ?>"><i class="icon-globe icon-white"></i> <?php _e('Translations'); ?></a></li>
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                            <i class="icon-wrench icon-white"></i> <?php _e('Tools'); ?>
+                                            <b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu">
+<?php $tools_config = apply_filters('gp_tools', array()); ?>
+                                            <?php if (empty($tools_config)) { ?>
+                                            <li class="nav-header"><i class="icon-warning-sign"></i> <?php echo _e('No Tools'); ?></li>
+                                            <?php } else { ?>
+                                            <?php foreach ($tools_config as $section => $tools) { ?>
+                                                <li class="nav-header"><?php echo $section; ?></li>
+                                                <?php foreach ($tools as $tool) { ?>
+                                                    <?php if (!$tool['admin_only'] || GP::$user->current()->admin()) { ?>
+                                                        <li><a href="<?php echo gp_url_join(gp_url(), 'tool', $tool['link']); ?>" class="nav-link" title="<?php echo $tool['description'] ?>"><?php echo $tool['title'] ?></a></li>
+                                                        <?php } ?>
+                                                    <?php } ?>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        </ul>
+                                    </li>
+                                <?php
                                 }
-                                if (GP::$user && GP::$user->logged_in() && GP::$user->admin()) {
-                                    ?>
-                                    <li><a href="<?php echo gp_url_settings() ?>"><?php _e('Settings'); ?></a></li>
-                                <?php } ?>
+                                ?>
                             </ul>
                         </div><!--/.nav-collapse -->
                     </div>
