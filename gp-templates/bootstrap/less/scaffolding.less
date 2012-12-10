@@ -13,8 +13,6 @@ body {
   line-height: @baseLineHeight;
   color: @textColor;
   background-color: @bodyBackground;
-  padding-top: 70px;
-  padding-bottom: 40px;
 }
 
 
@@ -51,4 +49,47 @@ a:hover {
 // Perfect circle
 .img-circle {
   .border-radius(500px); // crank the border-radius so it works with most reasonably sized images
+}
+
+.content {
+    padding-top: 70px;
+}
+.bulk-actions {
+    margin: 0;
+    select {
+        margin: 0;
+    }
+}
+
+#legend {
+    margin-top: 0.5em;
+    div {
+        float: left;
+        line-height: 1.5em;
+        margin-right: 0.5em;
+    }
+    .box {
+        border: 1px solid #CCCCCC;
+        height: 1.5em;
+        padding: 0;
+        width: 1.5em;
+    }
+    .status-fuzzy {
+        background-color: #FFCC66;
+    }
+    .status-current {
+        background-color: #E9FFD8;
+    }
+    .status-old {
+        background-color: #FEE4F8;
+    }
+    .status-waiting {
+        background-color: #FFFFC2;
+    }
+    .status-rejected {
+        background-color: #FF8E8E;
+    }
+    div.has-warnings {
+        border-left: 2px solid red;
+    }
 }

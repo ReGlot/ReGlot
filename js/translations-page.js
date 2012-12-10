@@ -1,10 +1,10 @@
 jQuery(function($) {
-	$gp.showhide('#upper-filters-toolbar a.sort', '#upper-filters-toolbar dl.sort', {
+	$gp.showhide('#upper-filters-toolbar a.sort', '#upper-filters-toolbar div.sort', {
 		show_text: 'Sort &darr;',
 		hide_text: 'Sort &uarr;', 
 		focus: '#sort\\[by\\]'
 	});
-	$gp.showhide('#upper-filters-toolbar a.filter', '#upper-filters-toolbar dl.filters', {
+	$gp.showhide('#upper-filters-toolbar a.filter', '#upper-filters-toolbar div.filters', {
 		show_text: 'Filter &darr;',
 		hide_text: 'Filter &uarr;',
 		focus: '#filters\\[term\\]'

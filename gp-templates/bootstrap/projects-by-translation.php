@@ -38,7 +38,6 @@ gp_tmpl_header();
 ?>
 <section id="content">
     <h2><?php echo esc_html($headerTitle); ?></h2>
-    <article>
         <p class="description">
             <?php echo $descTitle; ?>
         </p>
@@ -46,6 +45,5 @@ gp_tmpl_header();
         <?php gp_tmpl_load('translation-sets', get_defined_vars()); ?>
 
         <div class="clear"></div>
-    </article>
 </section>
 <?php gp_tmpl_footer(); ?>

@@ -13,12 +13,13 @@ gp_tmpl_load('project-import', get_defined_vars());
 $i = 0;
 ?>
 <section id="content">
-    <h2>
-        Original Strings of <?php echo esc_html($project->name); ?>
-    </h2>
-    <article>
+    <h2><?php echo esc_html($project->name); ?></h2>
+    <ul class="nav nav-tabs">
+        <li><?php gp_link_project($project, __('<i class="icon-chevron-left icon-white"></i> Back'), array('class' => 'btn btn-warning')); ?></li>
+        <li class="active"><a href="#"><?php _e('Original Strings'); ?></a></li>
+    </ul>
         <?php echo gp_pagination($page, $per_page, $total_originals_count); ?>
-        <table id="translations" class="translations clear originals">
+        <table id="translations" class="table table-hover translations clear originals">
             <thead>
                 <tr>
                     <th class="original"><?php _e('Context'); ?></th>
@@ -41,6 +42,5 @@ $i = 0;
         </table>
         <?php echo gp_pagination($page, $per_page, $total_originals_count); ?>
         <div style="clear: both"></div>
-    </article>
 </section>
 <?php gp_tmpl_footer(); ?>

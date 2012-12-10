@@ -205,11 +205,11 @@ $bulk_action = gp_url_join($url, '-bulk');
 		</div>
 		<div class="actions">
 		<?php if ( $can_edit ): ?>
-			<button class="ok" data-url="<?php echo $editorUrl ?>">
+			<button class="btn btn-primary btn-small ok" data-url="<?php echo $editorUrl ?>">
 				<?php echo $can_approve? __('Add translation &rarr;') : __('Suggest new translation &rarr;'); ?>
 			</button>
 		<?php endif; ?>
-			or <a href="#" class="close"><?php _e('Cancel'); ?></a>
+			or <a href="#" class="btn btn-small"><?php _e('Cancel'); ?></a>
 		</div>
 	</td>
 </tr>

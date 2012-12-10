@@ -3,9 +3,11 @@ gp_title(__('Not Found'));
 gp_tmpl_header();
 ?>
 <section id="content">
-    <h2>Error</h2>
-    <article>
-        <?php _e('The resource you are looking for could not be found'); ?>
-    </article>
+    <div class="hero-unit">
+        <h1>Error</h1>
+        <p>
+            <?php _e('The resource you are looking for could not be found'); ?>
+        </p>
+    </div>
 </section>
 <?php gp_tmpl_footer(); ?>

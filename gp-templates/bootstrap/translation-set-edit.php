@@ -8,7 +8,6 @@ gp_tmpl_header();
 ?>
 <section id="content">
     <h2><?php _e('Edit Translation Set'); ?></h2>
-    <article>
         <form action="" method="post">
             <?php gp_tmpl_load('translation-set-form', get_defined_vars()); ?>
             <p>
@@ -16,6 +15,5 @@ gp_tmpl_header();
                 <span class="or-cancel">or <a href="javascript:history.back();">Cancel</a></span>
             </p>
         </form>
-    </article>
 </section>
 <?php gp_tmpl_footer(); ?>
