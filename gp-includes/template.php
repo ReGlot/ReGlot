@@ -80,8 +80,8 @@ function gp_title( $title = null ) {
 function gp_breadcrumb( $breadcrumb = null, $args = array() ) {
 	$defaults = array(
 		/* translators: separates links in the navigation breadcrumb */
-		'separator' => '<span class="separator">'._x('&rarr;', 'breadcrumb').'</span>',
-		'breadcrumb-template' => '<span class="breadcrumb">{separator}{breadcrumb}</span>',
+		'separator' => '<span class="divider">/</span>',
+		'breadcrumb-template' => '<ul class="breadcrumb">'. gp_app_name() .'{separator}{breadcrumb}</ul>',
 	);
 	$args = array_merge( $defaults, $args );
 	if ( !is_null( $breadcrumb ) ) {
@@ -156,19 +156,19 @@ function gp_pagination( $page, $per_page, $objects ) {
 	if ( $page > 1 )
 		$prev = gp_link_get( add_query_arg( array( 'page' => $page - 1 ) ), '&larr;', array('class' => 'previous') );
 	else
-		$prev = '<span class="previous disabled">&larr;</span>';
+		$prev = '<li class="previous disabled">&larr;</li>';
 	if ( $page < $pages )
 		$next = gp_link_get( add_query_arg( array( 'page' => $page + 1)), '&rarr;', array('class' => 'next') );
 	else
-		$next = '<span class="next disabled">&rarr;</span>';
-	$current = '<span class="current">'.$page.'</span>';
+		$next = '<li class="next disabled">&rarr;</li>';
+	$current = '<li class="active"><a href="#">'.$page.'</a></li>';
 	if ( $page > 1 ) {
 		$prev_pages = array();
 		foreach( range( max( 1, $page - $surrounding ), $page - 1 ) as $prev_page ) {
 			$prev_pages[] = gp_link_get( add_query_arg( array( 'page' => $prev_page ) ), $prev_page );
 		}
 		$prev_pages = implode( ' ', $prev_pages );
-		if ( $page - $surrounding > 1 ) $prev_dots = '<span class="dots">&hellip;</span>';
+		if ( $page - $surrounding > 1 ) $prev_dots = '<li class="dots"><span>&hellip;</span></li>';
 	}
 	if ( $page < $pages ) {
 		$next_pages = array();
@@ -176,21 +176,23 @@ function gp_pagination( $page, $per_page, $objects ) {
 			$next_pages[] = gp_link_get( add_query_arg( array( 'page' => $next_page ) ), $next_page );
 		}
 		$next_pages = implode( ' ', $next_pages );
-		if ( $page + $surrounding < $pages ) $next_dots = '<span class="dots">&hellip;</span>';
+		if ( $page + $surrounding < $pages ) $next_dots = '<li class="dots"><span>&hellip;</span></li>';
 	}
 	if ( $prev_dots ) $first = gp_link_get( add_query_arg( array( 'page' => 1 ) ), 1 );
 	if ( $next_dots ) $last = gp_link_get( add_query_arg( array( 'page' => $pages ) ), $pages );
  	$html = <<<HTML
-	<div class="paging">
-		$prev
-		$first
+	<div class="pagination pagination-right">
+            <ul>
+		<li>$prev</li>
+		<li>$first</li>
 		$prev_dots
-		$prev_pages
-		$current
-		$next_pages
+		<li>$prev_pages</li>
+		<li>$current</li>
+		<li>$next_pages</li>
 		$next_dots
-		$last
-		$next
+		<li>$last</li>
+		<li>$next</li>
+            </ul>
 	</div>
 HTML;
 	return apply_filters( 'gp_pagination', $html, $page, $per_page, $objects );
