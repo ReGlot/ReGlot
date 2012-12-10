@@ -8,7 +8,7 @@ gp_tmpl_header();
     <h2><?php _e('Projects') ?></h2>
     <ul class="nav nav-tabs">
         <li class="active"><a href="#"><?php _e('Overview'); ?></a></li>
-        <li><a href="#"><?php _e('Stats'); ?></a></li>
+<!--        <li><a href="#"><?php _e('Stats'); ?></a></li>-->
     </ul>
     <?php if (empty($projects)): ?>
         <p><?php _e('No projects were found!'); ?></p>

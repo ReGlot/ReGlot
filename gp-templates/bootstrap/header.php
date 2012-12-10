@@ -236,6 +236,7 @@ wp_enqueue_script('common');
             } 
             .project-list .action {
                 float: right;
+                margin-right: 5px;
             }
         </style>    
     </head>
